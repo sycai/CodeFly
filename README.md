@@ -28,3 +28,4 @@ directly on the master branch.
 Team member:
 
 * Shenyang Cai
+* Jiahao Pei
