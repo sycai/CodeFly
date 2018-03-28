@@ -27,4 +27,4 @@ directly on the master branch.
 
 Team member:
 
-* Shenyang Cai
+* Shenyang Cai, Yuchang Chen
