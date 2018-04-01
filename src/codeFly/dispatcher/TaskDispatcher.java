@@ -45,6 +45,7 @@ public class TaskDispatcher {
         try {
             HttpServer server = HttpServer.create(new InetSocketAddress(port), CONNECTION_BACKLOG_SIZE);
             server.createContext("/", new TestHandler());
+            server.createContext("/css", new CssHandler());
             // Default executor
             server.setExecutor(null);
             server.start();

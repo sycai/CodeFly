@@ -9,15 +9,15 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 
-public class TestHandler implements HttpHandler {
+public class CssHandler implements HttpHandler{
+    private static final String FRONTEND_ROOT = CodeFly.ROOT_DIR + "/frontEnd";
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        File aboutPage = new File(CodeFly.ROOT_DIR + "frontEnd/about.html");
-        // response with a success response
-        exchange.sendResponseHeaders(200, aboutPage.length());
+        File cssFile = new File(FRONTEND_ROOT + exchange.getRequestURI());
+        System.out.println(cssFile.getPath());
+        exchange.sendResponseHeaders(200, cssFile.length());
         OutputStream os = exchange.getResponseBody();
-        Files.copy(aboutPage.toPath(), os);
+        Files.copy(cssFile.toPath(), os);
         os.close();
-        CodeFly.logger.info("Sent aboutus.html to client" + exchange.getRemoteAddress());
     }
 }
