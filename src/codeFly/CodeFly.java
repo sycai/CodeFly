@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 
 public class CodeFly {
     public static final Logger logger = Logger.getLogger("CodeFly");
+    public static final String ROOT_DIR = "src/codeFly/";
 
     public static void main(String[] args) {
         // TODO: Initialize global variables here
