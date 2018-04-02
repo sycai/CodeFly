@@ -25,6 +25,8 @@ git checkout -b [meaningful_branch_name]
 After you have finished your work on the branch, push it, then create a Pull Request. Please don't work 
 directly on the master branch.
 
+Hi there.
+
 Team member:
 
 * Shenyang Cai, Yuchang Chen, Shiqi Zhang, Jiahao Pei, Pengfei Dong, Xiuye Ding
