@@ -12,6 +12,9 @@
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="/css/mystyles.css" rel="stylesheet">
+    <link href="/css/bootstrap-social.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
     <!-- Do not use this local file at this moment
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/bootstrap-theme.min.css" rel="stylesheet">
@@ -21,10 +24,37 @@
 </head>
 
 <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <!-- <a class="navbar-brand" href="#">Navbar</a> -->
+        <!-- navbar with image and brand name -->
+        <a class="navbar-brand" href="#">
+            <img src="/images/brand.jpg" width="120" height="40" class="d-inline-block align-top" alt="">
+          </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">About</a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+
+
 
     <header class="jumbotron">
 
-        <!-- Main component for a primary marketing message or call to action -->
+        <!-- Main component for introduction to our teams -->
 
         <div class="container">
             <div class="row row-header">
@@ -61,7 +91,7 @@
         <div class="row row-content">
             <div class="col-xs-12 col-sm-3">
                 <p style="padding:20px;"></p>
-                <h3 align=center>Out FileSystem Team</h3>
+                <h3 align=center>Our FileSystem Team</h3>
             </div>
             <div class="col-xs-12 col-sm-9">
                 <h2>Team introduction</h2>
@@ -104,22 +134,32 @@
                 <div class="col-xs-12 col-sm-5">
                     <h5>Our Address</h5>
                     <address>
-		              #xxx, xx Road<br>
-		              Syracuse University<br>
-		              New York<br>
-		              Tel.: +xxx<br>
-		              Fax: +xxx<br>
-		              Email: <a href="mailto:CodeFly@syracuse.edu">codefly@syracuse.edu</a>
-		           </address>
+		              #222, Waverly Avenue<br>
+                      Syracuse NY 13244<br>
+                      <i class="fa fa-phone"></i>: +888 8888 8888<br>
+                      <i class="fa fa-fax"></i>: +888 8888 8886<br>
+                      <i class="fa fa-envelope"></i>: 
+                      <a href="mailto:CodeFly@syracuse.edu">codefly@syracuse.edu</a>
+		              </address>
                 </div>
                 <div class="col-xs-12 col-sm-4">
-                    <div style="padding: 40px 10px;">
+                    <div class="nav navbar-nav" style="padding: 40px 10px;">
+                        <a class="btn btn-social-icon btn-google-plus" 
+                        href="http://google.com/+"><i class="fa fa-google-plus"></i></a>
+                        <a class="btn btn-social-icon btn-facebook" href="http://www.facebook.com/profile.php?id="><i class="fa fa-facebook"></i></a>
+                        <a class="btn btn-social-icon btn-linkedin" href="http://www.linkedin.com/in/"><i class="fa fa-linkedin"></i></a>
+                        <a class="btn btn-social-icon btn-twitter" href="http://twitter.com/"><i class="fa fa-twitter"></i></a>
+                        <a class="btn btn-social-icon btn-youtube" href="http://youtube.com/"><i class="fa fa-youtube"></i></a>
+                        <a class="btn btn-social-icon" href="mailto:"><i class="fa fa-envelope-o"></i></a>
+                        <!--                         
                         <a href="http://google.com/+">Google+</a>
                         <a href="http://www.facebook.com/profile.php?id=">Facebook</a>
                         <a href="http://www.linkedin.com/in/">LinkedIn</a>
                         <a href="http://twitter.com/">Twitter</a>
                         <a href="http://youtube.com/">YouTube</a>
-                        <a href="mailto:">Mail</a>
+                        <a href="mailto:">Mail</a> 
+                        -->
+
                     </div>
                 </div>
                 <div class="col-xs-12">
