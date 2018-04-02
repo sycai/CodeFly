@@ -27,4 +27,4 @@ directly on the master branch.
 
 Team member:
 
-* Shenyang Cai, Yuchang Chen, Shiqi Zhang, Jiahao Pei, Pengfei Dong, Xiuye Ding, Jie Feng
+* Shenyang Cai, Yuchang Chen, Shiqi Zhang, Jiahao Pei, Pengfei Dong, Xiuye Ding, Jie Feng, Yingting He
