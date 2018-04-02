@@ -19,7 +19,7 @@ xxxx
 Once the user clicks the ```Register``` button from the index page, a get request will be sent to the server. Then the server will send a response which contains the ```Register``` html file inside the response body.
 ```
 Request(font-end)  
-Request line: GET /getRegister HTTP/1.1 
+Request line: GET /register HTTP/1.1 
 Context:/getRegister   
 
 Response(back-end)
@@ -33,7 +33,7 @@ xxxx
 Once the user clicks the ```Login``` button from the index page, a get request will be sent to the server. Then the server will send a response which contains the ```Login``` html file inside the response body.
 ```
 Request(font-end)  
-Request line: GET /getLogin HTTP/1.1 
+Request line: GET /login HTTP/1.1 
 Context:/getLogin   
 
 Response(back-end)
@@ -47,9 +47,11 @@ xxxx
 The user is required to input ```username```, ```password```, and ```email address``` on the GUI. Once the user clicks the ```Register``` button, a get request will be sent to the server. Then the server will send a response to indicate if this registration is successful or not in the content body. The user will be navigated to different web pages based on the response.
 ```
 Request(font-end)  
-Request line: GET /register?username=xxx&password=xxxxx&emailAddr=xxx@gmail.com HTTP/1.1  
+Request line: POST /register HTTP/1.1  
 Context:/register  
 Request Body:    
+username:xxxx
+password:xxxx
 
 Response(back-end)
 Response Body:
@@ -60,9 +62,11 @@ Success/Fail
 The user is supposed to input ```username``` and ```password``` to login. After the user clicks the ```Log In``` button, a get request will be sent to the server. Then the server will send a response to indicate if this login is successful or not in the content body. The user will be navigated to different web pages based on the response.
 ```
 Request(font-end)  
-Request line: GET /register?username=xxx&password=xxxxx HTTP/1.1  
+Request line: POST /login HTTP/1.1  
 Context:/login  
-Request Body:   
+Request Body:
+username:xxxx
+password:xxxx   
 
 Response(back-end)  
 Ressponse Body:  
@@ -79,32 +83,29 @@ Request Body:
 
 Response(back-end)  
 Response Body:  
-Question1: Two Sum  
-Question2: Reverse Linked List   
+HTML that lists all the questions  
 …  
 ```
 
-## Start
+## Get Specific Question
 The user is supposed to be navigated to the view of question list after clicking the ```Get Question List``` button. Among all the questions, the user can select one and click the ```Start``` button to start programming. A get request will be sent to the server. Then the server will send a response which contains the question description in the content body to the user.
 ```
 Request(font-end)  
-Request line: GET /start?username=xxx&qnum=x HTTP/1.1 
-Context:/start  
+Request line: GET /edit?username=xxx&qnum=x HTTP/1.1 
+Context:/edit  
 Request Body:    
 
 Response(back-end)  
 Response Body:  
-Write an algorithm which computes the number of trailing zeros in n factorial.  
-Example:
-11! = 39916800, so the out should be 2.
+HTML for question description and editor
 ```
 
 ## Submit Solution
 When the user finishes programming, he could click the ```Submit``` button to send a post request to the server to store his solution on the server. Then the server will send a response to indicate if this solution is saved successfully or not.
 ```
 Request(font-end)  
-Request line: POST /submit?username=xxx&qnum=x HTTP/1.1
-Context:/submit  
+Request line: POST /edit?username=xxx&qnum=x HTTP/1.1
+Context:/edit  
 Request Body:     
 Import java.io  
 Xxxx  
@@ -121,7 +122,7 @@ On the view of ```Question List```, there is supposed to be another button ```Re
 ```
 Request(font-end)  
 Request line: GET /retrieve?username=xxx&qnum=x HTTP/1.1  
-Context:/retrieve  
+Context:/retrive  
 Request Body:   
 
 Response(back-end)  
