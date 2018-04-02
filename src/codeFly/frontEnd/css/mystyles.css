@@ -1,3 +1,37 @@
+body{
+    padding:0px 0px 0px 0px;
+    z-index:0;
+}
+
+.navbar-inverse {
+     background: rgb(235, 115, 16);
+}
+
+.navbar-inverse .navbar-nav > .active > a,
+.navbar-inverse .navbar-nav > .active > a:hover,
+.navbar-inverse .navbar-nav > .active > a:focus {
+    color: #fff;
+    background: rgb(235, 115, 16);
+}
+
+.navbar-inverse .navbar-nav > .open > a,
+ .navbar-inverse .navbar-nav > .open > a:hover,
+ .navbar-inverse .navbar-nav > .open > a:focus {
+    color: #fff;
+    background: rgb(235, 115, 16);
+}
+
+.navbar-inverse .navbar-nav .open .dropdown-menu> li> a,
+.navbar-inverse .navbar-nav .open .dropdown-menu {
+    background-color: rgb(235, 115, 16);
+    color:#eeeeee;
+}
+
+.navbar-inverse .navbar-nav .open .dropdown-menu> li> a:hover {
+    color:#000000;
+}
+
+
 .row-header{
     margin:0px auto;
     padding:0px auto;
