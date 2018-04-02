@@ -10,7 +10,7 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 
 /**
- * Responsible for sending CSS files to the browser
+ * Responsible for sending front-end modules to the browser
  */
 public class FrontendModuleHandler implements HttpHandler{
     private static final String FRONTEND_ROOT = CodeFly.ROOT_DIR + "/frontEnd";
