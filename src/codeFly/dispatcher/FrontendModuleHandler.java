@@ -9,12 +9,15 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 
-public class CssHandler implements HttpHandler{
+/**
+ * Responsible for sending front-end modules to the browser
+ */
+public class FrontendModuleHandler implements HttpHandler{
     private static final String FRONTEND_ROOT = CodeFly.ROOT_DIR + "/frontEnd";
+
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         File cssFile = new File(FRONTEND_ROOT + exchange.getRequestURI());
-        System.out.println(cssFile.getPath());
         exchange.sendResponseHeaders(200, cssFile.length());
         OutputStream os = exchange.getResponseBody();
         Files.copy(cssFile.toPath(), os);

@@ -16,6 +16,7 @@ public class TaskDispatcher {
      * Class constants
      */
     private static final int CONNECTION_BACKLOG_SIZE = 50;
+    private static final String[] FRONT_END_MODULES = {"/css", "/images", "/js"};
 
     /**
      * Class variables
@@ -44,8 +45,15 @@ public class TaskDispatcher {
     public void start() {
         try {
             HttpServer server = HttpServer.create(new InetSocketAddress(port), CONNECTION_BACKLOG_SIZE);
-            server.createContext("/", new TestHandler());
-            server.createContext("/css", new CssHandler());
+            server.createContext("/", new WelcomePageHandler());
+            for (String module : FRONT_END_MODULES) {
+                server.createContext(module, new FrontendModuleHandler());
+            }
+            server.createContext("/register", new EchoRequestHandler());
+            server.createContext("/login", new EchoRequestHandler());
+            server.createContext("/questions", new EchoRequestHandler());
+            server.createContext("/edit", new EchoRequestHandler());
+            server.createContext("/retrieve", new EchoRequestHandler());
             // Default executor
             server.setExecutor(null);
             server.start();
