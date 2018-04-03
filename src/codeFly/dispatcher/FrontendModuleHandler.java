@@ -17,10 +17,10 @@ public class FrontendModuleHandler implements HttpHandler{
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        File cssFile = new File(FRONTEND_ROOT + exchange.getRequestURI());
-        exchange.sendResponseHeaders(200, cssFile.length());
+        File moduleFile = new File(FRONTEND_ROOT + exchange.getRequestURI());
+        exchange.sendResponseHeaders(200, moduleFile.length());
         OutputStream os = exchange.getResponseBody();
-        Files.copy(cssFile.toPath(), os);
+        Files.copy(moduleFile.toPath(), os);
         os.close();
     }
 }
