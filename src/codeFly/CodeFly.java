@@ -1,5 +1,6 @@
 package codeFly;
 import codeFly.dispatcher.*;
+import codeFly.fileSystem.FileSystemEmulator;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -11,9 +12,10 @@ import java.util.logging.Logger;
 public class CodeFly {
     public static final Logger logger = Logger.getLogger("CodeFly");
     public static final String ROOT_DIR = "src/codeFly/";
+    // FIXME: This should be the real file system in the final product
+    public static final FileSystemEmulator fileSys = new FileSystemEmulator();
 
     public static void main(String[] args) {
-        // TODO: Initialize global variables here
 
         // Logger configuration
         logger.setLevel(Level.INFO);
