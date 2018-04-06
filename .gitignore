@@ -1,6 +1,3 @@
 .idea/
 *.iml
 out/
-execEngineTestFiles/*.class
-execEngineTestFiles/err
-execEngineTestFiles/out
