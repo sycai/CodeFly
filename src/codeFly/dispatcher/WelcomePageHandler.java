@@ -24,7 +24,6 @@ public class WelcomePageHandler implements HttpHandler {
             os.write(resNotFound.getBytes());
             os.close();
         } else {
-            // FIXME: create index.html for use
             File welcomePage = new File(CodeFly.ROOT_DIR + "frontEnd/index.html");
             // response with a success response
             exchange.sendResponseHeaders(200, welcomePage.length());
