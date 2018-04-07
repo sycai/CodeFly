@@ -1,4 +1,4 @@
-package filesystem;
+package fileSystem;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -21,7 +21,7 @@ public class Repository {
     private Map<String, String> loginInfo;
     private int latestQuestionNum;
     
-    private static final String rootDirectory = "../Repository/";
+    private static final String rootDirectory = "./Repository/";
     private static final String loginInfoPath = rootDirectory + "LoginInfo.txt";
     
     public Repository() throws IOException {
@@ -50,8 +50,8 @@ public class Repository {
         if (qNum < 1 || qNum > latestQuestionNum) throw new IOException("Question" + qNum + "doesn't exist.");
         String qFolder = getQuestionFolder(qNum);
         String path = rootDirectory + qFolder + File.separator + "QuestionDescription.txt";
-        File f = new File(path);
         
+        //        File f = new File(path);
         //        if(f.exists() && !f.isDirectory()) something goes wrong when adding question
         byte[] encoded = Files.readAllBytes(Paths.get(path));
         return new String(encoded);
@@ -187,5 +187,3 @@ public class Repository {
     }
     
 }
-
-
