@@ -28,19 +28,5 @@ public class QuestionsHandler implements HttpHandler{
         os.close();
         CodeFly.logger.info(String.format("Sending %s to client: %S",
         		questionListPage.getName(), exchange.getRemoteAddress()));
-        
-        //version 2: need a function in file system: HashMap<Integer, String> getQuestionList()
-        
-//        String response = "";
-//        HashMap<Integer, String> questionList = CodeFly.fileSys.getQuestionList();
-//        for (Integer key : questionList.keySet()) {
-//            response += key.toString() + ": " + questionList.get(key)+ "\n";
-//        }
-//        
-//        exchange.sendResponseHeaders(200, response.length());
-//        OutputStream os = exchange.getResponseBody();
-//        os.write(response.getBytes());
-//        os.close();
-//        CodeFly.logger.info(String.format("Sending QuestionList to client: %S",exchange.getRemoteAddress()));
     }
 }
