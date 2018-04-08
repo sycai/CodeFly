@@ -51,7 +51,7 @@ public class TaskDispatcher {
             }
             server.createContext("/register", new EchoRequestHandler());
             server.createContext("/login", new EchoRequestHandler());
-            server.createContext("/questions", new EchoRequestHandler());
+            server.createContext("/questions", new QuestionsHandler());
             server.createContext("/editor", new EditorPageHandler());
             server.createContext("/retrieve", new EchoRequestHandler());
             // Default executor
