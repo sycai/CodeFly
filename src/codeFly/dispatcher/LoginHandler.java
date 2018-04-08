@@ -51,18 +51,22 @@ public class LoginHandler implements HttpHandler{
             String response ="";
             HashMap<String, String> loginInDb = CodeFly.fileSys.getLoginInfo();
             if (loginInDb.containsKey(loginInfo.get(0))) {
+            	//System.out.println("user exist\n");
             	String key = loginInfo.get(0);
             	String value = loginInfo.get(1);
                 if(loginInDb.get(key).equals(value)) {
+                	//System.out.println("password correct\n");
                 	response = "Success";
                 }
                 else {
+                	//System.out.println("password incorrect\n");
                 	response = "Fail";
                 }
                 
             }
             else {
             	//throw new IOException("User " + loginInfo.get(0) + " does not exist.");
+            	//System.out.println("user does not exist\n");
             	response = "Fail";
             }
             
