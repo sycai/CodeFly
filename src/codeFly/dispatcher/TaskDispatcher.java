@@ -50,7 +50,7 @@ public class TaskDispatcher {
                 server.createContext(module, new FrontendModuleHandler());
             }
             server.createContext("/register", new EchoRequestHandler());
-            server.createContext("/login", new LoginHandler());
+            server.createContext("/login", new EchoRequestHandler());
             server.createContext("/questions", new QuestionsHandler());
             server.createContext("/editor", new EditorPageHandler());
             server.createContext("/retrieve", new EchoRequestHandler());
