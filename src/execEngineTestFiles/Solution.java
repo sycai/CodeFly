@@ -1,11 +1,9 @@
 
 public class Solution {
-    // FIXME: Support primitive-typed arguments
-    public int callMe(Integer a, Double b) {
+
+    public int callMe(int a, double b) {
         System.out.println(String.format("%d + %f = %f", a, b, a+b));
-//        if (true) {
-//            throw new RuntimeException("Stderr testing");
-//        }
+        // throw new RuntimeException("Stderr test");
         return a;
     }
 }
