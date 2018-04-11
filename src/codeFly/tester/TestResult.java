@@ -1,0 +1,80 @@
+package codeFly.tester;
+
+import codeFly.executionEngine.ExecutionResult;
+
+/**
+ * Wrapper class for bundling all testing information together.
+ */
+public class TestResult {
+    private boolean isPassed;
+    private int totalTestsNumber;
+    private int totalPassedNumber;
+
+    // Information for the first failed test
+    private Object[] failedInput;
+    private ExecutionResult res;
+    private Object expectedOutput;
+
+    public TestResult (int totalPassedNumber, int totalTestsNumber, Object[] failedInput, ExecutionResult exeRes,
+                       Object expectedOutput){
+        this.totalPassedNumber = totalPassedNumber;
+        this.totalTestsNumber = totalTestsNumber;
+
+        // Test suit is passed if and only if all test cases are passed
+        if (this.totalPassedNumber == this.totalTestsNumber) {
+            this.isPassed = true;
+            this.failedInput = null;
+            this.res = null;
+            this.expectedOutput = null;
+        } else {
+            this.failedInput = failedInput;
+            this.isPassed = false;
+            this.res = exeRes;
+            this.expectedOutput = expectedOutput;
+        }
+    }
+
+    public boolean isPassed() {
+        return isPassed;
+    }
+
+    public int getTotalTestsNumber() {
+        return this.totalTestsNumber;
+    }
+
+    public int getTotalPassedNumber() {
+        return this.totalPassedNumber;
+    }
+
+    public Object[] getFailedInput() {
+        return failedInput;
+    }
+
+    public Object getWrongOutput() {
+        if (isPassed) {
+            return null;
+        } else {
+            return res.getReturnValue();
+        }
+    }
+
+    public String getStdOut() {
+        if (isPassed) {
+            return null;
+        } else {
+            return res.getStdOutput();
+        }
+    }
+
+    public String getStdErr() {
+        if (isPassed) {
+            return null;
+        } else {
+            return res.getStdError();
+        }
+    }
+
+    public Object getExpectedOutput() {
+        return this.expectedOutput;
+    }
+}
