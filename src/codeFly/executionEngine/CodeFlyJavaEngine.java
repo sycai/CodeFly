@@ -1,6 +1,7 @@
 package codeFly.executionEngine;
 
 import codeFly.CodeFly;
+import codeFly.fileSystem.Repository;
 
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
@@ -124,17 +125,8 @@ public class CodeFlyJavaEngine {
             res = new ExecutionResult(retVal, stdOutput, stdError);
 
         } catch (IOException ex) {
-            CodeFly.logger.severe(ex.getMessage());
+            CodeFly.logger.severe(ex.getCause().toString());
         }
         return res;
-    }
-
-    public static void main(String[] args) throws Exception {
-        File toExec = new File("src/execEngineTestFiles/Solution.java");
-        String methodName = "callMe";
-        Object[] methodArgs = {2, 2.5};
-        Class<?>[] paramTypes = {int.class, double.class};
-        ExecutionResult result = CodeFlyJavaEngine.getRunningResult(toExec, methodName, paramTypes, methodArgs);
-        System.out.println(result);
     }
 }

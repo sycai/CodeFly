@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 public class CodeFly {
     public static final Logger logger = Logger.getLogger("CodeFly");
     public static final String ROOT_DIR = "src/codeFly/";
+    // FIXME: delete FileSystemEmulator if necessary since it is no longer used.
     public static Repository repo;
 
     public static void main(String[] args) {

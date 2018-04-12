@@ -74,19 +74,19 @@ public class Repository {
     public File getQuestionTest(int qNum) throws IOException {
         if (qNum < 1 || qNum > latestQuestionNum) throw new IOException("Question" + qNum + "doesn't exist.");
         String qFolder = getQuestionFolder(qNum);
-        String path = rootDirectory + qFolder + File.separator + "Test.txt";
+        String path = rootDirectory + qFolder + File.separator + "Test.java";
         File f = new File(path);
 
-        return f;
+        return f.getCanonicalFile();
     }
     
     public File getUserCode(int qNum, String userName, String language) throws IOException {
         if (qNum < 1 || qNum > latestQuestionNum) throw new IOException("Question" + qNum + "doesn't exist.");
         String qFolder = getQuestionFolder(qNum);
-        String path = rootDirectory + qFolder + File.separator + userName + File.separator + "Solution." + language;
+        String path = rootDirectory + qFolder + File.separator + userName + File.separator + "Solution." + language.toLowerCase();
         File f = new File(path);
 
-        return f;
+        return f.getCanonicalFile();
     }
     
     public Map<String, String> getLoginInfo() {
@@ -138,7 +138,7 @@ public class Repository {
         out.println(qDescription);
         out.close();
         
-        String testPath = path + File.separator + "Test.txt";
+        String testPath = path + File.separator + "Test.java";
         File qTest = new File(testPath);
         qTest.createNewFile();
         out = new PrintWriter(testPath);
@@ -158,12 +158,40 @@ public class Repository {
             addUserAccount("Bob", "000000");
             addUserAccount("John", "246135");
         }
+        String q1Descption = "Write a function addOne that takes an integer v and return v + 1.";
 
-        addQuestion("qDescription1", "test1");
-        addQuestion("qDescription2", "test2");
+        String test1 =
+                "public class Test {\n" +
+                "    public int TEST_CASE_NUM = 5;\n" +
+                "    public String METHOD_NAME = \"addOne\";\n" +
+                "    public Class<?>[] parameterTypes;\n" +
+                "    public Object[][] args;\n" +
+                "    public Object[] retVals;\n" +
+                "\n" +
+                "    public Test() {\n" +
+                "        parameterTypes = new Class<?>[] {int.class};\n" +
+                "        args = new Object[TEST_CASE_NUM][parameterTypes.length];\n" +
+                "        retVals = new Object[TEST_CASE_NUM];\n" +
+                "\n" +
+                "        for (int i = 0; i < TEST_CASE_NUM; i++) {\n" +
+                "            args[i] = new Object[] {i};\n" +
+                "            retVals[i] = i+1;\n" +
+                "        }\n" +
+                "    }\n" +
+                "}\n" +
+                "\n";
+
+        addQuestion(q1Descption, test1);
+
+        String q1AmyAns =
+                "public class Solution {\n" +
+                "    public int addOne(int i) {\n" +
+                "        System.out.println(\"Amy codes' standard output\");\n" +
+                "        return i + 1;\n" +
+                "    }\n" +
+                "}";
 
         writeUserCode(1, "Bob", "");
-        writeUserCode(1, "Amy", "");
-        writeUserCode(2, "Bob", "");
+        writeUserCode(1, "Amy", q1AmyAns);
     }
 }
