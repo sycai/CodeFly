@@ -28,6 +28,10 @@ public class ExecutionResult {
         return this.stdError;
     }
 
+    public boolean hasReturnValue() {
+        return returnValue != null;
+    }
+
     // Used mainly for debugging
     @Override
     public String toString() {

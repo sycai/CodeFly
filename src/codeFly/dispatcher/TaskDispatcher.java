@@ -69,7 +69,9 @@ public class TaskDispatcher {
     // FIXME: delete this function after the testing module is sufficiently tested.
     public void testTester() {
         try {
-            System.out.println(JavaTestEngine.getTestResult(1, "Amy"));
+            System.out.println(JavaTestEngine.getTestResult(1, "Bob"));
+            System.out.println(JavaTestEngine.getTestResult(1,"Amy"));
+            System.out.println(JavaTestEngine.getTestResult(2,"Bob"));
         } catch (Exception ex) {
             ex.printStackTrace();
         }

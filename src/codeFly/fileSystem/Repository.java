@@ -2,20 +2,15 @@ package codeFly.fileSystem;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.rmi.activation.UnknownObjectException;
-import java.security.KeyStore.Entry;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.text.AbstractDocument.BranchElement;
-import javax.xml.soap.DetailEntry;
 
 /**
  * Repository management module responsible for writing and reading files of source code, information, tests etc.
@@ -146,7 +141,7 @@ public class Repository {
         out.close();
     }
     
-    //
+
     private String getQuestionFolder(int qNum) {
         return "Q" + String.valueOf(qNum);
     }
@@ -158,7 +153,7 @@ public class Repository {
             addUserAccount("Bob", "000000");
             addUserAccount("John", "246135");
         }
-        String q1Descption = "Write a function addOne that takes an integer v and return v + 1.";
+        String q1Desc = "Write a function addOne that takes an integer v and return v + 1.";
 
         String test1 =
                 "public class Test {\n" +
@@ -181,17 +176,61 @@ public class Repository {
                 "}\n" +
                 "\n";
 
-        addQuestion(q1Descption, test1);
+        String q2Desc= "Write a function addOne that takes an integer v and return v + 2.";
+        String test2 =
+                "public class Test {\n" +
+                "    public int TEST_CASE_NUM = 5;\n" +
+                "    public String METHOD_NAME = \"addOne\";\n" +
+                "    public Class<?>[] parameterTypes;\n" +
+                "    public Object[][] args;\n" +
+                "    public Object[] retVals;\n" +
+                "\n" +
+                "    public Test() {\n" +
+                "        parameterTypes = new Class<?>[] {int.class};\n" +
+                "        args = new Object[TEST_CASE_NUM][parameterTypes.length];\n" +
+                "        retVals = new Object[TEST_CASE_NUM];\n" +
+                "\n" +
+                "        for (int i = 0; i < TEST_CASE_NUM; i++) {\n" +
+                "            args[i] = new Object[] {i};\n" +
+                "            retVals[i] = i+2;\n" +
+                "        }\n" +
+                "    }\n" +
+                "}\n" +
+                "\n";
+
+
+
+        addQuestion(q1Desc, test1);
+        addQuestion(q2Desc, test2);
 
         String q1AmyAns =
                 "public class Solution {\n" +
                 "    public int addOne(int i) {\n" +
-                "        System.out.println(\"Amy codes' standard output\");\n" +
+                "        System.out.println(\"Amy code's q1 standard output\");\n" +
                 "        return i + 1;\n" +
                 "    }\n" +
                 "}";
 
-        writeUserCode(1, "Bob", "");
+        String q1BobAns =
+                "public class Solution {\n" +
+                "    public int addOne(int i) {\n" +
+                "        System.out.println(\"Bob code's q1 standard output\");\n" +
+                "        return i + 2;\n" +
+                "    }\n" +
+                "}";
+
+        String q2BobAns =
+                "public class Solution {\n" +
+                "    public int addOne(int i) {\n" +
+                "        int a = 0;" +
+                "        a = i/a;\n" +
+                "        return i + 2;\n" +
+                "    }\n" +
+                "}";
+
+
+        writeUserCode(1, "Bob", q1BobAns);
+        writeUserCode(2, "Bob", q2BobAns);
         writeUserCode(1, "Amy", q1AmyAns);
     }
 }

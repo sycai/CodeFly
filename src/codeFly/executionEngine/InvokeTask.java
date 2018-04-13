@@ -14,7 +14,7 @@ public class InvokeTask implements Callable<Object> {
         try {
             ret = method.invoke(instance, args);
         } catch (Exception ex) {
-            System.err.println(ex.getMessage());
+            System.err.println(ex.getCause());
         }
         return ret;
     }

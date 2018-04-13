@@ -19,17 +19,16 @@ public class TestResult {
                        Object expectedOutput){
         this.totalPassedNumber = totalPassedNumber;
         this.totalTestsNumber = totalTestsNumber;
+        this.res = exeRes;
 
         // Test suit is passed if and only if all test cases are passed
         if (this.totalPassedNumber == this.totalTestsNumber) {
             this.isPassed = true;
             this.failedInput = null;
-            this.res = null;
             this.expectedOutput = null;
         } else {
             this.failedInput = failedInput;
             this.isPassed = false;
-            this.res = exeRes;
             this.expectedOutput = expectedOutput;
         }
     }
@@ -51,30 +50,32 @@ public class TestResult {
     }
 
     public Object getWrongOutput() {
-        if (isPassed) {
-            return null;
-        } else {
-            return res.getReturnValue();
-        }
+        return res.getReturnValue();
+
     }
 
     public String getStdOut() {
-        if (isPassed) {
-            return null;
-        } else {
-            return res.getStdOutput();
-        }
+        return res.getStdOutput();
+
+    }
+
+    public boolean hasReturnValue() {
+        return res.hasReturnValue();
     }
 
     public String getStdErr() {
-        if (isPassed) {
-            return null;
-        } else {
-            return res.getStdError();
-        }
+        return res.getStdError();
     }
 
     public Object getExpectedOutput() {
         return this.expectedOutput;
+    }
+
+    @Override
+    public String toString() {
+        String ret = getTotalPassedNumber() + "/" + getTotalTestsNumber() + " passed.";
+        ret += " stdout: " + getStdOut() + " ";
+        ret += " stderr: " + getStdErr() + " ";
+        return ret;
     }
 }

@@ -36,16 +36,17 @@ public class JavaTestEngine {
         String methodName = (String) testClass.getDeclaredField(METHOD_NAME_FIELD).get(instance);
         int testNum = (int) testClass.getDeclaredField(TEST_NUM_FIELD).get(instance);
 
+        ExecutionResult res = null;
         int passCount = 0;
         for (int i = 0; i < testNum; i++) {
-            ExecutionResult res = CodeFlyJavaEngine.getRunningResult(codeFile, methodName, paramTypes,args[i]);
-            if (res.getReturnValue().equals(retVals[i])) {
+            res = CodeFlyJavaEngine.getRunningResult(codeFile, methodName, paramTypes,args[i]);
+            if (res.hasReturnValue() && res.getReturnValue().equals(retVals[i])) {
                 passCount++;
             } else {
                 return new TestResult(passCount, testNum, args[i], res, retVals[i]);
             }
         }
-        return new TestResult(testNum, testNum, null, null, null);
+        return new TestResult(testNum, testNum, null, res, null);
 
     }
 
