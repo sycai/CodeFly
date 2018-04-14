@@ -60,7 +60,7 @@ public class TaskDispatcher {
             server.start();
 
             //FIXME: delete this invocation after the testing module is sufficiently tested
-            testTester();
+            //testTester();
         } catch (IOException e) {
             CodeFly.logger.info("HTTP listener error: " + e.getMessage());
         }
