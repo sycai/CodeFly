@@ -24,7 +24,7 @@ public class WelcomePageHandler implements HttpHandler {
             os.write(resNotFound.getBytes());
             os.close();
         } else {
-            File welcomePage = new File(CodeFly.ROOT_DIR + "frontEnd/index.html");
+            File welcomePage = new File(CodeFly.ROOT_DIR + "frontEnd/editor.html");
             // response with a success response
             exchange.sendResponseHeaders(200, welcomePage.length());
             OutputStream os = exchange.getResponseBody();
