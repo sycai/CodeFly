@@ -103,8 +103,8 @@
     function loadTestResult() {
         $.ajax({
             type:'POST',
-            url: '/editor.html',
-            data:'/edit?username=xxx&qnum=x',
+            url: '/editor?username=Amy&qnum=1',
+            data: 'heheda\nxixixi',
             success: function (data) {
                 console.log(data);
             },
