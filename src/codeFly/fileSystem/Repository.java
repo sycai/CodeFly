@@ -1,30 +1,42 @@
-package fileSystem;
+package codeFly.fileSystem;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.rmi.activation.UnknownObjectException;
-import java.security.KeyStore.Entry;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.text.AbstractDocument.BranchElement;
-import javax.xml.soap.DetailEntry;
 
+/**
+ * Repository management module responsible for writing and reading files of source code, information, tests etc.
+ */
 public class Repository {
     private Map<String, String> loginInfo;
     private int latestQuestionNum;
     
     private static final String rootDirectory = "./Repository/";
     private static final String loginInfoPath = rootDirectory + "LoginInfo.txt";
+
+    private static Repository obj;
+
+    /**
+     * Factory method for singleton Repository class
+     * @return
+     * @throws IOException
+     */
+    public static Repository getInstance() throws IOException {
+        if (obj == null) {
+            obj = new Repository();
+        }
+        return obj;
+    }
     
-    public Repository() throws IOException {
+    private Repository() throws IOException {
         loginInfo = new HashMap<>();
         latestQuestionNum = 0;
         
@@ -44,15 +56,12 @@ public class Repository {
         
         bufferedReader.close();
     }
-    
-    // getters
+
     public String getQuestionDescription(int qNum) throws IOException {
         if (qNum < 1 || qNum > latestQuestionNum) throw new IOException("Question" + qNum + "doesn't exist.");
         String qFolder = getQuestionFolder(qNum);
         String path = rootDirectory + qFolder + File.separator + "QuestionDescription.txt";
-        
-        //        File f = new File(path);
-        //        if(f.exists() && !f.isDirectory()) something goes wrong when adding question
+
         byte[] encoded = Files.readAllBytes(Paths.get(path));
         return new String(encoded);
     }
@@ -60,28 +69,26 @@ public class Repository {
     public File getQuestionTest(int qNum) throws IOException {
         if (qNum < 1 || qNum > latestQuestionNum) throw new IOException("Question" + qNum + "doesn't exist.");
         String qFolder = getQuestionFolder(qNum);
-        String path = rootDirectory + qFolder + File.separator + "Test.txt";
+        String path = rootDirectory + qFolder + File.separator + "Test.java";
         File f = new File(path);
-        
-        //        if(f.exists() && !f.isDirectory()) something goes wrong when adding question
-        return f;
+
+        return f.getCanonicalFile();
     }
     
     public File getUserCode(int qNum, String userName, String language) throws IOException {
         if (qNum < 1 || qNum > latestQuestionNum) throw new IOException("Question" + qNum + "doesn't exist.");
         String qFolder = getQuestionFolder(qNum);
-        String path = rootDirectory + qFolder + File.separator + userName + File.separator + "Solution." + language;
+        String path = rootDirectory + qFolder + File.separator + userName + File.separator + "Solution." + language.toLowerCase();
         File f = new File(path);
-        
-        //        if(f.exists() && !f.isDirectory()) something goes wrong when adding userCode
-        return f;
+
+        return f.getCanonicalFile();
     }
     
     public Map<String, String> getLoginInfo() {
         return loginInfo;
     }
     
-    // setters
+
     public void writeUserCode(int qNum, String userName, String content) throws IOException {
         String path = rootDirectory + getQuestionFolder(qNum) + File.separator
         + userName + File.separator + "Solution.java";
@@ -126,7 +133,7 @@ public class Repository {
         out.println(qDescription);
         out.close();
         
-        String testPath = path + File.separator + "Test.txt";
+        String testPath = path + File.separator + "Test.java";
         File qTest = new File(testPath);
         qTest.createNewFile();
         out = new PrintWriter(testPath);
@@ -134,56 +141,96 @@ public class Repository {
         out.close();
     }
     
-    //
+
     private String getQuestionFolder(int qNum) {
         return "Q" + String.valueOf(qNum);
     }
-    
-    
-    public static void main(String[] args) throws IOException {
-        // TODO Auto-generated method stub
-        Repository repository = new Repository();
-        
-        /**************************************************************************/
-        // only need to add user account once, each time we run it, repository will
-        // read login information from LoginInfo.txt
-        
-        //        repository.addUserAccount("Amy", "123456");
-        //        repository.addUserAccount("Bob", "000000");
-        //        repository.addUserAccount("John", "246135");
-        
-        Map<String, String> loginInfo = repository.getLoginInfo();
-        System.out.println("Login Information: ");
-        for (Map.Entry<String, String> entry : loginInfo.entrySet()) {
-            System.out.println(entry.getKey() + ": " + entry.getValue());
+
+
+    public void setUpExample() throws IOException {
+        if (loginInfo.isEmpty()) {
+            addUserAccount("Amy", "123456");
+            addUserAccount("Bob", "000000");
+            addUserAccount("John", "246135");
         }
-        
-        repository.addQuestion("qDescription1", "test1");
-        repository.addQuestion("qDescription2", "test2");
-        
-        repository.writeUserCode(1, "Bob", "b..");
-        repository.writeUserCode(1, "Amy", "a..");
-        repository.writeUserCode(2, "Bob", "bb..");
-        
-        String qd = repository.getQuestionDescription(2);
-        System.out.println("\ngetQuestionDescription \"2\":");
-        System.out.println(qd);
-        
-        File qt = repository.getQuestionTest(1);
-        System.out.println("\ngetQuestionTest \"1\":");
-        BufferedReader br = new BufferedReader(new FileReader(qt));
-        String st;
-        while ((st = br.readLine()) != null) {
-            System.out.println(st);
-        }
-        
-        File uc = repository.getUserCode(1, "Bob", "java");
-        System.out.println("\ngetUserCode \"1, bob, java\":");
-        br = new BufferedReader(new FileReader(uc));
-        while ((st = br.readLine()) != null) {
-            System.out.println(st);
-        }
-        
+        String q1Desc = "Write a function addOne that takes an integer v and return v + 1.";
+
+        String test1 =
+                "public class Test {\n" +
+                "    public int TEST_CASE_NUM = 5;\n" +
+                "    public String METHOD_NAME = \"addOne\";\n" +
+                "    public Class<?>[] parameterTypes;\n" +
+                "    public Object[][] args;\n" +
+                "    public Object[] retVals;\n" +
+                "\n" +
+                "    public Test() {\n" +
+                "        parameterTypes = new Class<?>[] {int.class};\n" +
+                "        args = new Object[TEST_CASE_NUM][parameterTypes.length];\n" +
+                "        retVals = new Object[TEST_CASE_NUM];\n" +
+                "\n" +
+                "        for (int i = 0; i < TEST_CASE_NUM; i++) {\n" +
+                "            args[i] = new Object[] {i};\n" +
+                "            retVals[i] = i+1;\n" +
+                "        }\n" +
+                "    }\n" +
+                "}\n" +
+                "\n";
+
+        String q2Desc= "Write a function addOne that takes an integer v and return v + 2.";
+        String test2 =
+                "public class Test {\n" +
+                "    public int TEST_CASE_NUM = 5;\n" +
+                "    public String METHOD_NAME = \"addOne\";\n" +
+                "    public Class<?>[] parameterTypes;\n" +
+                "    public Object[][] args;\n" +
+                "    public Object[] retVals;\n" +
+                "\n" +
+                "    public Test() {\n" +
+                "        parameterTypes = new Class<?>[] {int.class};\n" +
+                "        args = new Object[TEST_CASE_NUM][parameterTypes.length];\n" +
+                "        retVals = new Object[TEST_CASE_NUM];\n" +
+                "\n" +
+                "        for (int i = 0; i < TEST_CASE_NUM; i++) {\n" +
+                "            args[i] = new Object[] {i};\n" +
+                "            retVals[i] = i+2;\n" +
+                "        }\n" +
+                "    }\n" +
+                "}\n" +
+                "\n";
+
+
+
+        addQuestion(q1Desc, test1);
+        addQuestion(q2Desc, test2);
+
+        String q1AmyAns =
+                "public class Solution {\n" +
+                "    public int addOne(int i) {\n" +
+                "        System.out.println(\"Amy code's q1 standard output\");\n" +
+                "        return i + 1;\n" +
+                "    }\n" +
+                "}";
+
+        String q1BobAns =
+                "public class Solution {\n" +
+                "    public int addOne(int i) {\n" +
+                "        System.out.println(\"Bob code's q1 standard output\");\n" +
+                "        return i + 2;\n" +
+                "    }\n" +
+                "}";
+
+        String q2BobAns =
+                "public class Solution {\n" +
+                "    public int addOne(int i) {\n" +
+                "        int a = 0;" +
+                "        a = i/a;\n" +
+                "        return i + 2;\n" +
+                "    }\n" +
+                "}";
+
+
+        writeUserCode(1, "Bob", q1BobAns);
+        writeUserCode(2, "Bob", q2BobAns);
+        writeUserCode(1, "Amy", q1AmyAns);
     }
-    
 }

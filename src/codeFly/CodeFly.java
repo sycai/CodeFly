@@ -1,7 +1,8 @@
 package codeFly;
 import codeFly.dispatcher.*;
-import codeFly.fileSystem.FileSystemEmulator;
+import codeFly.fileSystem.Repository;
 
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -12,10 +13,20 @@ import java.util.logging.Logger;
 public class CodeFly {
     public static final Logger logger = Logger.getLogger("CodeFly");
     public static final String ROOT_DIR = "src/codeFly/";
-    // FIXME: This should be the real file system in the final product
-    public static final FileSystemEmulator fileSys = new FileSystemEmulator();
+    // FIXME: delete FileSystemEmulator if necessary since it is no longer used.
+    public static Repository repo;
 
     public static void main(String[] args) {
+
+        try {
+            repo = Repository.getInstance();
+            repo.setUpExample();
+        } catch (IOException ex) {
+            // Log and exit
+            CodeFly.logger.severe("Failed to initialize file system. Shut down server now.");
+            CodeFly.logger.severe(ex.getCause().toString());
+            return;
+        }
 
         // Logger configuration
         logger.setLevel(Level.INFO);

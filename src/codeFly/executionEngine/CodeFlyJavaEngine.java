@@ -8,7 +8,6 @@ import java.io.*;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.List;
 import java.util.concurrent.*;
 
 /**
@@ -114,7 +113,9 @@ public class CodeFlyJavaEngine {
                 throw new IOException("Illegal file name to be compiled: " + target.getPath());
             }
             File compilationDir = target.getCanonicalFile().getParentFile();
+
             Object retVal = getReturnValue(compilationDir, methodName, paramTypes, args);
+
 
             File outputFile = new File(compilationDir, STDOUT_FILE_NAME);
             String stdOutput = readContent(outputFile);
@@ -124,17 +125,8 @@ public class CodeFlyJavaEngine {
             res = new ExecutionResult(retVal, stdOutput, stdError);
 
         } catch (IOException ex) {
-            CodeFly.logger.severe(ex.getMessage());
+            CodeFly.logger.severe(ex.getCause().toString());
         }
         return res;
-    }
-
-    public static void main(String[] args) throws Exception {
-        File toExec = new File("src/execEngineTestFiles/Solution.java");
-        String methodName = "callMe";
-        Object[] methodArgs = {2, 2.5};
-        Class<?>[] paramTypes = {int.class, double.class};
-        ExecutionResult result = CodeFlyJavaEngine.getRunningResult(toExec, methodName, paramTypes, methodArgs);
-        System.out.println(result);
     }
 }
