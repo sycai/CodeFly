@@ -119,7 +119,7 @@ public class CodeFlyJavaEngine {
             File outputFile = new File(compilationDir, STDOUT_FILE_NAME);
             String stdOutput = readContent(outputFile);
             File errorFile = new File(compilationDir, STDERR_FILE_NAME);
-            String stdError = readContent(errorFile).replaceAll("^.*java", "");
+            String stdError = "line " + readContent(errorFile).replaceAll("^.*java:", "");
 
             res = new ExecutionResult(retVal, stdOutput, stdError);
 
