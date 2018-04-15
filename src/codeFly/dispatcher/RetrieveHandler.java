@@ -21,7 +21,7 @@ public class RetrieveHandler implements HttpHandler {
             if (method.equalsIgnoreCase("GET")) {
                 Map<String, String> queryPairs = HandlerTools.parseUriQuery(exchange.getRequestURI().getQuery());
                 String userName = queryPairs.get("username");
-                int questionNumber = Integer.parseInt(queryPairs.get("qNum"));
+                int questionNumber = Integer.parseInt(queryPairs.get("qnum"));
                 // For now, just consider the language java
                 File userCode = CodeFly.repo.getUserCode(questionNumber, userName, "java");
 

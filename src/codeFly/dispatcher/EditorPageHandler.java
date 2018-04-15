@@ -5,6 +5,7 @@ import codeFly.tester.JavaTestEngine;
 import codeFly.tester.TestResult;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import org.json.JSONObject;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -32,13 +33,26 @@ public class EditorPageHandler implements HttpHandler{
                 String userName = queryPairs.get("username");
 
                 // Update user code
-                int questionNumber = Integer.parseInt(queryPairs.get("qNum"));
-                CodeFly.repo.writeUserCode(questionNumber, userName, code);
+                int questionNumber = Integer.parseInt(queryPairs.get("qnum"));
+                // FIXME: For now we have disabled overwriting user code.
+                //CodeFly.repo.writeUserCode(questionNumber, userName, code);
 
                 // Test user code
                 TestResult testResult = JavaTestEngine.getTestResult(questionNumber, userName);
 
+                // Transform test results into json
+                JSONObject testResultJson = new JSONObject();
+                testResultJson.put("isPassed", testResult.isPassed());
+                testResultJson.put("testCasesPassed", testResult.getTotalPassedNumber());
+                testResultJson.put("testCasesTotal", testResult.getTotalTestsNumber());
+                testResultJson.put("stdout", testResult.getStdOut());
 
+                String jsonStr = testResultJson.toString();
+
+                // Send json back
+                exchange.sendResponseHeaders(200, jsonStr.length());
+                exchange.getResponseBody().write(jsonStr.getBytes());
+                exchange.getResponseBody().close();
 
             } else {
                 // All other methods are invalid
