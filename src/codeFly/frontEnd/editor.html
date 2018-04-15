@@ -81,10 +81,10 @@
         </div>   
     </div>
 
-    <div>
-        <p id="result"></p>
-    </div>
- 
+    <span class="d-block p-2 bg-success text-white" id="result-display"></span>
+    <span class="d-block p-2 bg-dark text-white" id="result"></span>
+
+
     <script>
         var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
         mode: "text/x-java",       // highlight java code
@@ -118,8 +118,17 @@
             url: '/editor?username=Amy&qnum=1',
             data: text,
             success: function (data) {
-                var obj = JSON.parse(data);                  // parse & display text result (success/failure & number of success/failure)
-                document.getElementById("result").innerHTML = obj.name + ": " + obj.num;
+                //var obj = JSON.parse(data);                  // parse & display text result (success/failure & number of success/failure)
+                var obj = JSON.parse('{ "isPassed":"false", "testCasesPassed":30, "testCasesTotal": 36, "stdout":"error msg"}');
+                if (obj.isPassed == "true") {
+                    document.getElementById("result-display").innerHTML = "Test result: Passed";
+                } else if (obj.isPassed == "false") {          // change the background color to red to indicate Failure
+                    document.getElementById("result-display").classList.remove("bg-success");
+                    document.getElementById("result-display").classList.add("bg-danger");
+                    document.getElementById("result-display").innerHTML = "Test result: Fail";
+                }
+                document.getElementById("result").innerHTML = "Passed:" 
+                + obj.testCasesPassed + " out of " + obj.testCasesTotal + " test cases. \n" + obj.stdout;
             },
             error: function() {
                 console.log('Error: ');
