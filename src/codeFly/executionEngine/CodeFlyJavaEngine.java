@@ -41,6 +41,10 @@ public class CodeFlyJavaEngine {
         try {
             // The output files are in the same directory as the source code
             File toRun = new File(compilationDir, PREDEFINED_CLASS_NAME + ".java");
+            File oldClass = new File(compilationDir, PREDEFINED_CLASS_NAME + ".class");
+            if (oldClass.exists()) {
+                oldClass.delete();
+            }
 
             // Redirect stdout and stderr to files
             File outputFile = new File(compilationDir, STDOUT_FILE_NAME);
