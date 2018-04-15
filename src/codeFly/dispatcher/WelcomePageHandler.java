@@ -18,11 +18,7 @@ public class WelcomePageHandler implements HttpHandler {
         String uriStr = exchange.getRequestURI().toString();
         // uri should be of the form "/" or "{address}:{port}/"
         if (!uriStr.matches(".*(:[0-9]*)?/$")) {
-            String resNotFound = "404 not found";
-            exchange.sendResponseHeaders(404, resNotFound.length());
-            OutputStream os = exchange.getResponseBody();
-            os.write(resNotFound.getBytes());
-            os.close();
+            HandlerTools.send404NotFound(exchange);
         } else {
             File welcomePage = new File(CodeFly.ROOT_DIR + "frontEnd/index.html");
             // response with a success response
