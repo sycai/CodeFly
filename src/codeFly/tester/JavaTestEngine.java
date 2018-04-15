@@ -37,6 +37,7 @@ public class JavaTestEngine {
             // Compile the code
             compiler.run(null, null, null, testFile.getPath());
 
+
             // Testing preparation
             URLClassLoader classLoader = URLClassLoader.newInstance(new URL[]{testFile.getParentFile().toURI().toURL()});
             Class<?> testClass = Class.forName(TEST_CLASS_NAME, true, classLoader);

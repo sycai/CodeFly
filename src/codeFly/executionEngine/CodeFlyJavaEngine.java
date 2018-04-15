@@ -41,14 +41,10 @@ public class CodeFlyJavaEngine {
         try {
             // The output files are in the same directory as the source code
             File toRun = new File(compilationDir, PREDEFINED_CLASS_NAME + ".java");
-
-            //TODO: reset compiler output directory (optional)
-            compiler.run(null, null, null, toRun.getPath());
-
-            // Load class instance
-            URLClassLoader classLoader = URLClassLoader.newInstance(new URL[]{compilationDir.toURI().toURL()});
-            Class<?> cls = Class.forName(PREDEFINED_CLASS_NAME, true, classLoader);
-            Object instance = cls.newInstance();
+            File oldClass = new File(compilationDir, PREDEFINED_CLASS_NAME + ".class");
+            if (oldClass.exists()) {
+                oldClass.delete();
+            }
 
             // Redirect stdout and stderr to files
             File outputFile = new File(compilationDir, STDOUT_FILE_NAME);
@@ -61,6 +57,14 @@ public class CodeFlyJavaEngine {
             }
             System.setOut(new PrintStream(new FileOutputStream(new File(compilationDir, STDOUT_FILE_NAME))));
             System.setErr(new PrintStream(new FileOutputStream(new File(compilationDir, STDERR_FILE_NAME))));
+
+            //TODO: reset compiler output directory (optional)
+            compiler.run(null, null, System.err, toRun.getPath());
+
+            // Load class instance
+            URLClassLoader classLoader = URLClassLoader.newInstance(new URL[]{compilationDir.toURI().toURL()});
+            Class<?> cls = Class.forName(PREDEFINED_CLASS_NAME, true, classLoader);
+            Object instance = cls.newInstance();
 
 
             // Fetch and invoke this method
@@ -76,10 +80,11 @@ public class CodeFlyJavaEngine {
             System.err.println("Time Limit Exceeded");
         } catch (ExecutionException ex) {
             System.err.println(ex);
+        } catch (ClassNotFoundException ignore) {
+            // Do nothing.
         } catch (Exception ex) {
             CodeFly.logger.severe(ex.getMessage());
         } finally {
-            future.cancel(true);
             executor.shutdownNow();
             // Cancel IO rediection
             System.setOut(stdout);
@@ -120,7 +125,10 @@ public class CodeFlyJavaEngine {
             File outputFile = new File(compilationDir, STDOUT_FILE_NAME);
             String stdOutput = readContent(outputFile);
             File errorFile = new File(compilationDir, STDERR_FILE_NAME);
-            String stdError = readContent(errorFile);
+            String stdError = readContent(errorFile).replaceAll("^.*java:", "");
+            if (!stdError.isEmpty() && stdError.contains("error")) {
+                stdError = "line " + stdError;
+            }
 
             res = new ExecutionResult(retVal, stdOutput, stdError);
 

@@ -81,10 +81,9 @@
         </div>   
     </div>
 
-    <div>
-        <p id="result"></p>
-    </div>
- 
+    <span class="d-block p-2 bg-success text-white" id="result-display"></span>
+    <span class="d-block p-2 bg-dark text-white" id="result"></span>
+
     <script>
         var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
         mode: "text/x-java",       // highlight java code
@@ -112,14 +111,41 @@
         });
     }
     function loadTestResult() {
-        var text = editor.getValue();                        // get code from editor in textarea
+        var text = editor.getValue("\\n");                        // get code from editor in textarea
         $.ajax({
             type:'POST',
             url: '/editor?username=Amy&qnum=1',
             data: text,
             success: function (data) {
                 var obj = JSON.parse(data);                  // parse & display text result (success/failure & number of success/failure)
-                document.getElementById("result").innerHTML = obj.name + ": " + obj.num;
+                //var obj = JSON.parse('{ "isPassed":"false", "testCasesPassed":30, "testCasesTotal": 36, "stdout":"error msg"}');
+                var list = document.getElementById("result-display").classList;
+                if (obj.isPassed == true) {
+                    if (list.contains("bg-danger")) {
+                        list.remove("bg-danger");
+                    }
+                    if (!list.contains("bg-success")) {
+                        list.add("bg-success");
+                    }
+                    document.getElementById("result-display").innerHTML = "Test result: Passed";
+                } else if (obj.isPassed == false) {          // change the background color to red to indicate Failure
+                    if (list.contains("bg-success")) {
+                        list.remove("bg-success");
+                    }
+                    if (!list.contains("bg-danger")) {
+                        list.add("bg-danger");
+                    }
+                    document.getElementById("result-display").innerHTML = "Test result: Fail";
+                }
+                var resultString = "Passed: " + obj.testCasesPassed + " out of " + obj.testCasesTotal + " test cases. ";
+                if (obj.hasOwnProperty("stdout") && obj.stdout != "") {
+                    resultString += "<br>" + obj.stdout;
+                }
+                if (obj.hasOwnProperty("stderr")) {
+                    resultString += "<br>" + obj.stderr;
+                }
+                document.getElementById("result").innerHTML =  resultString;
+                 
             },
             error: function() {
                 console.log('Error: ');
