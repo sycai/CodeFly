@@ -7,6 +7,7 @@ import codeFly.executionEngine.ExecutionResult;
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
 
@@ -20,34 +21,47 @@ public class JavaTestEngine {
     private static final String METHOD_NAME_FIELD = "METHOD_NAME";
 
     // TODO: handle cases where file/dir doesn't exist
-    public static TestResult getTestResult(int qNum, String userName) throws Exception {
-        File codeFile = CodeFly.repo.getUserCode(qNum, userName, "Java");
-        File testFile = CodeFly.repo.getQuestionTest(qNum);
 
-        compiler.run(null, null, null, testFile.getPath());
+    /**
+     * Get the test result with the provided question number and user name. A failed execution will return null
+     * @param qNum
+     * @param userName
+     * @return
+     * @throws IOException
+     */
+    public static TestResult getTestResult(int qNum, String userName) throws IOException {
+        try {
+            File codeFile = CodeFly.repo.getUserCode(qNum, userName, "Java");
+            File testFile = CodeFly.repo.getQuestionTest(qNum);
 
-        URLClassLoader classLoader = URLClassLoader.newInstance(new URL[]{testFile.getParentFile().toURI().toURL()});
-        Class<?> testClass = Class.forName(TEST_CLASS_NAME, true, classLoader);
-        Object instance = testClass.newInstance();
+            // Compile the code
+            compiler.run(null, null, null, testFile.getPath());
 
-        Class<?>[] paramTypes = (Class<?> []) testClass.getDeclaredField(PARAM_TYPE_FIELD).get(instance);
-        Object[][] args = (Object[][]) testClass.getDeclaredField(ARGS_FIELDS).get(instance);
-        Object[] retVals = (Object[]) testClass.getDeclaredField(RETURN_VALUE_FIELDS).get(instance);
-        String methodName = (String) testClass.getDeclaredField(METHOD_NAME_FIELD).get(instance);
-        int testNum = (int) testClass.getDeclaredField(TEST_NUM_FIELD).get(instance);
+            // Testing preparation
+            URLClassLoader classLoader = URLClassLoader.newInstance(new URL[]{testFile.getParentFile().toURI().toURL()});
+            Class<?> testClass = Class.forName(TEST_CLASS_NAME, true, classLoader);
+            Object instance = testClass.newInstance();
+            Class<?>[] paramTypes = (Class<?>[]) testClass.getDeclaredField(PARAM_TYPE_FIELD).get(instance);
+            Object[][] args = (Object[][]) testClass.getDeclaredField(ARGS_FIELDS).get(instance);
+            Object[] retVals = (Object[]) testClass.getDeclaredField(RETURN_VALUE_FIELDS).get(instance);
+            String methodName = (String) testClass.getDeclaredField(METHOD_NAME_FIELD).get(instance);
+            int testNum = (int) testClass.getDeclaredField(TEST_NUM_FIELD).get(instance);
 
-        ExecutionResult res = null;
-        int passCount = 0;
-        for (int i = 0; i < testNum; i++) {
-            res = CodeFlyJavaEngine.getRunningResult(codeFile, methodName, paramTypes,args[i]);
-            if (res.hasReturnValue() && res.getReturnValue().equals(retVals[i])) {
-                passCount++;
-            } else {
-                return new TestResult(passCount, testNum, args[i], res, retVals[i]);
+            // Perform tests
+            ExecutionResult res = null;
+            int passCount = 0;
+            for (int i = 0; i < testNum; i++) {
+                res = CodeFlyJavaEngine.getRunningResult(codeFile, methodName, paramTypes, args[i]);
+                if (res.hasReturnValue() && res.getReturnValue().equals(retVals[i])) {
+                    passCount++;
+                } else {
+                    return new TestResult(passCount, testNum, args[i], res, retVals[i]);
+                }
             }
+            return new TestResult(testNum, testNum, null, res, null);
+        } catch (ReflectiveOperationException ex) {
+            CodeFly.logger.severe(ex.getCause().toString());
+            return null;
         }
-        return new TestResult(testNum, testNum, null, res, null);
-
     }
-
 }

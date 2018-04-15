@@ -78,4 +78,5 @@ public class TestResult {
         ret += " stderr: " + getStdErr() + " ";
         return ret;
     }
+
 }
