@@ -76,16 +76,15 @@
             </div>
         <div class="col-xs-12 col-sm-12"></div>
         <div class="btn-group" style="left: 100px">
-            <button type="button" class="btn btn-outline-secondary">Retrieve</button>
+            <button type="button" class="btn btn-outline-secondary" onclick="retrieveLastSubmition()">Retrieve</button>
             <button type="button" class="btn btn-outline-success" onclick="loadTestResult()">Submit</button>
         </div>   
     </div>
+
+    <div>
+        <p id="result"></p>
+    </div>
  
-
-            
-
-
-
     <script>
         var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
         mode: "text/x-java",       // highlight java code
@@ -100,16 +99,30 @@
     });
     editor.setSize('800px', '400px'); 
     
+    function retrieveLastSubmition() {
+        $.ajax({
+            type:'GET',
+            url: '/retrieve?username=Amy&qnum=1',
+            success: function(data) {
+                editor.setValue(data);                       // display retrieved last modified version in textarea
+            },
+            error: function() {
+                console.log('Error: ');
+            }
+        });
+    }
     function loadTestResult() {
+        var text = editor.getValue();                        // get code from editor in textarea
         $.ajax({
             type:'POST',
             url: '/editor?username=Amy&qnum=1',
-            data: 'heheda\nxixixi',
+            data: text,
             success: function (data) {
-                console.log(data);
+                var obj = JSON.parse(data);                  // parse & display text result (success/failure & number of success/failure)
+                document.getElementById("result").innerHTML = obj.name + ": " + obj.num;
             },
             error: function() {
-                console.log('Error: ' + data);
+                console.log('Error: ');
             }
         });
     }
