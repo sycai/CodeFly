@@ -138,7 +138,7 @@
                     document.getElementById("result-display").innerHTML = "Test result: Fail";
                 }
                 var resultString = "Passed: " + obj.testCasesPassed + " out of " + obj.testCasesTotal + " test cases. ";
-                if (obj.hasOwnProperty("stdout")) {
+                if (obj.hasOwnProperty("stdout") && obj.stdout != "") {
                     resultString += "<br>" + obj.stdout;
                 }
                 if (obj.hasOwnProperty("stderr")) {
