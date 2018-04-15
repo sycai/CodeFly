@@ -47,6 +47,7 @@ public class EditorPageHandler implements HttpHandler{
                 testResultJson.put("testCasesPassed", testResult.getTotalPassedNumber());
                 testResultJson.put("testCasesTotal", testResult.getTotalTestsNumber());
                 testResultJson.put("stdout", testResult.getStdOut());
+                testResultJson.put("stderr", testResult.getStdErr());
 
                 String jsonStr = testResultJson.toString();
 
