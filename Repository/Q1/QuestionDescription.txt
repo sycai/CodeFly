@@ -1,0 +1,1 @@
+Write a function addOne that takes an integer v and return v + 1.

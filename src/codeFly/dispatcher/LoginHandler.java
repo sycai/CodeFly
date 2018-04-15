@@ -10,11 +10,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.nio.file.Files;
-import java.util.HashMap;
-import java.util.ArrayList;
+import java.util.Map;
 
 /**
- * A place holder for module that have not been implemented.
+ * Accept "GET/POST" request for login context, GET for users to access the Login view, POST for users to input user name and password to login
+ * to his own question list view
  */
 public class LoginHandler implements HttpHandler{
     @Override
@@ -25,9 +25,8 @@ public class LoginHandler implements HttpHandler{
     	
     	// GET method
     	if(methodType.equals("GET")) {
-    		  // FIXME: request should provide the question number and server should return the proper question description
             File loginPage = new File(CodeFly.ROOT_DIR + "frontEnd/login.html");
-            // response with a success response
+            // response with a html file of the login view
             exchange.sendResponseHeaders(200, loginPage.length());
             OutputStream os = exchange.getResponseBody();
             Files.copy(loginPage.toPath(), os);
@@ -37,45 +36,64 @@ public class LoginHandler implements HttpHandler{
     	}
     	
     	// POST method
-    	else {
+    	else if(methodType.equals("POST")){
     		//Parse the request
             BufferedReader reader = new BufferedReader(new InputStreamReader(exchange.getRequestBody()));
             String line;
-            ArrayList<String> loginInfo = new ArrayList<String>();
+            String username = ""; 
+            String password = "";
+            // Get username and password from the parse result
             while ((line = reader.readLine()) != null) {
-               String[] tokens = line.split(":");
-               loginInfo.add(tokens[1]);
+            	String[] tokens = line.split("&");
+            	String[] user_tokens = tokens[0].split("=");
+            	String[] pw_tokens = tokens[1].split("=");
+            	if(user_tokens[0].equals("username")) {
+             	   username = user_tokens[1];
+                }
+                if(pw_tokens[0].equals("password")) {
+             	   password = pw_tokens[1];
+                }
             }
-            
-    		//Comparison with user data in file system's database
-            String response ="";
-            HashMap<String, String> loginInDb = CodeFly.fileSys.getLoginInfo();
-            if (loginInDb.containsKey(loginInfo.get(0))) {
-            	//System.out.println("user exist\n");
-            	String key = loginInfo.get(0);
-            	String value = loginInfo.get(1);
-                if(loginInDb.get(key).equals(value)) {
-                	//System.out.println("password correct\n");
-                	response = "Success";
+    		//Comparison with user data in file system's database and send back different web pages based on the comparison result
+            Map<String, String> loginInDb = CodeFly.repo.getLoginInfo();
+            if (loginInDb.containsKey(username)) {
+            	System.out.println("user exist\n");
+                if(loginInDb.get(username).equals(password)) {
+                	//user exists, password correct
+                	System.out.println("password correct\n");
+                	File Sucess_Login_Page = new File(CodeFly.ROOT_DIR + "frontEnd/questions.html");
+                    exchange.sendResponseHeaders(200, Sucess_Login_Page.length());
+                    OutputStream os = exchange.getResponseBody();
+                    Files.copy(Sucess_Login_Page.toPath(), os);
+                    os.close();
+                    CodeFly.logger.info(String.format("Sending %s to client: %S",
+                    		Sucess_Login_Page.getName(), exchange.getRemoteAddress()));
                 }
                 else {
-                	//System.out.println("password incorrect\n");
-                	response = "Fail";
+                	//user exists, password incorrect
+                	System.out.println("password incorrect\n");
+                	File Error_PW_Page = new File(CodeFly.ROOT_DIR + "frontEnd/password_error.html");
+                    exchange.sendResponseHeaders(200, Error_PW_Page.length());
+                    OutputStream os = exchange.getResponseBody();
+                    Files.copy(Error_PW_Page.toPath(), os);
+                    os.close();
+                    CodeFly.logger.info(String.format("Sending %s to client: %S",
+                    		Error_PW_Page.getName(), exchange.getRemoteAddress()));
                 }
                 
             }
             else {
-            	//throw new IOException("User " + loginInfo.get(0) + " does not exist.");
-            	//System.out.println("user does not exist\n");
-            	response = "Fail";
+            	//user not exist
+            	System.out.println("user does not exist\n");
+            	File NonUserPage = new File(CodeFly.ROOT_DIR + "frontEnd/username_error.html");
+                exchange.sendResponseHeaders(200, NonUserPage.length());
+                OutputStream os = exchange.getResponseBody();
+                Files.copy(NonUserPage.toPath(), os);
+                os.close();
+                CodeFly.logger.info(String.format("Sending %s to client: %S",
+                		NonUserPage.getName(), exchange.getRemoteAddress()));
             }
-            
-    		//sendBack response
-    		exchange.sendResponseHeaders(200, response.length());
-            OutputStream os = exchange.getResponseBody();
-            os.write(response.getBytes());
-            os.close();
-            CodeFly.logger.info(String.format("Sending Login result to client: %S",exchange.getRemoteAddress()));
+
     	}
 
     }

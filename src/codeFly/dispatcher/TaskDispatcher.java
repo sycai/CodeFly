@@ -1,6 +1,7 @@
 package codeFly.dispatcher;
 
 import codeFly.CodeFly;
+import codeFly.tester.JavaTestEngine;
 import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;
@@ -50,15 +51,29 @@ public class TaskDispatcher {
                 server.createContext(module, new FrontendModuleHandler());
             }
             server.createContext("/register", new EchoRequestHandler());
-            server.createContext("/login", new EchoRequestHandler());
-            server.createContext("/questions", new EchoRequestHandler());
+            server.createContext("/login", new LoginHandler());
+            server.createContext("/questions", new QuestionsHandler());
             server.createContext("/editor", new EditorPageHandler());
             server.createContext("/retrieve", new EchoRequestHandler());
             // Default executor
             server.setExecutor(null);
             server.start();
+
+            //FIXME: delete this invocation after the testing module is sufficiently tested
+            //testTester();
         } catch (IOException e) {
             CodeFly.logger.info("HTTP listener error: " + e.getMessage());
+        }
+    }
+
+    // FIXME: delete this function after the testing module is sufficiently tested.
+    public void testTester() {
+        try {
+            System.out.println(JavaTestEngine.getTestResult(1, "Bob"));
+            System.out.println(JavaTestEngine.getTestResult(1,"Amy"));
+            System.out.println(JavaTestEngine.getTestResult(2,"Bob"));
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
