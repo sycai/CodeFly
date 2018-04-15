@@ -35,7 +35,6 @@ public class EditorPageHandler implements HttpHandler{
 
                 // Update user code
                 int questionNumber = Integer.parseInt(queryPairs.get("qnum"));
-                // FIXME: For now we have disabled overwriting user code.
                 CodeFly.repo.writeUserCode(questionNumber, userName, code);
 
                 // Test user code
