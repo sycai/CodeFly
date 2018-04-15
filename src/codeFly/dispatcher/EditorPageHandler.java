@@ -8,6 +8,7 @@ import com.sun.net.httpserver.HttpHandler;
 import org.json.JSONObject;
 
 import java.io.*;
+import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.util.Map;
 
@@ -29,13 +30,14 @@ public class EditorPageHandler implements HttpHandler{
             } else if (method.equalsIgnoreCase("POST")) {
                 // Parse request contents
                 Map<String, String> queryPairs = HandlerTools.parseUriQuery(exchange.getRequestURI().getQuery());
-                String code = HandlerTools.fetchRequestBody(exchange);
+                String code = HandlerTools.fetchRequestBody(exchange).replace("\\n", "\n");
                 String userName = queryPairs.get("username");
 
                 // Update user code
                 int questionNumber = Integer.parseInt(queryPairs.get("qnum"));
                 // FIXME: For now we have disabled overwriting user code.
-                //CodeFly.repo.writeUserCode(questionNumber, userName, code);
+                System.out.println(code);
+                CodeFly.repo.writeUserCode(questionNumber, userName, code);
 
                 // Test user code
                 TestResult testResult = JavaTestEngine.getTestResult(questionNumber, userName);

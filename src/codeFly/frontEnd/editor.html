@@ -111,7 +111,7 @@
         });
     }
     function loadTestResult() {
-        var text = editor.getValue();                        // get code from editor in textarea
+        var text = editor.getValue("\\n");                        // get code from editor in textarea
         $.ajax({
             type:'POST',
             url: '/editor?username=Amy&qnum=1',
