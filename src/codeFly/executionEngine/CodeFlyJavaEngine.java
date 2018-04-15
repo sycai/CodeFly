@@ -80,6 +80,8 @@ public class CodeFlyJavaEngine {
             System.err.println("Time Limit Exceeded");
         } catch (ExecutionException ex) {
             System.err.println(ex);
+        } catch (ClassNotFoundException ignore) {
+            // Do nothing.
         } catch (Exception ex) {
             CodeFly.logger.severe(ex.getMessage());
         } finally {
@@ -124,7 +126,7 @@ public class CodeFlyJavaEngine {
             String stdOutput = readContent(outputFile);
             File errorFile = new File(compilationDir, STDERR_FILE_NAME);
             String stdError = readContent(errorFile).replaceAll("^.*java:", "");
-            if (!stdError.isEmpty()) {
+            if (!stdError.isEmpty() && stdError.contains("error")) {
                 stdError = "line " + stdError;
             }
 
