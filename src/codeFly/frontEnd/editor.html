@@ -1,92 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
-   <head>
-      <meta charset="utf-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>Code Editor</title>
-      <!-- Bootstrap -->
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-      <link href="css/mystyles.css" rel="stylesheet">
-      <link href="css/bootstrap-social.css" rel="stylesheet">
-      <!-- Code Mirror-->
-      <link rel="stylesheet" rel="stylesheet" href="css/codemirror.css">
-      <script src="js/codemirror.js"></script>
-      <script src="js/clike.js"></script>
-   </head>
-   <body>
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-         <!-- <nav class="navbar navbar-inverse navbar-fixed-top"> -->
-         <div class="container">
-            <a class="navbar-brand" href="#">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Code Editor</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="css/mystyles.css" rel="stylesheet">
+    <link href="css/bootstrap-social.css" rel="stylesheet">
+
+    <!-- Code Mirror-->
+    <link rel="stylesheet" rel="stylesheet" href="css/codemirror.css">
+    <script src="js/codemirror.js"></script>
+    <script src="js/clike.js"></script>
+
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light ">
+
+        <div class="container">
+        <a class="navbar-brand" href="#">
             <img src="images/brand.jpg" width="120" height="40" class="d-inline-block align-top" alt="">
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-               <ul class="navbar-nav mr-auto">
-                  <li class="nav-item active">
-                     <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                  </li>
-                  <li class="nav-item">
-                     <a class="nav-link" href="#">About</a>
-                  </li>
-               </ul>
-               <form class="form-inline my-2 my-lg-0">
-                  <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-               </form>
-            </div>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <!--<li class="nav-item active">-->
+                <li class="nav-item ">
+                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">About</a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
          </div>
-      </nav>
-      <div class="container top-padding">
-         <div class="row">
-            <div class="col-xs-12 col-sm-12">
+    </nav>
+
+
+<div class="container" >
+    <div class="row">
+            <div class="col-xs-12 col-sm-1">
             </div>
-            <div class="col-xs-12 col-sm-12">
-               <h4>33. Search in Rotated Sorted Array</h4>
+            <div class="col-xs-12 col-sm-12" style="padding-top:20px;">
+                <h4>33. Search in Rotated Sorted Array</h4>
             </div>
-         </div>
-         <div class="row">
-            <div class="col-xs-12 col-sm-12">
-            </div>
-            <div class="col-xs-12 col-sm-12">
-               <p> Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand.
-                  (i.e., 0 1 2 4 5 6 7 might become 4 5 6 7 0 1 2).<br />
-                  You are given a target value to search. If found in the array return its index, otherwise return -1.<br />
-                  You may assume no duplicate exists in the array.
-               </p>
-            </div>
-         </div>
-         <div class="row row-content">
-            <div class="col-xs-12 col-sm-12">
+    </div>  
+    <div class="row">
+        <div class="col-xs-12 col-sm-12">
+        </div>
+        <div class="col-xs-12 col-sm-12" >
+            <p> Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand.
+
+                    (i.e., 0 1 2 4 5 6 7 might become 4 5 6 7 0 1 2).<br />
+                    
+                    You are given a target value to search. If found in the array return its index, otherwise return -1.<br />
+                    
+                    You may assume no duplicate exists in the array.</p>
+        </div>
+    </div>
+    <div class="row row-content">
+            <div class="col-xs-12 col-sm-1">
             </div>
             <div class="col-xs-12 col-sm-12 border">
-               <form>
-                  <textarea id="code" name="code"></textarea>
-               </form>
+                <form>
+                    <textarea id="code" name="code"></textarea>
+                </form>
             </div>
-            <div class="col-xs-12 col-sm-12"></div>
-            <div class="btn-group top-padding">
-               <button type="button" class="btn btn-outline-secondary">Run test</button>
-               <button type="button" class="btn btn-outline-success">Submit</button>
-            </div>
-         </div>
-      </div>
-      <script>
-         var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-         mode: "text/x-java",       // highlight java code
-         styleActiveLine: true,
-         lineNumbers: true,	       // show line number
-         //theme: "dracula",	       // TODO: can change theme
-         lineWrapping: true,	
-         foldGutter: true,
-         gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
-         matchBrackets: true,	
-         //readOnly: true,          // do not know if we need it yet
-         });
-         editor.setSize('800px', '400px');   
-      </script>
-   </body>
+        <div class="col-xs-12 col-sm-12"></div>
+        <div class="btn-group" style="padding-top:20px;">
+            <button type="button" class="btn btn-outline-secondary">Run test</button>
+            <button type="button" class="btn btn-outline-success">Submit</button>
+            <!--<a href="http://localhost:8080/questions"> <button type="button" class="btn btn-outline-secondary">Back</button></a>-->
+            <button onclick="window.location.href=('http://localhost:8080/questions')"type="button" class="btn btn-outline-secondary">Back</button>
+        </div>
+    </div>
+</div>>
+
+            
+
+
+
+    <script>
+        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+        mode: "text/x-java",       // highlight java code
+        styleActiveLine: true,
+        lineNumbers: true,	       // show line number
+        //theme: "dracula",	       // TODO: can change theme
+        lineWrapping: true,
+        foldGutter: true,
+        gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
+        matchBrackets: true,
+        //readOnly: true,          // do not know if we need it yet
+    });
+    editor.setSize('800px', '400px');
+    </script>
+
+
+    </body>
 </html>
