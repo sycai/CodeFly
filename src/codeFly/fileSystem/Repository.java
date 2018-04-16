@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -57,13 +58,26 @@ public class Repository {
         bufferedReader.close();
     }
 
+    public String getQuestionTitle(int qNum) throws IOException {
+        if (qNum < 1 || qNum > latestQuestionNum) throw new IOException("Question" + qNum + "doesn't exist.");
+        String qFolder = getQuestionFolder(qNum);
+        String path = rootDirectory + qFolder + File.separator + "QuestionDescription.txt";
+
+        String title = Files.readAllLines(Paths.get(path)).get(0);
+        return title;
+    }
+
     public String getQuestionDescription(int qNum) throws IOException {
         if (qNum < 1 || qNum > latestQuestionNum) throw new IOException("Question" + qNum + "doesn't exist.");
         String qFolder = getQuestionFolder(qNum);
         String path = rootDirectory + qFolder + File.separator + "QuestionDescription.txt";
 
-        byte[] encoded = Files.readAllBytes(Paths.get(path));
-        return new String(encoded);
+        List<String> file = Files.readAllLines(Paths.get(path));
+        StringBuilder description = new StringBuilder();
+        for (int i = 1; i < file.size(); i++) {
+            description.append(file.get(i));
+        }
+        return description.toString();
     }
     
     public File getQuestionTest(int qNum) throws IOException {
@@ -121,7 +135,7 @@ public class Repository {
         latestQuestionNum++;
         int qNum = latestQuestionNum;
         String path = rootDirectory + getQuestionFolder(qNum) + File.separator;
-        
+
         File file = new File(path);
         file.mkdir();
         
@@ -153,8 +167,9 @@ public class Repository {
             addUserAccount("Bob", "000000");
             addUserAccount("John", "246135");
         }
-        String q1Desc = "Write a function addOne that takes an integer v and return v + 1.";
 
+        String q1Desc = "Add One\n" +
+                "Write a function addOne that takes an integer v and return v + 1.";
         String test1 =
                 "public class Test {\n" +
                 "    public int TEST_CASE_NUM = 5;\n" +
@@ -176,7 +191,8 @@ public class Repository {
                 "}\n" +
                 "\n";
 
-        String q2Desc= "Write a function addOne that takes an integer v and return v + 2.";
+        String q2Desc= "Add Two\n" +
+                "Write a function addTwo that takes an integer v and return v + 2.";
         String test2 =
                 "public class Test {\n" +
                 "    public int TEST_CASE_NUM = 5;\n" +
