@@ -8,7 +8,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -17,6 +19,7 @@ import java.util.Map;
  */
 public class Repository {
     private Map<String, String> loginInfo;
+    private List<String> qList;
     private int latestQuestionNum;
     
     private static final String rootDirectory = "./Repository/";
@@ -38,6 +41,7 @@ public class Repository {
     
     private Repository() throws IOException {
         loginInfo = new HashMap<>();
+        qList = new ArrayList<>();
         latestQuestionNum = 0;
         
         File file = new File(rootDirectory);
@@ -55,6 +59,11 @@ public class Repository {
         }
         
         bufferedReader.close();
+    }
+
+    public String getQuestionList(int qNum) throws IOException {
+        if (qNum < 1 || qNum > latestQuestionNum) throw new IOException("Question" + qNum + "doesn't exist.");
+        return qList.get(qNum - 1);
     }
 
     public String getQuestionDescription(int qNum) throws IOException {
@@ -117,11 +126,12 @@ public class Repository {
         out.close();
     }
     
-    public void addQuestion(String qDescription, String test) throws IOException {
+    public void addQuestion(String qTitle, String qDescription, String test) throws IOException {
+        qList.add(qTitle);
         latestQuestionNum++;
         int qNum = latestQuestionNum;
         String path = rootDirectory + getQuestionFolder(qNum) + File.separator;
-        
+
         File file = new File(path);
         file.mkdir();
         
@@ -153,8 +163,9 @@ public class Repository {
             addUserAccount("Bob", "000000");
             addUserAccount("John", "246135");
         }
-        String q1Desc = "Write a function addOne that takes an integer v and return v + 1.";
 
+        String q1Title = "Add One";
+        String q1Desc = "Write a function addOne that takes an integer v and return v + 1.";
         String test1 =
                 "public class Test {\n" +
                 "    public int TEST_CASE_NUM = 5;\n" +
@@ -176,6 +187,7 @@ public class Repository {
                 "}\n" +
                 "\n";
 
+        String q2Title = "Add Two";
         String q2Desc= "Write a function addOne that takes an integer v and return v + 2.";
         String test2 =
                 "public class Test {\n" +
@@ -200,8 +212,8 @@ public class Repository {
 
 
 
-        addQuestion(q1Desc, test1);
-        addQuestion(q2Desc, test2);
+        addQuestion(q1Title, q1Desc, test1);
+        addQuestion(q2Title, q2Desc, test2);
 
         String q1AmyAns =
                 "public class Solution {\n" +
