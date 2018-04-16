@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +18,6 @@ import java.util.Map;
  */
 public class Repository {
     private Map<String, String> loginInfo;
-    private List<String> qList;
     private int latestQuestionNum;
     
     private static final String rootDirectory = "./Repository/";
@@ -41,7 +39,6 @@ public class Repository {
     
     private Repository() throws IOException {
         loginInfo = new HashMap<>();
-        qList = new ArrayList<>();
         latestQuestionNum = 0;
         
         File file = new File(rootDirectory);
@@ -61,9 +58,13 @@ public class Repository {
         bufferedReader.close();
     }
 
-    public String getQuestionList(int qNum) throws IOException {
+    public String getQuestionTitle(int qNum) throws IOException {
         if (qNum < 1 || qNum > latestQuestionNum) throw new IOException("Question" + qNum + "doesn't exist.");
-        return qList.get(qNum - 1);
+        String qFolder = getQuestionFolder(qNum);
+        String path = rootDirectory + qFolder + File.separator + "QuestionDescription.txt";
+
+        String title = Files.readAllLines(Paths.get(path)).get(0);
+        return title;
     }
 
     public String getQuestionDescription(int qNum) throws IOException {
@@ -71,8 +72,12 @@ public class Repository {
         String qFolder = getQuestionFolder(qNum);
         String path = rootDirectory + qFolder + File.separator + "QuestionDescription.txt";
 
-        byte[] encoded = Files.readAllBytes(Paths.get(path));
-        return new String(encoded);
+        List<String> file = Files.readAllLines(Paths.get(path));
+        StringBuilder description = new StringBuilder();
+        for (int i = 1; i < file.size(); i++) {
+            description.append(file.get(i));
+        }
+        return description.toString();
     }
     
     public File getQuestionTest(int qNum) throws IOException {
@@ -126,8 +131,7 @@ public class Repository {
         out.close();
     }
     
-    public void addQuestion(String qTitle, String qDescription, String test) throws IOException {
-        qList.add(qTitle);
+    public void addQuestion(String qDescription, String test) throws IOException {
         latestQuestionNum++;
         int qNum = latestQuestionNum;
         String path = rootDirectory + getQuestionFolder(qNum) + File.separator;
@@ -164,8 +168,8 @@ public class Repository {
             addUserAccount("John", "246135");
         }
 
-        String q1Title = "Add One";
-        String q1Desc = "Write a function addOne that takes an integer v and return v + 1.";
+        String q1Desc = "Add One\n" +
+                "Write a function addOne that takes an integer v and return v + 1.";
         String test1 =
                 "public class Test {\n" +
                 "    public int TEST_CASE_NUM = 5;\n" +
@@ -187,8 +191,8 @@ public class Repository {
                 "}\n" +
                 "\n";
 
-        String q2Title = "Add Two";
-        String q2Desc= "Write a function addOne that takes an integer v and return v + 2.";
+        String q2Desc= "Add Two\n" +
+                "Write a function addTwo that takes an integer v and return v + 2.";
         String test2 =
                 "public class Test {\n" +
                 "    public int TEST_CASE_NUM = 5;\n" +
@@ -212,8 +216,8 @@ public class Repository {
 
 
 
-        addQuestion(q1Title, q1Desc, test1);
-        addQuestion(q2Title, q2Desc, test2);
+        addQuestion(q1Desc, test1);
+        addQuestion(q2Desc, test2);
 
         String q1AmyAns =
                 "public class Solution {\n" +
