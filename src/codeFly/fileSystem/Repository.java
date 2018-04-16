@@ -19,7 +19,9 @@ import java.util.Map;
 public class Repository {
     private Map<String, String> loginInfo;
     private int latestQuestionNum;
-    
+    //number of question
+    private int questionNum;
+
     private static final String rootDirectory = "./Repository/";
     private static final String loginInfoPath = rootDirectory + "LoginInfo.txt";
 
@@ -36,17 +38,21 @@ public class Repository {
         }
         return obj;
     }
-    
+    //get questionNum
+    public int getQuestionNum(){
+        return questionNum;
+    }
     private Repository() throws IOException {
         loginInfo = new HashMap<>();
         latestQuestionNum = 0;
-        
+        questionNum = 0;
+
         File file = new File(rootDirectory);
         if (!file.exists()) file.mkdir();
-        
+
         file = new File(loginInfoPath);
         if (!file.exists()) file.createNewFile();
-        
+
         FileReader fileReader = new FileReader(file);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
         String username = null;
@@ -54,7 +60,7 @@ public class Repository {
             String pwd = bufferedReader.readLine();
             loginInfo.put(username, pwd);
         }
-        
+
         bufferedReader.close();
     }
 
@@ -79,7 +85,7 @@ public class Repository {
         }
         return description.toString();
     }
-    
+
     public File getQuestionTest(int qNum) throws IOException {
         if (qNum < 1 || qNum > latestQuestionNum) throw new IOException("Question" + qNum + "doesn't exist.");
         String qFolder = getQuestionFolder(qNum);
@@ -88,7 +94,7 @@ public class Repository {
 
         return f.getCanonicalFile();
     }
-    
+
     public File getUserCode(int qNum, String userName, String language) throws IOException {
         if (qNum < 1 || qNum > latestQuestionNum) throw new IOException("Question" + qNum + "doesn't exist.");
         String qFolder = getQuestionFolder(qNum);
@@ -97,24 +103,24 @@ public class Repository {
 
         return f.getCanonicalFile();
     }
-    
+
     public Map<String, String> getLoginInfo() {
         return loginInfo;
     }
-    
+
 
     public void writeUserCode(int qNum, String userName, String content) throws IOException {
         String path = rootDirectory + getQuestionFolder(qNum) + File.separator
-        + userName + File.separator + "Solution.java";
+                + userName + File.separator + "Solution.java";
         File file = new File(path);
-        
+
         file.getParentFile().mkdirs();
         file.createNewFile();
         PrintWriter out = new PrintWriter(path);
         out.println(content);
         out.close();
     }
-    
+
     public void addUserAccount(String userName, String pwd) throws IOException {
         if (loginInfo.containsKey(userName)) {
             throw new IOException("username " + userName + " already exists.");
@@ -122,23 +128,24 @@ public class Repository {
         if (pwd == "" || pwd.length() == 0) {
             throw new IOException("password " + pwd + " is invalid.");
         }
-        
+
         loginInfo.put(userName, pwd);
-        
+
         File file = new File(loginInfoPath);
         PrintWriter out = new PrintWriter(new FileWriter(file, true));
         out.append(userName + "\n" + pwd + "\n");
         out.close();
     }
-    
+
     public void addQuestion(String qDescription, String test) throws IOException {
         latestQuestionNum++;
+        questionNum++;
         int qNum = latestQuestionNum;
         String path = rootDirectory + getQuestionFolder(qNum) + File.separator;
 
         File file = new File(path);
         file.mkdir();
-        
+
         PrintWriter out;
         String descripPath = path + File.separator + "QuestionDescription.txt";
         File qDescrip = new File(descripPath);
@@ -146,7 +153,7 @@ public class Repository {
         out = new PrintWriter(descripPath);
         out.println(qDescription);
         out.close();
-        
+
         String testPath = path + File.separator + "Test.java";
         File qTest = new File(testPath);
         qTest.createNewFile();
@@ -154,7 +161,7 @@ public class Repository {
         out.println(test);
         out.close();
     }
-    
+
 
     private String getQuestionFolder(int qNum) {
         return "Q" + String.valueOf(qNum);
