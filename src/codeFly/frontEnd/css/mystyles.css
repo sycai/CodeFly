@@ -3,11 +3,11 @@ body{
     z-index:0;
 }
 
-.navbar-inverse {
+/*.navbar-inverse {
      background: rgb(235, 115, 16);
-}
+}*/
 
-.navbar-inverse .navbar-nav > .active > a,
+/*.navbar-inverse .navbar-nav > .active > a,
 .navbar-inverse .navbar-nav > .active > a:hover,
 .navbar-inverse .navbar-nav > .active > a:focus {
     color: #fff;
@@ -29,7 +29,7 @@ body{
 
 .navbar-inverse .navbar-nav .open .dropdown-menu> li> a:hover {
     color:#000000;
-}
+}*/
 
 
 .row-header{
@@ -61,4 +61,12 @@ address{
     font-size:80%;
     margin:0px;
     color:#0f0f0f;
+}
+
+.top-padding {
+	padding-top: 20px;
+}
+
+.orange {
+	background-color: rgb(209, 87, 81);
 }
