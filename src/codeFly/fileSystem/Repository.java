@@ -19,8 +19,6 @@ import java.util.Map;
 public class Repository {
     private Map<String, String> loginInfo;
     private int latestQuestionNum;
-    //number of question
-    private int questionNum;
 
     private static final String rootDirectory = "./Repository/";
     private static final String loginInfoPath = rootDirectory + "LoginInfo.txt";
@@ -40,20 +38,26 @@ public class Repository {
     }
     //get questionNum
     public int getQuestionNum(){
-        return questionNum;
+        return latestQuestionNum;
     }
     private Repository() throws IOException {
         loginInfo = new HashMap<>();
         latestQuestionNum = 0;
-        questionNum = 0;
 
-        File file = new File(rootDirectory);
-        if (!file.exists()) file.mkdir();
 
-        file = new File(loginInfoPath);
-        if (!file.exists()) file.createNewFile();
+        File rootDir = new File(rootDirectory);
+        if (!rootDir.exists()) rootDir.mkdir();
 
-        FileReader fileReader = new FileReader(file);
+        for (File qFile : rootDir.listFiles()) {
+            if (qFile.getName().matches("^Q\\d+")) {
+                latestQuestionNum++;
+            }
+        }
+
+        File logInFile = new File(loginInfoPath);
+        if (!logInFile.exists()) logInFile.createNewFile();
+
+        FileReader fileReader = new FileReader(logInFile);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
         String username = null;
         while((username = bufferedReader.readLine()) != null) {
@@ -139,7 +143,6 @@ public class Repository {
 
     public void addQuestion(String qDescription, String test) throws IOException {
         latestQuestionNum++;
-        questionNum++;
         int qNum = latestQuestionNum;
         String path = rootDirectory + getQuestionFolder(qNum) + File.separator;
 
@@ -168,11 +171,21 @@ public class Repository {
     }
 
 
+    /**
+     * Will only do its work when the repo has no questions!
+     * @throws IOException
+     */
     public void setUpExample() throws IOException {
         if (loginInfo.isEmpty()) {
             addUserAccount("Amy", "123456");
             addUserAccount("Bob", "000000");
             addUserAccount("John", "246135");
+        }
+
+        if (new File(rootDirectory, "Q1").exists()) {
+            // There's already something in the repo
+            // Don't set up examples
+            return;
         }
 
         String q1Desc = "Add One\n" +
