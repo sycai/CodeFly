@@ -81,6 +81,7 @@
     <script>
         var loc = document.location;
         var URL = loc.pathname + loc.search + "&dscrpajax=1";
+        var number = loc.search.split("=")[1];
 
         $(document).ready(function() {
             $.ajax({
@@ -114,7 +115,7 @@
     function retrieveLastSubmition() {
         $.ajax({
             type:'GET',
-            url: '/retrieve?username=Amy&qnum=1',
+            url: '/retrieve?username=Amy&qnum=' + number,
             success: function(data) {
                 editor.setValue(data);                       // display retrieved last modified version in textarea
             },
@@ -127,7 +128,7 @@
         var text = editor.getValue("\\n");                        // get code from editor in textarea
         $.ajax({
             type:'POST',
-            url: '/editor?username=Amy&qnum=1',
+            url: '/editor?username=Amy&qnum=' + number,
             data: text,
             success: function (data) {
                 var obj = JSON.parse(data);                  // parse & display text result (success/failure & number of success/failure)
