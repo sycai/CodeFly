@@ -50,7 +50,7 @@
             <div class="col-xs-12 col-sm-1">
             </div>
             <div class="col-xs-12 col-sm-8">
-                <h4>33. Search in Rotated Sorted Array</h4>
+                <h4>33. Search in Rotated Sorted Array</h4>  <!-- TODO: to be deleted -->
             </div>
     </div>  
     <div class="row">
@@ -90,7 +90,7 @@
         if (URL.lastIndexOf("?")!= -1) {                                          // TODO: iterate if query params more than 1
             queryString = URL.substring(URL.lastIndexOf("?") + 1, URL.length);    // extract query string
         }
-        URL = "/editor?" + queryString;
+        URL = "/editor?" + queryString + "&dscrpajax=1";
 
         $(document).ready(function() {
             $.ajax({
