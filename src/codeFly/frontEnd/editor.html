@@ -85,19 +85,17 @@
     <span class="d-block p-2 bg-dark text-white" id="result"></span>
 
     <script>
-        var URL = document.location.toString();
-        var queryString;
-        if (URL.lastIndexOf("?")!= -1) {                                          // TODO: iterate if query params more than 1
-            queryString = URL.substring(URL.lastIndexOf("?") + 1, URL.length);    // extract query string
-        }
-        URL = "/editor?" + queryString + "&dscrpajax=1";
+        var loc = document.location;
+        var URL = loc.pathname + loc.search + "&dscrpajax=1";
 
         $(document).ready(function() {
             $.ajax({
             type:'GET',
             url: URL,
             success: function(data) {
-                document.getElementById("description").innerHTML = data;          // TODO: data to be parsed                 
+                var obj = JSON.parse(data);
+                console.log(obj);
+                document.getElementById("description").innerHTML = obj.qdescription;          // TODO: data to be parsed
             },
             error: function() {
                 console.log('Error: ');

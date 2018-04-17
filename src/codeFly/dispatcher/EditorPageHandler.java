@@ -25,10 +25,16 @@ public class EditorPageHandler implements HttpHandler{
                     int qNum = Integer.parseInt(queryPairs.get("qnum"));
                     // Fetch description from file system
                     String qDesc = CodeFly.repo.getQuestionDescription(qNum);
+                    String qTitle = CodeFly.repo.getQuestionTitle(qNum);
+                    JSONObject qJson = new JSONObject();
+                    qJson.put("qnum", qNum);
+                    qJson.put("qdescription", qDesc);
+                    qJson.put("qtitle", qTitle);
+
                     // Send back
-                    exchange.sendResponseHeaders(200, qDesc.length());
+                    exchange.sendResponseHeaders(200, qJson.toString().length());
                     OutputStream os = exchange.getResponseBody();
-                    os.write(qDesc.getBytes());
+                    os.write(qJson.toString().getBytes());
                     os.close();
                     CodeFly.logger.info(String.format("Sending question description to client: %S",
                             exchange.getRemoteAddress()));
