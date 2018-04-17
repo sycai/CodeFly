@@ -13,6 +13,10 @@
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="questions.css">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
     <!-- Do not use this local file at this moment
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/bootstrap-theme.min.css" rel="stylesheet">
@@ -22,119 +26,96 @@
 
 
 <body>
-    <!-- navigation bar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <!-- <a class="navbar-brand" href="#">Navbar</a> -->
-        <!-- navbar with image and brand name -->
-        <a class="navbar-brand" href="#">
-            <img src="images/brand.jpg" width="80" height="40" class="d-inline-block align-top" alt="">
-            CodeFly
-        </a>
+<!-- navigation bar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <!-- <a class="navbar-brand" href="#">Navbar</a> -->
+    <!-- navbar with image and brand name -->
+    <a class="navbar-brand" href="#">
+        <img src="images/brand.jpg" width="80" height="40" class="d-inline-block align-top" alt="">
+        CodeFly
+    </a>
 
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="Home.html">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item" active>
-                    <a class="nav-link" href="about.html">About us</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav navbar-right navbar-light">
-                <li class="nav-item" active>
-                    <a class="nav-link" href="#">USER <i class="fas fa-user-secret"></i>  </a>
-                </li>
-            </ul>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item" active>
+                <a class="nav-link" href="/about">About us</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav navbar-right navbar-light">
+            <li class="nav-item" active>
+                <a class="nav-link" href="#">USER <i class="fas fa-user-secret"></i>  </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row row-content">
+        <div class="col-md-9 order-md-1">
+            <p style="padding:30px;"></p>
+            <h1><span class="badge badge-secondary">Question List <i class="fas fa-code"></i>  <i class="fas fa-keyboard"></i> </span></h1>
         </div>
-    </nav>
-
-
-
-    <div class="container">
-        <div class="row row-content">
-            <div class="col-md-9 order-md-1">
-                <p style="padding:30px;"></p>
-                <h1><span class="badge badge-secondary">Question List  <i class="fas fa-code"></i>  <i class="fas fa-keyboard"></i> </span></h1>
-            </div>
     </div>
 
- 
-    <p style="padding:15px;"></p>
-    <table class="table table-striped table-light table-hover">
-        <thead>
-            <tr>
-               <th colspan="2">#</th>
-               <th scope="col">Title</th>
-               <th colspan="1">Challenge</th>
-            </tr>
-        </thead>
-        <tbody>
-        
-            <tr>
-               <th scope="row">1</th>
-               <td> </td>
-               <td>Employees Earning More Than Their Managers</td>
-               <!-- add .js key/value -->
-               <td><button type="button" class="btn btn-warning">Start</button></td>
-            </tr>
-            <tr>
-               <th scope="row">2</th>
-               <td> </td>
-               <td>Duplicate Emails </td>
-               <td><button type="button" class="btn btn-warning">Start</button></td>
-            </tr>
-            <tr>
-               <th scope="row">3</th>
-               <td> </td>
-               <td>Customers Who Never Order</td>
 
-               <td><button type="button" class="btn btn-warning">Start</button></td>
-            </tr>
-            <tr>
-               <th scope="row">4</th>
-               <td> </td>
-               <td>Department Highest Salary</td>
-               <td><button type="button" class="btn btn-warning">Start</button></td>
-            </tr>
-            <tr>
-               <th scope="row">5</th>
-               <td> </td>
-               <td>Rotate Array</td>
-               <td><button type="button" class="btn btn-warning">Start</button></td>
-            </tr>
-            <tr>
-               <th scope="row">6</th>
-               <td> </td>
-               <td>Best Time to Buy and Sell Stock IV</td>
-               <td><button type="button" class="btn btn-warning">Start</button></td>
-            </tr>
-        </tbody>
+    <p style="padding:15px;"></p>
+
+    <p id="show"></p>
+
+    <!--script type="text/javascript">
+      $("#allquestion").html("123");
+    </script-->
+
+    <!--button type="button" class="btn btn-outline-secondary" onclick="sendRequest()">Get Questions</button-->
+
+    <p style="padding:10px;"></p>
+
+    <table id="quesTable" class="table table-light table-striped table-hover">
+        <thead>
+        <tr>
+            <th scope="col"> </th>
+            <th scope="col">#</th>
+            <th scope="col">Title</th>
+            <!--th scope="col">Challenge</th-->
+        </tr>
+        </thead>
+
+        <tbody id="tablebody" name="tablebody">
+        <tr id="row1">
+            <td></td>
+            <td id="number1"></td>
+            <td id="ques1"><a></a></td>
+        </tr>
+
     </table>
 
 
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-end">
-          <li class="page-item disabled">
-            <a class="page-link" href="#" tabindex="-1"><</a>
-          </li>
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item">
-            <a class="page-link" href="#">></a>
-          </li>
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1"><</a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#">></a>
+            </li>
         </ul>
     </nav>
-
+</div>
 
     <footer>
         <div class="container">
-            <div class="row">         
-                <div class="col-xs-12 col-sm-4">
+            <div class="row">
+                <div class="col-xs-12 col-sm-5">
                 </div>
                 <div class="col-xs-5">
                     <p style="padding:10px;"></p>
@@ -143,6 +124,37 @@
             </div>
         </div>
     </footer>
+
+    <!--script type="text/javascript" src="http://localhost:8080/js/questions.js"></script-->
+
+    <script>
+        $(document).ready(function(){
+            $.ajax({
+                type: 'GET',
+                url: '/questions?askforQues',
+                success: function (data) {
+                    //process the data
+                    var obj = JSON.parse(data);
+
+                    //add data to table
+                    var tbody=$('<tbody></tbody>');
+                    var qList = obj.questionlist;
+                    for(var i = 0; i < qList.length; i++) {
+                        var tr = $('<tr></tr>');
+                        tr.append('<td>' + '</td>');
+                        tr.append('<td>' + qList[i].qNum + '</td>'); 
+                        tr.append(`<td><a href="/editor?qnum=${qList[i].qNum}" target="_blank" id="ques1">${qList[i].title}</a></td>`);
+                        tbody.append(tr);
+                    }
+                    $('#quesTable tbody').replaceWith(tbody);
+                },
+                error: function () {
+                    console.log('Error: ');
+                }
+            });
+
+       });
+    </script>
 
 </body>
 
