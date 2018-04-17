@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -18,7 +19,7 @@ import java.util.Map;
 public class Repository {
     private Map<String, String> loginInfo;
     private int latestQuestionNum;
-    
+
     private static final String rootDirectory = "./Repository/";
     private static final String loginInfoPath = rootDirectory + "LoginInfo.txt";
 
@@ -35,26 +36,45 @@ public class Repository {
         }
         return obj;
     }
-    
+    //get questionNum
+    public int getQuestionNum(){
+        return latestQuestionNum;
+    }
     private Repository() throws IOException {
         loginInfo = new HashMap<>();
         latestQuestionNum = 0;
-        
-        File file = new File(rootDirectory);
-        if (!file.exists()) file.mkdir();
-        
-        file = new File(loginInfoPath);
-        if (!file.exists()) file.createNewFile();
-        
-        FileReader fileReader = new FileReader(file);
+
+
+        File rootDir = new File(rootDirectory);
+        if (!rootDir.exists()) rootDir.mkdir();
+
+        for (File qFile : rootDir.listFiles()) {
+            if (qFile.getName().matches("^Q\\d+")) {
+                latestQuestionNum++;
+            }
+        }
+
+        File logInFile = new File(loginInfoPath);
+        if (!logInFile.exists()) logInFile.createNewFile();
+
+        FileReader fileReader = new FileReader(logInFile);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
         String username = null;
         while((username = bufferedReader.readLine()) != null) {
             String pwd = bufferedReader.readLine();
             loginInfo.put(username, pwd);
         }
-        
+
         bufferedReader.close();
+    }
+
+    public String getQuestionTitle(int qNum) throws IOException {
+        if (qNum < 1 || qNum > latestQuestionNum) throw new IOException("Question" + qNum + "doesn't exist.");
+        String qFolder = getQuestionFolder(qNum);
+        String path = rootDirectory + qFolder + File.separator + "QuestionDescription.txt";
+
+        String title = Files.readAllLines(Paths.get(path)).get(0);
+        return title;
     }
 
     public String getQuestionDescription(int qNum) throws IOException {
@@ -62,10 +82,14 @@ public class Repository {
         String qFolder = getQuestionFolder(qNum);
         String path = rootDirectory + qFolder + File.separator + "QuestionDescription.txt";
 
-        byte[] encoded = Files.readAllBytes(Paths.get(path));
-        return new String(encoded);
+        List<String> file = Files.readAllLines(Paths.get(path));
+        StringBuilder description = new StringBuilder();
+        for (int i = 1; i < file.size(); i++) {
+            description.append(file.get(i));
+        }
+        return description.toString();
     }
-    
+
     public File getQuestionTest(int qNum) throws IOException {
         if (qNum < 1 || qNum > latestQuestionNum) throw new IOException("Question" + qNum + "doesn't exist.");
         String qFolder = getQuestionFolder(qNum);
@@ -74,7 +98,7 @@ public class Repository {
 
         return f.getCanonicalFile();
     }
-    
+
     public File getUserCode(int qNum, String userName, String language) throws IOException {
         if (qNum < 1 || qNum > latestQuestionNum) throw new IOException("Question" + qNum + "doesn't exist.");
         String qFolder = getQuestionFolder(qNum);
@@ -83,24 +107,24 @@ public class Repository {
 
         return f.getCanonicalFile();
     }
-    
+
     public Map<String, String> getLoginInfo() {
         return loginInfo;
     }
-    
+
 
     public void writeUserCode(int qNum, String userName, String content) throws IOException {
         String path = rootDirectory + getQuestionFolder(qNum) + File.separator
-        + userName + File.separator + "Solution.java";
+                + userName + File.separator + "Solution.java";
         File file = new File(path);
-        
+
         file.getParentFile().mkdirs();
         file.createNewFile();
         PrintWriter out = new PrintWriter(path);
         out.println(content);
         out.close();
     }
-    
+
     public void addUserAccount(String userName, String pwd) throws IOException {
         if (loginInfo.containsKey(userName)) {
             throw new IOException("username " + userName + " already exists.");
@@ -108,23 +132,23 @@ public class Repository {
         if (pwd == "" || pwd.length() == 0) {
             throw new IOException("password " + pwd + " is invalid.");
         }
-        
+
         loginInfo.put(userName, pwd);
-        
+
         File file = new File(loginInfoPath);
         PrintWriter out = new PrintWriter(new FileWriter(file, true));
         out.append(userName + "\n" + pwd + "\n");
         out.close();
     }
-    
+
     public void addQuestion(String qDescription, String test) throws IOException {
         latestQuestionNum++;
         int qNum = latestQuestionNum;
         String path = rootDirectory + getQuestionFolder(qNum) + File.separator;
-        
+
         File file = new File(path);
         file.mkdir();
-        
+
         PrintWriter out;
         String descripPath = path + File.separator + "QuestionDescription.txt";
         File qDescrip = new File(descripPath);
@@ -132,7 +156,7 @@ public class Repository {
         out = new PrintWriter(descripPath);
         out.println(qDescription);
         out.close();
-        
+
         String testPath = path + File.separator + "Test.java";
         File qTest = new File(testPath);
         qTest.createNewFile();
@@ -140,21 +164,32 @@ public class Repository {
         out.println(test);
         out.close();
     }
-    
+
 
     private String getQuestionFolder(int qNum) {
         return "Q" + String.valueOf(qNum);
     }
 
 
+    /**
+     * Will only do its work when the repo has no questions!
+     * @throws IOException
+     */
     public void setUpExample() throws IOException {
         if (loginInfo.isEmpty()) {
             addUserAccount("Amy", "123456");
             addUserAccount("Bob", "000000");
             addUserAccount("John", "246135");
         }
-        String q1Desc = "Write a function addOne that takes an integer v and return v + 1.";
 
+        if (new File(rootDirectory, "Q1").exists()) {
+            // There's already something in the repo
+            // Don't set up examples
+            return;
+        }
+
+        String q1Desc = "Add One\n" +
+                "Write a function addOne that takes an integer v and return v + 1.";
         String test1 =
                 "public class Test {\n" +
                 "    public int TEST_CASE_NUM = 5;\n" +
@@ -176,7 +211,8 @@ public class Repository {
                 "}\n" +
                 "\n";
 
-        String q2Desc= "Write a function addOne that takes an integer v and return v + 2.";
+        String q2Desc= "Add Two\n" +
+                "Write a function addTwo that takes an integer v and return v + 2.";
         String test2 =
                 "public class Test {\n" +
                 "    public int TEST_CASE_NUM = 5;\n" +
