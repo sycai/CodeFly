@@ -38,19 +38,13 @@ public class QuestionsHandler implements HttpHandler{
                         questionListPage.getName(), exchange.getRemoteAddress()));
             } else {
                 //create a HashMap to store the qnum and questionDescription
-                //HashMap<Integer, String> questionList = new HashMap<>();
                 int questionNum = CodeFly.repo.getQuestionNum();
-                // for (int i = 1; i <= questionNum; i++) {
-                //questionList.put(i, CodeFly.repo.getQuestionDescription(i));
-                //}
-                //convert HashMap to JSONObject
-                //JSONObject jsonObj = new JSONObject(questionList);
                 JSONObject jsonObj = new JSONObject();
                 JSONArray jsonAry = new JSONArray();
                 for(int i=1;i<=questionNum;i++){
                     JSONObject jo=new JSONObject();
                     jo.put("qNum", i);
-                    jo.put("title",CodeFly.repo.getQuestionDescription(i));
+                    jo.put("title",CodeFly.repo.getQuestionTitle(i));
                     jsonAry.put(i-1,jo);
                 }
                 jsonObj.put("questionlist",jsonAry);
@@ -58,7 +52,7 @@ public class QuestionsHandler implements HttpHandler{
                 String jsonStr = jsonObj.toString();
 
 
-                // response with a success response
+                // response with success
                 exchange.sendResponseHeaders(200, jsonStr.length());
                 exchange.getResponseBody().write(jsonStr.getBytes());
                 exchange.close();
