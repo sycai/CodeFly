@@ -84,9 +84,11 @@ public class Repository {
 
         List<String> file = Files.readAllLines(Paths.get(path));
         StringBuilder description = new StringBuilder();
-        for (int i = 1; i < file.size(); i++) {
-            description.append(file.get(i));
+        for (int i = 1; i < file.size() - 1; i++) {
+            description.append(file.get(i)).append("\n");
         }
+        description.append(file.get(file.size() - 1));
+
         return description.toString();
     }
 
