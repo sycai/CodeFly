@@ -12,9 +12,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 /**
- * Repository management module responsible for writing and reading files of
- * source code, information, tests etc.
+ * Repository management module responsible for writing and reading files of source code, information, tests etc.
  */
 public class Repository {
     private Map<String, String> loginInfo;
@@ -27,7 +27,6 @@ public class Repository {
 
     /**
      * Factory method for singleton Repository class
-     * 
      * @return
      * @throws IOException
      */
@@ -37,19 +36,17 @@ public class Repository {
         }
         return obj;
     }
-
-    // get questionNum
-    public int getQuestionNum() {
+    //get questionNum
+    public int getQuestionNum(){
         return latestQuestionNum;
     }
-
     private Repository() throws IOException {
         loginInfo = new HashMap<>();
         latestQuestionNum = 0;
 
+
         File rootDir = new File(rootDirectory);
-        if (!rootDir.exists())
-            rootDir.mkdir();
+        if (!rootDir.exists()) rootDir.mkdir();
 
         for (File qFile : rootDir.listFiles()) {
             if (qFile.getName().matches("^Q\\d+")) {
@@ -58,24 +55,21 @@ public class Repository {
         }
 
         File logInFile = new File(loginInfoPath);
-        if (!logInFile.exists())
-            logInFile.createNewFile();
+        if (!logInFile.exists()) logInFile.createNewFile();
 
         FileReader fileReader = new FileReader(logInFile);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
         String username = null;
-        while ((username = bufferedReader.readLine()) != null) {
+        while((username = bufferedReader.readLine()) != null) {
             String pwd = bufferedReader.readLine();
             loginInfo.put(username, pwd);
         }
 
         bufferedReader.close();
-        setUpExample();
     }
 
     public String getQuestionTitle(int qNum) throws IOException {
-        if (qNum < 1 || qNum > latestQuestionNum)
-            throw new IOException("Question" + qNum + "doesn't exist.");
+        if (qNum < 1 || qNum > latestQuestionNum) throw new IOException("Question" + qNum + "doesn't exist.");
         String qFolder = getQuestionFolder(qNum);
         String path = rootDirectory + qFolder + File.separator + "QuestionDescription.txt";
 
@@ -84,8 +78,7 @@ public class Repository {
     }
 
     public String getQuestionDescription(int qNum) throws IOException {
-        if (qNum < 1 || qNum > latestQuestionNum)
-            throw new IOException("Question" + qNum + "doesn't exist.");
+        if (qNum < 1 || qNum > latestQuestionNum) throw new IOException("Question" + qNum + "doesn't exist.");
         String qFolder = getQuestionFolder(qNum);
         String path = rootDirectory + qFolder + File.separator + "QuestionDescription.txt";
 
@@ -98,8 +91,7 @@ public class Repository {
     }
 
     public File getQuestionTest(int qNum) throws IOException {
-        if (qNum < 1 || qNum > latestQuestionNum)
-            throw new IOException("Question" + qNum + "doesn't exist.");
+        if (qNum < 1 || qNum > latestQuestionNum) throw new IOException("Question" + qNum + "doesn't exist.");
         String qFolder = getQuestionFolder(qNum);
         String path = rootDirectory + qFolder + File.separator + "Test.java";
         File f = new File(path);
@@ -108,11 +100,9 @@ public class Repository {
     }
 
     public File getUserCode(int qNum, String userName, String language) throws IOException {
-        if (qNum < 1 || qNum > latestQuestionNum)
-            throw new IOException("Question" + qNum + "doesn't exist.");
+        if (qNum < 1 || qNum > latestQuestionNum) throw new IOException("Question" + qNum + "doesn't exist.");
         String qFolder = getQuestionFolder(qNum);
-        String path = rootDirectory + qFolder + File.separator + userName + File.separator + "Solution."
-                + language.toLowerCase();
+        String path = rootDirectory + qFolder + File.separator + userName + File.separator + "Solution." + language.toLowerCase();
         File f = new File(path);
 
         return f.getCanonicalFile();
@@ -122,9 +112,10 @@ public class Repository {
         return loginInfo;
     }
 
+
     public void writeUserCode(int qNum, String userName, String content) throws IOException {
-        String path = rootDirectory + getQuestionFolder(qNum) + File.separator + userName + File.separator
-                + "Solution.java";
+        String path = rootDirectory + getQuestionFolder(qNum) + File.separator
+                + userName + File.separator + "Solution.java";
         File file = new File(path);
 
         file.getParentFile().mkdirs();
@@ -174,13 +165,14 @@ public class Repository {
         out.close();
     }
 
+
     private String getQuestionFolder(int qNum) {
         return "Q" + String.valueOf(qNum);
     }
 
+
     /**
      * Will only do its work when the repo has no questions!
-     * 
      * @throws IOException
      */
     public void setUpExample() throws IOException {
@@ -196,39 +188,82 @@ public class Repository {
             return;
         }
 
-        String q1Desc = "Add One\n" + "Write a function addOne that takes an integer v and return v + 1.";
-        String test1 = "public class Test {\n" + "    public int TEST_CASE_NUM = 5;\n"
-                + "    public String METHOD_NAME = \"addOne\";\n" + "    public Class<?>[] parameterTypes;\n"
-                + "    public Object[][] args;\n" + "    public Object[] retVals;\n" + "\n" + "    public Test() {\n"
-                + "        parameterTypes = new Class<?>[] {int.class};\n"
-                + "        args = new Object[TEST_CASE_NUM][parameterTypes.length];\n"
-                + "        retVals = new Object[TEST_CASE_NUM];\n" + "\n"
-                + "        for (int i = 0; i < TEST_CASE_NUM; i++) {\n" + "            args[i] = new Object[] {i};\n"
-                + "            retVals[i] = i+1;\n" + "        }\n" + "    }\n" + "}\n" + "\n";
+        String q1Desc = "Add One\n" +
+                "Write a function addOne that takes an integer v and return v + 1.";
+        String test1 =
+                "public class Test {\n" +
+                "    public int TEST_CASE_NUM = 5;\n" +
+                "    public String METHOD_NAME = \"addOne\";\n" +
+                "    public Class<?>[] parameterTypes;\n" +
+                "    public Object[][] args;\n" +
+                "    public Object[] retVals;\n" +
+                "\n" +
+                "    public Test() {\n" +
+                "        parameterTypes = new Class<?>[] {int.class};\n" +
+                "        args = new Object[TEST_CASE_NUM][parameterTypes.length];\n" +
+                "        retVals = new Object[TEST_CASE_NUM];\n" +
+                "\n" +
+                "        for (int i = 0; i < TEST_CASE_NUM; i++) {\n" +
+                "            args[i] = new Object[] {i};\n" +
+                "            retVals[i] = i+1;\n" +
+                "        }\n" +
+                "    }\n" +
+                "}\n" +
+                "\n";
 
-        String q2Desc = "Add Two\n" + "Write a function addTwo that takes an integer v and return v + 2.";
-        String test2 = "public class Test {\n" + "    public int TEST_CASE_NUM = 5;\n"
-                + "    public String METHOD_NAME = \"addOne\";\n" + "    public Class<?>[] parameterTypes;\n"
-                + "    public Object[][] args;\n" + "    public Object[] retVals;\n" + "\n" + "    public Test() {\n"
-                + "        parameterTypes = new Class<?>[] {int.class};\n"
-                + "        args = new Object[TEST_CASE_NUM][parameterTypes.length];\n"
-                + "        retVals = new Object[TEST_CASE_NUM];\n" + "\n"
-                + "        for (int i = 0; i < TEST_CASE_NUM; i++) {\n" + "            args[i] = new Object[] {i};\n"
-                + "            retVals[i] = i+2;\n" + "        }\n" + "    }\n" + "}\n" + "\n";
+        String q2Desc= "Add Two\n" +
+                "Write a function addTwo that takes an integer v and return v + 2.";
+        String test2 =
+                "public class Test {\n" +
+                "    public int TEST_CASE_NUM = 5;\n" +
+                "    public String METHOD_NAME = \"addOne\";\n" +
+                "    public Class<?>[] parameterTypes;\n" +
+                "    public Object[][] args;\n" +
+                "    public Object[] retVals;\n" +
+                "\n" +
+                "    public Test() {\n" +
+                "        parameterTypes = new Class<?>[] {int.class};\n" +
+                "        args = new Object[TEST_CASE_NUM][parameterTypes.length];\n" +
+                "        retVals = new Object[TEST_CASE_NUM];\n" +
+                "\n" +
+                "        for (int i = 0; i < TEST_CASE_NUM; i++) {\n" +
+                "            args[i] = new Object[] {i};\n" +
+                "            retVals[i] = i+2;\n" +
+                "        }\n" +
+                "    }\n" +
+                "}\n" +
+                "\n";
+
+
 
         addQuestion(q1Desc, test1);
         addQuestion(q2Desc, test2);
 
-        String q1AmyAns = "public class Solution {\n" + "    public int addOne(int i) {\n"
-                + "        System.out.println(\"Amy code's q1 standard output\");\n" + "        return i + 1;\n"
-                + "    }\n" + "}";
+        String q1AmyAns =
+                "public class Solution {\n" +
+                "    public int addOne(int i) {\n" +
+                "        System.out.println(\"Amy code's q1 standard output\");\n" +
+                "        return i + 1;\n" +
+                "    }\n" +
+                "}";
 
-        String q1BobAns = "public class Solution {\n" + "    public int addOne(int i) {\n"
-                + "        System.out.println(\"Bob code's q1 standard output\");\n" + "        return i + 2;\n"
-                + "    }\n" + "}";
+        String q1BobAns =
+                "public class Solution {\n" +
+                "    public int addOne(int i) {\n" +
+                "        System.out.println(\"Bob code's q1 standard output\");\n" +
+                "        return i + 2;\n" +
+                "    }\n" +
+                "}";
 
-        String q2BobAns = "public class Solution {\n" + "    public int addOne(int i) {\n" + "        int a = 0;"
-                + "        a = i/a;\n" + "        return i + 2;\n" + "    }\n" + "}";
+        String q2BobAns =
+                "public class Solution {\n" +
+                "    public int addOne(int i) {\n" +
+                "        int a = 0;" +
+                "        a = i/a;\n" +
+                "        return i + 2;\n" +
+                "    }\n" +
+                "}";
+
 
         writeUserCode(1, "Bob", q1BobAns);
         writeUserCode(2, "Bob", q2BobAns);
