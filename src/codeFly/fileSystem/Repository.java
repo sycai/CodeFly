@@ -216,7 +216,7 @@ public class Repository {
         String test2 =
                 "public class Test {\n" +
                 "    public int TEST_CASE_NUM = 5;\n" +
-                "    public String METHOD_NAME = \"addOne\";\n" +
+                "    public String METHOD_NAME = \"addTwo\";\n" +
                 "    public Class<?>[] parameterTypes;\n" +
                 "    public Object[][] args;\n" +
                 "    public Object[] retVals;\n" +
@@ -257,9 +257,18 @@ public class Repository {
 
         String q2BobAns =
                 "public class Solution {\n" +
-                "    public int addOne(int i) {\n" +
+                "    public int addTwo(int i) {\n" +
                 "        int a = 0;" +
                 "        a = i/a;\n" +
+                "        return i + 2;\n" +
+                "    }\n" +
+                "}";
+
+        String q2AmyAns =
+                "public class Solution {\n" +
+                "    public int addTwo(int i) {\n" +
+                "        int a = 0;\n" +
+                "        System.out.println(\"Amy's q2 stdout\");\n" +
                 "        return i + 2;\n" +
                 "    }\n" +
                 "}";
@@ -268,5 +277,6 @@ public class Repository {
         writeUserCode(1, "Bob", q1BobAns);
         writeUserCode(2, "Bob", q2BobAns);
         writeUserCode(1, "Amy", q1AmyAns);
+        writeUserCode(2, "Amy", q2AmyAns);
     }
 }

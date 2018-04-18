@@ -17,19 +17,39 @@ public class EditorPageHandler implements HttpHandler{
     public void handle (HttpExchange exchange) {
         // FIXME: request should provide the question number and server should return the proper question description
         String method = exchange.getRequestMethod();
+        Map<String, String> queryPairs = HandlerTools.parseUriQuery(exchange.getRequestURI().getQuery());
         try {
             if (method.equalsIgnoreCase("GET")) {
-                File editorPage = new File(CodeFly.ROOT_DIR + "frontEnd/editor.html");
-                // response with a success response
-                exchange.sendResponseHeaders(200, editorPage.length());
-                OutputStream os = exchange.getResponseBody();
-                Files.copy(editorPage.toPath(), os);
-                os.close();
-                CodeFly.logger.info(String.format("Sending %s to client: %S",
-                        editorPage.getName(), exchange.getRemoteAddress()));
+                if (queryPairs.containsKey("dscrpajax")) {
+                    // This is a ajax request for question description
+                    int qNum = Integer.parseInt(queryPairs.get("qnum"));
+                    // Fetch description from file system
+                    String qDesc = CodeFly.repo.getQuestionDescription(qNum);
+                    String qTitle = CodeFly.repo.getQuestionTitle(qNum);
+                    JSONObject qJson = new JSONObject();
+                    qJson.put("qnum", qNum);
+                    qJson.put("qdescription", qDesc);
+                    qJson.put("qtitle", qTitle);
+
+                    // Send back
+                    exchange.sendResponseHeaders(200, qJson.toString().length());
+                    OutputStream os = exchange.getResponseBody();
+                    os.write(qJson.toString().getBytes());
+                    os.close();
+                    CodeFly.logger.info(String.format("Sending question description to client: %S",
+                            exchange.getRemoteAddress()));
+                } else {
+                    File editorPage = new File(CodeFly.ROOT_DIR + "frontEnd/editor.html");
+                    // response with a success response
+                    exchange.sendResponseHeaders(200, editorPage.length());
+                    OutputStream os = exchange.getResponseBody();
+                    Files.copy(editorPage.toPath(), os);
+                    os.close();
+                    CodeFly.logger.info(String.format("Sending %s to client: %S",
+                            editorPage.getName(), exchange.getRemoteAddress()));
+                }
             } else if (method.equalsIgnoreCase("POST")) {
                 // Parse request contents
-                Map<String, String> queryPairs = HandlerTools.parseUriQuery(exchange.getRequestURI().getQuery());
                 String code = HandlerTools.fetchRequestBody(exchange).replace("\\n", "\n");
                 String userName = queryPairs.get("username");
 
