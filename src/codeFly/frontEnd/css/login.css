@@ -12,10 +12,12 @@ html {
 }
 
 .setMargin{
-    	border: 8px solid rgba(0,0,0,0.2);
-		margin: 100px auto;
-		padding: 2%;
-		background: white;
-  		width: 540px;
+    border: 8px solid rgba(0,0,0,0.2);
+    margin: auto;
+    position: relative;
+    top: 150px;
+    padding: 2%;
+    background: white;
+    width: 540px;
 }
 
