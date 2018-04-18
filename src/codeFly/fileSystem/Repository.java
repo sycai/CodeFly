@@ -66,6 +66,7 @@ public class Repository {
         }
 
         bufferedReader.close();
+        setUpExample();
     }
 
     public String getQuestionTitle(int qNum) throws IOException {
