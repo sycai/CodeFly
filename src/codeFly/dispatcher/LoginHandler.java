@@ -2,6 +2,8 @@ package codeFly.dispatcher;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import com.sun.org.apache.bcel.internal.classfile.Code;
+
 import codeFly.CodeFly;
 import org.json.JSONObject;
 
@@ -68,6 +70,9 @@ public class LoginHandler implements HttpHandler {
                         JSONObject testResultJson = new JSONObject();
                         testResultJson.put("result", "Success");
                         String jsonStr = testResultJson.toString();
+                        // Set the cookie
+                        exchange.getResponseHeaders().set("Set-Cookie", username);
+                        CodeFly.repo.addCookieInfo(username);
                         // Send json back
                         exchange.sendResponseHeaders(200, jsonStr.length());
                         exchange.getResponseBody().write(jsonStr.getBytes());
