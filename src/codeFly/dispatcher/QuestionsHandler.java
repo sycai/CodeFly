@@ -13,7 +13,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 
-
 public class QuestionsHandler implements HttpHandler{
     @Override
     public void handle (HttpExchange exchange) throws IOException {
