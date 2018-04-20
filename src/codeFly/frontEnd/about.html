@@ -25,15 +25,19 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-            </li>
+
+            <!--<li class="nav-item active">-->
+              <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+            <!--</li>-->
+            <!--<li class="nav-item">-->
+              <!--<a class="nav-link" href="#">About</a>-->
+            <!--</li>-->
+
             <li class="nav-item">
-              <a class="nav-link" href="#">About</a>
+              <!--<a class="nav-link disabled" href="/questions">Question</a>-->
+              <a class="nav-link " href="/questions">Question</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link disabled" href="#">Question</a>
-            </li>
+
           </ul>
           <form class="form-inline mt-2 mt-md-0">
             <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
@@ -58,7 +62,7 @@
               <div class="carousel-caption text-left">
                 <h1>CodeFly.</h1>
                 <p> Designed to provide fast and stable accesses for programmers who want to practice their algorithm skills online.</p>
-                <p><a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a></p>
+                <p><a class="btn btn-lg btn-primary" href="register" role="button">Sign up today</a></p>
               </div>
             </div>
           </div>
@@ -80,7 +84,7 @@
               <div class="carousel-caption text-right">
                 <h1>Remote compilation and testing.</h1>
                 <p>Programmer will get immediate response on the correctness of code in browser.</p>
-                <p><a class="btn btn-lg btn-primary" href="#" role="button">Browse gallery</a></p>
+                <p><a class="btn btn-lg btn-primary" href="login" role="button">Try Now</a></p>
               </div>
             </div>
           </div>
@@ -112,20 +116,20 @@
             <img class="rounded-circle" src="/images/frontend.jpg" alt="Generic placeholder image" width="140" height="140">
             <h2>Front-end Team</h2>
             <p>The website provides users with friendly interface manage their accounts. Once logged in, the user can upload/download files and edit files in real time.</p>
-            <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+            <p><a class="btn btn-secondary" href="#ct1" role="button">View details &raquo;</a></p>
           </div><!-- /.col-lg-4 -->
 
           <div class="col-lg-4">
             <img class="rounded-circle" src="/images/filesystem.jpg" alt="Generic placeholder image" width="140" height="140">
             <h2> Remote Filesystem Team</h2>
             <p> The Remote File System manages repositories of each user and supports common file operations such as browsing, editing, renaming and deletion.</p>
-            <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+            <p><a class="btn btn-secondary" href="#ct1" role="button">View details &raquo;</a></p>
           </div><!-- /.col-lg-4 -->
           <div class="col-lg-4">
             <img class="rounded-circle" src="/images/compiler.jpg" alt="Generic placeholder image" width="140" height="140">
             <h2>Compiler Team</h2>
             <p>The Remote Builder is responsible for building and running the provided code files, and reporting output and error messages back to the Task Dispatcher.</p>
-            <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+            <p><a class="btn btn-secondary" href="#ct1" role="button">View details &raquo;</a></p>
           </div><!-- /.col-lg-4 -->
         </div><!-- /.row -->
 
@@ -135,6 +139,7 @@
         <hr class="featurette-divider">
 
         <div class="row featurette">
+          <!--<div id="ct1" ></div>-->
           <div class="col-md-7">
             <h2 class="featurette-heading">What can CodeFly do? <span class="text-muted">  It'll blow your mind.</span></h2>
             <p class="lead">CodeFly is a web application aims to assist programmers to manage, compile and test their code remotely.</p>
@@ -167,10 +172,12 @@
 
         <hr class="featurette-divider">
 
-        <div class="row featurette">
+        <div id="ct1" class="row featurette">
           <div class="col-md-7">
             <h2 class="featurette-heading"> Our Team members <span class="text-muted">White walkers.</span></h2>
-            <p class="lead"> Shenyang Cai, Yuchang Chen, Shiqi Zhang, Jiahao Pei, Pengfei Dong, Xiuye Ding, Jie Feng, Yingting He.</p>
+            <p class="lead"> Front-end Team: Yuchang Chen, Shiqi Zhang, Pengfei Dong.</p>
+            <p class="lead"> Remote Filesystem Team: Xiuye Ding, Jie Feng, Yingting He.</p>
+            <p class="lead"> Compiler Team: Shenyang Cai, Jiahao Pei.</p>
           </div>
           <div class="col-md-5">
             <!--<img class="featurette-image img-fluid mx-auto" data-src="holder.js/500x500/auto" alt="Generic placeholder image">-->
