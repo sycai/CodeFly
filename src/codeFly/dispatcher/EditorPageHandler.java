@@ -24,7 +24,7 @@ public class EditorPageHandler implements HttpHandler{
                     // This is a ajax request for question description
                     int qNum = Integer.parseInt(queryPairs.get("qnum"));
                     // Fetch description from file system
-                    String qDesc = CodeFly.repo.getQuestionDescription(qNum);
+                    String qDesc = CodeFly.repo.getQuestionDescription(qNum).replaceAll("\n", "<br><br>");
                     String qTitle = CodeFly.repo.getQuestionTitle(qNum);
                     JSONObject qJson = new JSONObject();
                     qJson.put("qnum", qNum);
