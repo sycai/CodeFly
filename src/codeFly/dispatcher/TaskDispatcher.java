@@ -18,6 +18,7 @@ public class TaskDispatcher {
      */
     private static final int CONNECTION_BACKLOG_SIZE = 50;
     private static final String[] FRONT_END_MODULES = { "/css", "/images", "/js" };
+    public static String Cookie = "";
 
     /**
      * Class variables

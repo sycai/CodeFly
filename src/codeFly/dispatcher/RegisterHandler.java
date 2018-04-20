@@ -3,6 +3,8 @@ package codeFly.dispatcher;
 import codeFly.CodeFly;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import com.sun.tools.javadoc.main.JavaScriptScanner.Reporter;
+
 import org.json.JSONObject;
 
 import java.io.*;
@@ -62,6 +64,10 @@ public class RegisterHandler implements HttpHandler {
                     JSONObject ResultJson = new JSONObject();
                     ResultJson.put("result", "Success");
                     String jsonStr = ResultJson.toString();
+                    // Set the cookie
+                    String cookieKey = username+password;
+                    exchange.getResponseHeaders().set("Set-Cookie", cookieKey);
+                    TaskDispatcher.Cookie = cookieKey;
                     // Send json back
                     exchange.sendResponseHeaders(200, jsonStr.length());
                     exchange.getResponseBody().write(jsonStr.getBytes());
