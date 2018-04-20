@@ -74,7 +74,6 @@ public class QuestionList {
         qDesc= "Two Sum\n" +
                 "easy\n" +
                 "Given an array of integers, return indices of the two numbers such that they add up to a specific target.\n" +
-                "\n" +
                 "You may assume that each input would have exactly one solution, and you may not use the same element twice.";
         test = "";
         addQuestion(qDesc, test);
@@ -134,7 +133,6 @@ public class QuestionList {
         qDesc= "Container With Most Water\n" +
                 "medium\n" +
                 "Given n non-negative integers a1, a2, ..., an, where each represents a point at coordinate (i, ai). n vertical lines are drawn such that the two endpoints of line i is at (i, ai) and (i, 0). Find two lines, which together with x-axis forms a container, such that the container contains the most water.\n" +
-                "\n" +
                 "Note: You may not slant the container and n is at least 2.";
         test = "";
         addQuestion(qDesc, test);
