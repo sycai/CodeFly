@@ -77,6 +77,15 @@ public class Repository {
         return title;
     }
 
+    public String getQuestionDifficulty(int qNum) throws IOException {
+        if (qNum < 1 || qNum > latestQuestionNum) throw new IOException("Question" + qNum + "doesn't exist.");
+        String qFolder = getQuestionFolder(qNum);
+        String path = rootDirectory + qFolder + File.separator + "QuestionDescription.txt";
+
+        String difficulty = Files.readAllLines(Paths.get(path)).get(1);
+        return difficulty;
+    }
+
     public String getQuestionDescription(int qNum) throws IOException {
         if (qNum < 1 || qNum > latestQuestionNum) throw new IOException("Question" + qNum + "doesn't exist.");
         String qFolder = getQuestionFolder(qNum);
@@ -84,9 +93,11 @@ public class Repository {
 
         List<String> file = Files.readAllLines(Paths.get(path));
         StringBuilder description = new StringBuilder();
-        for (int i = 1; i < file.size(); i++) {
-            description.append(file.get(i));
+        for (int i = 2; i < file.size() - 1; i++) {
+            description.append(file.get(i)).append("\n");
         }
+        description.append(file.get(file.size() - 1));
+
         return description.toString();
     }
 
@@ -188,56 +199,11 @@ public class Repository {
             return;
         }
 
-        String q1Desc = "Add One\n" +
-                "Write a function addOne that takes an integer v and return v + 1.";
-        String test1 =
-                "public class Test {\n" +
-                "    public int TEST_CASE_NUM = 5;\n" +
-                "    public String METHOD_NAME = \"addOne\";\n" +
-                "    public Class<?>[] parameterTypes;\n" +
-                "    public Object[][] args;\n" +
-                "    public Object[] retVals;\n" +
-                "\n" +
-                "    public Test() {\n" +
-                "        parameterTypes = new Class<?>[] {int.class};\n" +
-                "        args = new Object[TEST_CASE_NUM][parameterTypes.length];\n" +
-                "        retVals = new Object[TEST_CASE_NUM];\n" +
-                "\n" +
-                "        for (int i = 0; i < TEST_CASE_NUM; i++) {\n" +
-                "            args[i] = new Object[] {i};\n" +
-                "            retVals[i] = i+1;\n" +
-                "        }\n" +
-                "    }\n" +
-                "}\n" +
-                "\n";
-
-        String q2Desc= "Add Two\n" +
-                "Write a function addTwo that takes an integer v and return v + 2.";
-        String test2 =
-                "public class Test {\n" +
-                "    public int TEST_CASE_NUM = 5;\n" +
-                "    public String METHOD_NAME = \"addTwo\";\n" +
-                "    public Class<?>[] parameterTypes;\n" +
-                "    public Object[][] args;\n" +
-                "    public Object[] retVals;\n" +
-                "\n" +
-                "    public Test() {\n" +
-                "        parameterTypes = new Class<?>[] {int.class};\n" +
-                "        args = new Object[TEST_CASE_NUM][parameterTypes.length];\n" +
-                "        retVals = new Object[TEST_CASE_NUM];\n" +
-                "\n" +
-                "        for (int i = 0; i < TEST_CASE_NUM; i++) {\n" +
-                "            args[i] = new Object[] {i};\n" +
-                "            retVals[i] = i+2;\n" +
-                "        }\n" +
-                "    }\n" +
-                "}\n" +
-                "\n";
-
-
-
-        addQuestion(q1Desc, test1);
-        addQuestion(q2Desc, test2);
+        QuestionList ql = new QuestionList();
+        ql.initializeQuestionList();
+        for (String[] strs: ql.getQuestionList()) {
+            addQuestion(strs[0], strs[1]);
+        }
 
         String q1AmyAns =
                 "public class Solution {\n" +

@@ -1,24 +1,17 @@
 package codeFly.dispatcher;
 
 import codeFly.CodeFly;
-import codeFly.fileSystem.Repository;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.nio.file.Files;
-import java.util.HashMap;
-import java.util.HashMap;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import java.lang.System;
+
 
 
 public class QuestionsHandler implements HttpHandler{
@@ -45,6 +38,7 @@ public class QuestionsHandler implements HttpHandler{
                     JSONObject jo=new JSONObject();
                     jo.put("qNum", i);
                     jo.put("title",CodeFly.repo.getQuestionTitle(i));
+                    jo.put("difficulty", CodeFly.repo.getQuestionDifficulty(i));
                     jsonAry.put(i-1,jo);
                 }
                 jsonObj.put("questionlist",jsonAry);
