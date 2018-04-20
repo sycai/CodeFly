@@ -55,6 +55,7 @@ public class TaskDispatcher {
             server.createContext("/questions", new QuestionsHandler());
             server.createContext("/editor", new EditorPageHandler());
             server.createContext("/retrieve", new RetrieveHandler());
+            server.createContext("/about", new AboutPageHandler());
             // Default executor
             server.setExecutor(null);
             server.start();
