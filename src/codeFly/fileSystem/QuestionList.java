@@ -82,7 +82,6 @@ public class QuestionList {
         qDesc= "Add Two Numbers\n" +
                 "medium\n" +
                 "You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.\n" +
-                "\n" +
                 "You may assume the two numbers do not contain any leading zero, except the number 0 itself.";
         test = "";
         addQuestion(qDesc, test);
@@ -90,13 +89,9 @@ public class QuestionList {
         qDesc= "Longest Substring Without Repeating Characters\n" +
                 "medium\n" +
                 "Given a string, find the length of the longest substring without repeating characters.\n" +
-                "\n" +
                 "Examples:\n" +
-                "\n" +
                 "Given \"abcabcbb\", the answer is \"abc\", which the length is 3.\n" +
-                "\n" +
                 "Given \"bbbbb\", the answer is \"b\", with the length of 1.\n" +
-                "\n" +
                 "Given \"pwwkew\", the answer is \"wke\", with the length of 3. Note that the answer must be a substring, \"pwke\" is a subsequence and not a substring.";
         test = "";
         addQuestion(qDesc, test);
@@ -104,7 +99,6 @@ public class QuestionList {
         qDesc= "Median of Two Sorted Arrays\n" +
                 "hard\n" +
                 "There are two sorted arrays nums1 and nums2 of size m and n respectively.\n" +
-                "\n" +
                 "Find the median of the two sorted arrays. The overall run time complexity should be O(log (m+n)).";
         test = "";
         addQuestion(qDesc, test);
@@ -124,13 +118,9 @@ public class QuestionList {
         qDesc= "String to Integer (atoi)\n" +
                 "medium\n" +
                 "Implement atoi which converts a string to an integer.\n" +
-                "\n" +
                 "The function first discards as many whitespace characters as necessary until the first non-whitespace character is found. Then, starting from this character, takes an optional initial plus or minus sign followed by as many numerical digits as possible, and interprets them as a numerical value.\n" +
-                "\n" +
                 "The string can contain additional characters after those that form the integral number, which are ignored and have no effect on the behavior of this function.\n" +
-                "\n" +
                 "If the first sequence of non-whitespace characters in str is not a valid integral number, or if no such sequence exists because either str is empty or it contains only whitespace characters, no conversion is performed.\n" +
-                "\n" +
                 "If no valid conversion could be performed, a zero value is returned.";
         test = "";
         addQuestion(qDesc, test);
