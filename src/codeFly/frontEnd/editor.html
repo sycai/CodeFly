@@ -48,25 +48,19 @@
         </div>
     </nav>
 
- <div class="container" style="margin-top:15px;">
+ <div class="container" style="margin-top:30px;">
     <div class="row"  >
-            <div class="col-xs-12 col-sm-1">
+            <div class="col-xs-12 col-sm-12">
             </div>
             <div class="col-xs-12 col-sm-12">
-                <h4>33. Search in Rotated Sorted Array</h4>
+                <h4 id="question-title"></h4>  <!-- TODO: to be deleted -->
             </div>
     </div>  
     <div class="row" >
         <div class="col-xs-12 col-sm-12" >
         </div>
-        <div class="col-xs-12 col-sm-12" >
-            <p> Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand.
-
-                    (i.e., 0 1 2 4 5 6 7 might become 4 5 6 7 0 1 2).<br />
-                    
-                    You are given a target value to search. If found in the array return its index, otherwise return -1.<br />
-                    
-                    You may assume no duplicate exists in the array.</p>
+        <div class="col-xs-12 col-sm-12">
+            <p id="description"></p>
         </div>
     </div>
     <div class="row row-content" style="margin-top:10px;">
@@ -90,6 +84,26 @@
     <span class="d-block p-2 bg-dark text-white" id="result"></span>
 
     <script>
+        var loc = document.location;
+        var URL = loc.pathname + loc.search + "&dscrpajax=1";
+        var number = loc.search.split("=")[1];
+
+        $(document).ready(function() {
+            $.ajax({
+            type:'GET',
+            url: URL,
+            success: function(data) {
+                var obj = JSON.parse(data);
+                console.log(obj);
+                document.getElementById("description").innerHTML = obj.qdescription;
+                document.getElementById("question-title").innerHTML = obj.qnum + ". " + obj.qtitle;          
+            },
+            error: function() {
+                console.log('Error: ');
+            }
+            });
+        });
+
         var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
         mode: "text/x-java",       // highlight java code
         styleActiveLine: true,
@@ -106,7 +120,7 @@
     function retrieveLastSubmition() {
         $.ajax({
             type:'GET',
-            url: '/retrieve?username=Amy&qnum=1',
+            url: '/retrieve?username=Amy&qnum=' + number,
             success: function(data) {
                 editor.setValue(data);                       // display retrieved last modified version in textarea
             },
@@ -119,7 +133,7 @@
         var text = editor.getValue("\\n");                        // get code from editor in textarea
         $.ajax({
             type:'POST',
-            url: '/editor?username=Amy&qnum=1',
+            url: '/editor?username=Amy&qnum=' + number,
             data: text,
             success: function (data) {
                 var obj = JSON.parse(data);                  // parse & display text result (success/failure & number of success/failure)

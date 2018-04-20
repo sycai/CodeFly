@@ -37,6 +37,7 @@ public class QuestionsHandler implements HttpHandler{
                     JSONObject jo=new JSONObject();
                     jo.put("qNum", i);
                     jo.put("title",CodeFly.repo.getQuestionTitle(i));
+                    jo.put("difficulty", CodeFly.repo.getQuestionDifficulty(i));
                     jsonAry.put(i-1,jo);
                 }
                 jsonObj.put("questionlist",jsonAry);
