@@ -113,11 +113,27 @@
         $(document).ready(function(){
             $.ajax({
                 type: 'GET',
+                url: '/verification',
+                success: function(data) {
+                    var obj = JSON.parse(data);
+                    if (checkValidSession(obj)) {
+                        loadQuestions();
+                    }
+                },
+                error: function() {
+                   console.log('Error: ');
+                }
+            })
+
+        });
+
+        function loadQuestions() {
+            $.ajax({
+                type: 'GET',
                 url: '/questions?askforQues',
                 success: function (data) {
                     //process the data
                     var obj = JSON.parse(data);
-                    checkValidSession(obj);
 
                     //add data to table
                     var tbody=$('<tbody></tbody>');
@@ -147,8 +163,7 @@
                     console.log('Error: ');
                 }
             });
-
-       });
+        }
     </script>
 
 </body>

@@ -61,27 +61,14 @@ public class TaskDispatcher {
             server.createContext("/editor", new EditorPageHandler());
             server.createContext("/retrieve", new RetrieveHandler());
             server.createContext("/about", new AboutPageHandler());
+            server.createContext("/verification", new SessionVerifyHandler());
 
             // Default executor
             server.setExecutor(null);
             server.start();
 
-            // FIXME: delete this invocation after the testing module is sufficiently tested
-            // testTester();
         } catch (IOException e) {
             CodeFly.logger.info("HTTP listener error: " + e.getMessage());
         }
     }
-
-    // FIXME: delete this function after the testing module is sufficiently tested.
-    public void testTester() {
-        try {
-            System.out.println(JavaTestEngine.getTestResult(1, "Bob"));
-            System.out.println(JavaTestEngine.getTestResult(1, "Amy"));
-            System.out.println(JavaTestEngine.getTestResult(2, "Bob"));
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
 }
