@@ -43,6 +43,12 @@ public class HandlerTools {
         return res;
     }
 
+    /**
+     * Read request body from the input stream
+     * @param exchange
+     * @return
+     * @throws IOException
+     */
     public static String fetchRequestBody(HttpExchange exchange) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(exchange.getRequestBody()));
         StringBuilder sb = new StringBuilder();

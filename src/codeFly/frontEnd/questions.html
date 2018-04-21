@@ -16,6 +16,7 @@
     <link rel="stylesheet" type="text/css" href="questions.css">
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="/js/sessionVerification.js"></script>
 
     <!-- Do not use this local file at this moment
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -116,10 +117,11 @@
                 success: function (data) {
                     //process the data
                     var obj = JSON.parse(data);
+                    checkValidSession(obj);
 
                     //add data to table
                     var tbody=$('<tbody></tbody>');
-                    var qList = obj.questionlist;
+                    var qList = obj.questionList;
                     for(var i = 0; i < qList.length; i++) {
                         var tr = $('<tr></tr>');
                         tr.append('<td>' + '</td>');

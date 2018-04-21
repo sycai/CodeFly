@@ -3,12 +3,10 @@ package codeFly.dispatcher;
 import codeFly.CodeFly;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import com.sun.tools.javadoc.main.JavaScriptScanner.Reporter;
 
 import org.json.JSONObject;
 
 import java.io.*;
-import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.util.Map;
 
@@ -46,7 +44,6 @@ public class RegisterHandler implements HttpHandler {
                 Map<String, String> loginInDb = CodeFly.repo.getLoginInfo();
                 if (loginInDb.containsKey(username)) {
                     // user exists, fail to register
-                    System.out.println("user exist\n");
                     JSONObject ResultJson = new JSONObject();
                     ResultJson.put("result", "Fail: user already exists");
                     String jsonStr = ResultJson.toString();
@@ -58,16 +55,15 @@ public class RegisterHandler implements HttpHandler {
                             .info(String.format("Sending register failure to client: %S", exchange.getRemoteAddress()));
                 } else {
                     // user not exists, update filesystem' user information
-                    System.out.println("user not exists\n");
                     // Update filesystem' user information
                     CodeFly.repo.addUserAccount(username, password);
                     JSONObject ResultJson = new JSONObject();
                     ResultJson.put("result", "Success");
                     String jsonStr = ResultJson.toString();
                     // Set the cookie
-                    String cookieKey = username+password;
-                    exchange.getResponseHeaders().set("Set-Cookie", cookieKey);
-                    TaskDispatcher.Cookie = cookieKey;
+                    String cookie = TaskDispatcher.COOKIE_KEY + username + ";SameSite=Strict";
+                    exchange.getResponseHeaders().set("Set-Cookie", cookie);
+                    TaskDispatcher.activeUsers.add(username);
                     // Send json back
                     exchange.sendResponseHeaders(200, jsonStr.length());
                     exchange.getResponseBody().write(jsonStr.getBytes());
