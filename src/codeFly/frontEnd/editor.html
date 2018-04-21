@@ -90,6 +90,10 @@
         var number = loc.search.split("=")[1];
 
         $(document).ready(function() {
+            checkValidSession(loadQuestionDescription);
+        });
+
+        function loadQuestionDescription() {
             $.ajax({
             type:'GET',
             url: URL,
@@ -103,7 +107,7 @@
                 console.log('Error: ');
             }
             });
-        });
+        }
 
         var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
         mode: "text/x-java",       // highlight java code
@@ -119,19 +123,7 @@
     editor.setSize('800px', '400px'); 
     
     function retrieveLastSubmition() {
-        $.ajax({
-            type:'GET',
-            url: '/retrieve?qnum=' + number +'&verify=1',
-            success: function(data) {
-                var obj = JSON.parse(data);
-                checkValidSession(obj);          // Verify session first
-                retrieveCode();
-
-            },
-            error: function() {
-                console.log('Error: ');
-            }
-        });
+        checkValidSession(retrieveCode);
     }
 
     function retrieveCode() {
@@ -146,15 +138,19 @@
             }
         });
     }
+
     function loadTestResult() {
-        var text = editor.getValue("\\n");                        // get code from editor in textarea
+        checkValidSession(loadResult);
+    }
+
+    function loadResult() {
+        var text = editor.getValue("\\n"); // get code from editor in text area
         $.ajax({
             type:'POST',
             url: '/editor?qnum=' + number,
             data: text,
             success: function (data) {
                 var obj = JSON.parse(data);                  // parse & display text result (success/failure & number of success/failure)
-                checkValidSession(obj);
                 var list = document.getElementById("result-display").classList;
                 if (obj.isPassed == true) {
                     if (list.contains("bg-danger")) {

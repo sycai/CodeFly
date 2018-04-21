@@ -15,7 +15,6 @@ public class EditorPageHandler implements HttpHandler{
     @Override
     public void handle (HttpExchange exchange) {
         String userName = HandlerTools.getUserName(exchange);
-        boolean userIsAcitve = HandlerTools.isActiveUser(userName);
 
         String method = exchange.getRequestMethod();
         Map<String, String> queryPairs = HandlerTools.parseUriQuery(exchange.getRequestURI().getQuery());
@@ -28,15 +27,13 @@ public class EditorPageHandler implements HttpHandler{
                     // Fetch description from file system
                     String qDesc = CodeFly.repo.getQuestionDescription(qNum).replaceAll("\n", "<br><br>");
                     String qTitle = CodeFly.repo.getQuestionTitle(qNum);
-                    JSONObject qJson = new JSONObject();
-                    if (userIsAcitve) {
-                        qJson.put("qnum", qNum);
-                        qJson.put("qdescription", qDesc);
-                        qJson.put("qtitle", qTitle);
-                    }
 
-                    // Report whether the session has expired
-                    qJson.put("userActive", userIsAcitve);
+                    // Build JSON object
+                    JSONObject qJson = new JSONObject();
+                    qJson.put("qnum", qNum);
+                    qJson.put("qdescription", qDesc);
+                    qJson.put("qtitle", qTitle);
+
 
                     // Send back
                     exchange.sendResponseHeaders(200, qJson.toString().length());
@@ -57,27 +54,23 @@ public class EditorPageHandler implements HttpHandler{
                 }
             } else if (method.equalsIgnoreCase("POST")) {
                 JSONObject testResultJson = new JSONObject();
-                if (userIsAcitve && userName != null) {
-                    // Parse request contents
-                    String code = HandlerTools.fetchRequestBody(exchange).replace("\\n", "\n");
-                    // Update user code
-                    int questionNumber = Integer.parseInt(queryPairs.get("qnum"));
-                    CodeFly.repo.writeUserCode(questionNumber, userName, code);
 
-                    // Test user code
-                    TestResult testResult = JavaTestEngine.getTestResult(questionNumber, userName);
+                // Parse request contents
+                String code = HandlerTools.fetchRequestBody(exchange).replace("\\n", "\n");
+                // Update user code
+                int questionNumber = Integer.parseInt(queryPairs.get("qnum"));
+                CodeFly.repo.writeUserCode(questionNumber, userName, code);
 
-                    // Transform test results into json
+                // Test user code
+                TestResult testResult = JavaTestEngine.getTestResult(questionNumber, userName);
 
-                    testResultJson.put("isPassed", testResult.isPassed());
-                    testResultJson.put("testCasesPassed", testResult.getTotalPassedNumber());
-                    testResultJson.put("testCasesTotal", testResult.getTotalTestsNumber());
-                    testResultJson.put("stdout", testResult.getStdOut());
-                    testResultJson.put("stderr", testResult.getStdErr());
-                }
+                // Transform test results into json
 
-                // Report whether the session has expired
-                testResultJson.put("userActive", userIsAcitve);
+                testResultJson.put("isPassed", testResult.isPassed());
+                testResultJson.put("testCasesPassed", testResult.getTotalPassedNumber());
+                testResultJson.put("testCasesTotal", testResult.getTotalTestsNumber());
+                testResultJson.put("stdout", testResult.getStdOut());
+                testResultJson.put("stderr", testResult.getStdErr());
 
                 String jsonStr = testResultJson.toString();
 

@@ -29,30 +29,21 @@ public class QuestionsHandler implements HttpHandler{
                 CodeFly.logger.info(String.format("Sending %s to client: %S",
                         questionListPage.getName(), exchange.getRemoteAddress()));
             } else {
-                // Need to check cookie first
-                String userName = HandlerTools.getUserName(exchange);
-                boolean userIsAcitve = HandlerTools.isActiveUser(userName);
 
-                //create a HashMap to store the qnum and questionDescription
                 int questionNum = CodeFly.repo.getQuestionNum();
                 JSONObject jsonObj = new JSONObject();
-                if (userIsAcitve) {
-                    jsonObj.put("userActive", true);
-                    JSONArray jsonAry = new JSONArray();
-                    for (int i = 1; i <= questionNum; i++) {
-                        JSONObject jo = new JSONObject();
-                        jo.put("qNum", i);
-                        jo.put("title", CodeFly.repo.getQuestionTitle(i));
-                        jo.put("difficulty", CodeFly.repo.getQuestionDifficulty(i));
-                        jsonAry.put(i - 1, jo);
-                    }
-                    jsonObj.put("questionList", jsonAry);
-                } else {
-                    jsonObj.put("userActive", false);
+                JSONArray jsonAry = new JSONArray();
+                for (int i = 1; i <= questionNum; i++) {
+                    JSONObject jo = new JSONObject();
+                    jo.put("qNum", i);
+                    jo.put("title", CodeFly.repo.getQuestionTitle(i));
+                    jo.put("difficulty", CodeFly.repo.getQuestionDifficulty(i));
+                    jsonAry.put(i - 1, jo);
                 }
+                jsonObj.put("questionList", jsonAry);
+
                 //convert JSONObject to String
                 String jsonStr = jsonObj.toString();
-
 
                 // response with success
                 exchange.sendResponseHeaders(200, jsonStr.length());
