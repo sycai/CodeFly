@@ -2,3 +2,6 @@
 out/
 Repository/
 /bin/
+.classpath
+.project
+.DS_Store
