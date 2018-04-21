@@ -30,10 +30,6 @@ public class EditorPageHandler implements HttpHandler{
                     String qTitle = CodeFly.repo.getQuestionTitle(qNum);
                     JSONObject qJson = new JSONObject();
                     if (userIsAcitve) {
-                        int qNum = Integer.parseInt(queryPairs.get("qnum"));
-                        // Fetch description from file system
-                        String qDesc = CodeFly.repo.getQuestionDescription(qNum);
-                        String qTitle = CodeFly.repo.getQuestionTitle(qNum);
                         qJson.put("qnum", qNum);
                         qJson.put("qdescription", qDesc);
                         qJson.put("qtitle", qTitle);
