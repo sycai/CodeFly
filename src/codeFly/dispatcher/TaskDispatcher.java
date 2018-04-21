@@ -6,6 +6,7 @@ import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.util.HashSet;
 
 public class TaskDispatcher {
     /**
@@ -18,11 +19,13 @@ public class TaskDispatcher {
      */
     private static final int CONNECTION_BACKLOG_SIZE = 50;
     private static final String[] FRONT_END_MODULES = { "/css", "/images", "/js" };
+    public static final String COOKIE_KEY = "code_fly_username=";
 
     /**
      * Class variables
      */
     private final int port;
+    public static final HashSet<String> activeUsers = new HashSet<>();
 
     private TaskDispatcher(int port) {
         this.port = port;

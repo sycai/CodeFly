@@ -224,7 +224,7 @@ public class Repository {
         String q2BobAns =
                 "public class Solution {\n" +
                 "    public int addTwo(int i) {\n" +
-                "        int a = 0;" +
+                "        int a = 0;\n" +
                 "        a = i/a;\n" +
                 "        return i + 2;\n" +
                 "    }\n" +

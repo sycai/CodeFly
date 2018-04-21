@@ -2,7 +2,9 @@ package codeFly.dispatcher;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+
 import codeFly.CodeFly;
+
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -12,7 +14,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.util.Map;
-import java.net.URLDecoder;
 
 /**
  * Accept "GET/POST" request for login context, GET for users to access the
@@ -57,17 +58,20 @@ public class LoginHandler implements HttpHandler {
                         password = pw_tokens[1];
                     }
                 }
-                // Comparison with user data in file system's database and send back different
-                // result based on the comparison result
+                // User name and password authentication
                 Map<String, String> loginInDb = CodeFly.repo.getLoginInfo();
                 if (loginInDb.containsKey(username)) {
-                    System.out.println("user exist\n");
+
                     if (loginInDb.get(username).equals(password)) {
                         // user exists, password correct
-                        System.out.println("password correct\n");
                         JSONObject testResultJson = new JSONObject();
                         testResultJson.put("result", "Success");
                         String jsonStr = testResultJson.toString();
+                        // Set cookie
+                        String cookie = TaskDispatcher.COOKIE_KEY + username + ";SameSite=Strict";
+                        exchange.getResponseHeaders().set("Set-Cookie", cookie);
+                        TaskDispatcher.activeUsers.add(username);
+
                         // Send json back
                         exchange.sendResponseHeaders(200, jsonStr.length());
                         exchange.getResponseBody().write(jsonStr.getBytes());
@@ -76,7 +80,6 @@ public class LoginHandler implements HttpHandler {
                                 String.format("Sending login success to client: %S", exchange.getRemoteAddress()));
                     } else {
                         // user exists, password incorrect
-                        System.out.println("password incorrect\n");
                         JSONObject testResultJson = new JSONObject();
                         testResultJson.put("result", "Incorrect Password");
                         String jsonStr = testResultJson.toString();
@@ -90,7 +93,6 @@ public class LoginHandler implements HttpHandler {
 
                 } else {
                     // user not exist
-                    System.out.println("user does not exist\n");
                     JSONObject testResultJson = new JSONObject();
                     testResultJson.put("result", "User Not Exist");
                     String jsonStr = testResultJson.toString();
