@@ -111,20 +111,7 @@
 
     <script>
         $(document).ready(function(){
-            $.ajax({
-                type: 'GET',
-                url: '/verification',
-                success: function(data) {
-                    var obj = JSON.parse(data);
-                    if (checkValidSession(obj)) {
-                        loadQuestions();
-                    }
-                },
-                error: function() {
-                   console.log('Error: ');
-                }
-            })
-
+            checkValidSession(loadQuestions);
         });
 
         function loadQuestions() {
