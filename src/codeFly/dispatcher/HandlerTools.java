@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -59,4 +60,30 @@ public class HandlerTools {
         return sb.toString();
     }
 
+    /**
+     * Parse out user name from the cookie
+     * @param exchange
+     * @return
+     */
+    public static String getUserName(HttpExchange exchange) {
+        // But firstly, we need to verify the cookie
+        List<String> cookies = exchange.getRequestHeaders().get("Cookie");
+        String userName = null;
+        for (String c : cookies) {
+            if (c.contains(c)) {
+                // Sanitize cookie
+                int startIdx = c.indexOf(TaskDispatcher.COOKIE_KEY) + TaskDispatcher.COOKIE_KEY.length();
+                int endIdx = c.indexOf(";", startIdx);
+                if (endIdx == -1) {
+                   endIdx = c.length();
+                }
+                userName = c.substring(startIdx, endIdx);
+            }
+        }
+        return userName;
+   }
+
+   public static boolean isActiveUser(String userName) {
+        return TaskDispatcher.activeUsers.contains(userName);
+   }
 }

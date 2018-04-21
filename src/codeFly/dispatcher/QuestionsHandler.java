@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.File;
 import java.nio.file.Files;
-import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -31,22 +30,8 @@ public class QuestionsHandler implements HttpHandler{
                         questionListPage.getName(), exchange.getRemoteAddress()));
             } else {
                 // Need to check cookie first
-                List<String> cookies = exchange.getRequestHeaders().get("Cookie");
-                boolean userIsAcitve = false;
-                for (String c : cookies) {
-                    if (c.contains(c)) {
-                        // Sanitize cookie
-                        int startIdx = c.indexOf(TaskDispatcher.COOKIE_KEY) + TaskDispatcher.COOKIE_KEY.length();
-                        int endIdx = c.indexOf(";", startIdx);
-                        if (endIdx == -1) {
-                            endIdx = c.length();
-                        }
-                        if (TaskDispatcher.activeUsers.contains(c.substring(startIdx, endIdx))) {
-                            userIsAcitve = true;
-                            break;
-                        }
-                    }
-                }
+                String userName = HandlerTools.getUserName(exchange);
+                boolean userIsAcitve = HandlerTools.isActiveUser(userName);
 
                 //create a HashMap to store the qnum and questionDescription
                 int questionNum = CodeFly.repo.getQuestionNum();

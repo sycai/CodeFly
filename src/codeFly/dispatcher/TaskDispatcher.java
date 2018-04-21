@@ -19,7 +19,7 @@ public class TaskDispatcher {
      */
     private static final int CONNECTION_BACKLOG_SIZE = 50;
     private static final String[] FRONT_END_MODULES = { "/css", "/images", "/js" };
-    public static final String COOKIE_KEY = "username=";
+    public static final String COOKIE_KEY = "code_fly_username=";
 
     /**
      * Class variables

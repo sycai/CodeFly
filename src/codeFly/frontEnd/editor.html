@@ -16,6 +16,7 @@
     <link rel="stylesheet" rel="stylesheet" href="/css/codemirror.css">
     <script src="/js/codemirror.js"></script>
     <script src="/js/clike.js"></script>
+    <script src="/js/sessionVerification.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
 </head>
@@ -94,7 +95,7 @@
             url: URL,
             success: function(data) {
                 var obj = JSON.parse(data);
-                console.log(obj);
+                checkValidSession(obj);
                 document.getElementById("description").innerHTML = obj.qdescription;
                 document.getElementById("question-title").innerHTML = obj.qnum + ". " + obj.qtitle;          
             },
@@ -120,9 +121,25 @@
     function retrieveLastSubmition() {
         $.ajax({
             type:'GET',
-            url: '/retrieve?username=Amy&qnum=' + number,
+            url: '/retrieve?qnum=' + number +'&verify=1',
             success: function(data) {
-                editor.setValue(data);                       // display retrieved last modified version in textarea
+                var obj = JSON.parse(data);
+                checkValidSession(obj);          // Verify session first
+                retrieveCode();
+
+            },
+            error: function() {
+                console.log('Error: ');
+            }
+        });
+    }
+
+    function retrieveCode() {
+        $.ajax({
+            type:'GET',
+            url: '/retrieve?qnum=' + number,
+            success: function(data) {
+                editor.setValue(data);           // display retrieved last modified version in text area
             },
             error: function() {
                 console.log('Error: ');
@@ -133,11 +150,11 @@
         var text = editor.getValue("\\n");                        // get code from editor in textarea
         $.ajax({
             type:'POST',
-            url: '/editor?username=Amy&qnum=' + number,
+            url: '/editor?qnum=' + number,
             data: text,
             success: function (data) {
                 var obj = JSON.parse(data);                  // parse & display text result (success/failure & number of success/failure)
-                //var obj = JSON.parse('{ "isPassed":"false", "testCasesPassed":30, "testCasesTotal": 36, "stdout":"error msg"}');
+                checkValidSession(obj);
                 var list = document.getElementById("result-display").classList;
                 if (obj.isPassed == true) {
                     if (list.contains("bg-danger")) {
