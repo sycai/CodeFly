@@ -41,10 +41,11 @@
                     <a class="nav-link" href="about.html">About</a>
                 </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
+            <ul class="navbar-nav navbar-right navbar-light">
+                <li class="nav-item" active>
+                    <a class="nav-link" href="#" id="username"> <i class="fas fa-user-secret"></i>  </a>
+                </li>
+            </ul>
         </div>
         </div>
     </nav>
@@ -99,9 +100,9 @@
             url: URL,
             success: function(data) {
                 var obj = JSON.parse(data);
-                checkValidSession(obj);
                 document.getElementById("description").innerHTML = obj.qdescription;
-                document.getElementById("question-title").innerHTML = obj.qnum + ". " + obj.qtitle;          
+                document.getElementById("question-title").innerHTML = obj.qnum + ". " + obj.qtitle;
+                document.getElementById("username").text = obj.username;          
             },
             error: function() {
                 console.log('Error: ');

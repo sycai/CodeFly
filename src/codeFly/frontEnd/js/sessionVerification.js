@@ -13,5 +13,5 @@ function checkValidSession(func) {
         error: function() {
            console.log('Error: ');
         }
-    })
+    });
 }

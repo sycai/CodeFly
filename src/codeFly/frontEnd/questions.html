@@ -52,7 +52,7 @@
             </ul>
             <ul class="navbar-nav navbar-right navbar-light">
                 <li class="nav-item" active>
-                    <a class="nav-link" href="#">USER <i class="fas fa-user-secret"></i>  </a>
+                    <a class="nav-link" href="#" id="username"> <i class="fas fa-user-secret"></i>  </a>
                 </li>
             </ul>
         </div>
@@ -145,6 +145,7 @@
                         tbody.append(tr);
                     }
                     $('#quesTable tbody').replaceWith(tbody);
+                    $('#username').text(obj.userName);
                 },
                 error: function () {
                     console.log('Error: ');
