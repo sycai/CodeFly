@@ -43,7 +43,13 @@
             </ul>
             <ul class="navbar-nav navbar-right navbar-light">
                 <li class="nav-item" active>
-                    <a class="nav-link" href="#" id="username"> <i class="fas fa-user-secret"></i>  </a>
+                    <a class="nav-link" href="#" id="username"><i class="fa fa-user"></i></a>
+                </li>
+            </ul>
+
+            <ul class="navbar-nav navbar-right navbar-light">
+                <li class="nav-item" active>
+                    <button class="nav-link" onclick="logout()">Log Out</button>
                 </li>
             </ul>
         </div>
@@ -80,7 +86,7 @@
             <button onclick="window.location.href=('/questions')"type="button" class="btn btn-outline-secondary">Back</button>
         </div>
     </div>
- </div>>
+ </div>
 
     <span class="d-block p-2 bg-success text-white" id="result-display"></span>
     <span class="d-block p-2 bg-dark text-white" id="result"></span>
