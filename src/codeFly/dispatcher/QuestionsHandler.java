@@ -31,6 +31,7 @@ public class QuestionsHandler implements HttpHandler{
             } else {
 
                 int questionNum = CodeFly.repo.getQuestionNum();
+                String userName = HandlerTools.getUserName(exchange);
                 JSONObject jsonObj = new JSONObject();
                 JSONArray jsonAry = new JSONArray();
                 for (int i = 1; i <= questionNum; i++) {
@@ -41,6 +42,7 @@ public class QuestionsHandler implements HttpHandler{
                     jsonAry.put(i - 1, jo);
                 }
                 jsonObj.put("questionList", jsonAry);
+                jsonObj.put("userName", userName);
 
                 //convert JSONObject to String
                 String jsonStr = jsonObj.toString();

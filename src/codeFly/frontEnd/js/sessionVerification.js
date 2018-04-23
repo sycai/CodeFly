@@ -13,5 +13,18 @@ function checkValidSession(func) {
         error: function() {
            console.log('Error: ');
         }
-    })
+    });
+}
+
+function logout() {
+    $.ajax({
+            type: 'GET',
+            url: '/logout',
+            success: function(data) {
+                window.location.href='/login';
+            },
+            error: function() {
+               console.log('Error: ');
+            }
+    });
 }

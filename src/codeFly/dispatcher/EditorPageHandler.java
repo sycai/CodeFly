@@ -33,6 +33,7 @@ public class EditorPageHandler implements HttpHandler{
                     qJson.put("qnum", qNum);
                     qJson.put("qdescription", qDesc);
                     qJson.put("qtitle", qTitle);
+                    qJson.put("username", userName);
 
 
                     // Send back

@@ -35,16 +35,23 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <!--<li class="nav-item active">-->
-                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/questions">Home<span class="sr-only">(current)</span></a>
                 <!--</li>-->
                 <li class="nav-item">
                     <a class="nav-link" href="about.html">About</a>
                 </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
+            <ul class="navbar-nav navbar-right navbar-light">
+                <li class="nav-item" active>
+                    <a class="nav-link" href="#" id="username"><i class="fa fa-user"></i></a>
+                </li>
+            </ul>
+
+            <ul class="navbar-nav navbar-right navbar-light">
+                <li class="nav-item" active>
+                    <button class="nav-link" onclick="logout()">Log Out</button>
+                </li>
+            </ul>
         </div>
         </div>
     </nav>
@@ -76,10 +83,9 @@
         <div class="btn-group" style="padding-top:20px;">
             <button type="button" class="btn btn-outline-secondary" onclick="retrieveLastSubmition()">Retrieve</button>
             <button type="button" class="btn btn-outline-success" onclick="loadTestResult()">Submit</button>
-            <button onclick="window.location.href=('/questions')"type="button" class="btn btn-outline-secondary">Back</button>
         </div>
     </div>
- </div>>
+ </div>
 
     <span class="d-block p-2 bg-success text-white" id="result-display"></span>
     <span class="d-block p-2 bg-dark text-white" id="result"></span>
@@ -99,9 +105,9 @@
             url: URL,
             success: function(data) {
                 var obj = JSON.parse(data);
-                checkValidSession(obj);
                 document.getElementById("description").innerHTML = obj.qdescription;
-                document.getElementById("question-title").innerHTML = obj.qnum + ". " + obj.qtitle;          
+                document.getElementById("question-title").innerHTML = obj.qnum + ". " + obj.qtitle;
+                document.getElementById("username").text = obj.username;          
             },
             error: function() {
                 console.log('Error: ');

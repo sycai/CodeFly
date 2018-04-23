@@ -62,6 +62,7 @@ public class TaskDispatcher {
             server.createContext("/retrieve", new RetrieveHandler());
             server.createContext("/about", new AboutPageHandler());
             server.createContext("/verification", new SessionVerifyHandler());
+            server.createContext("/logout", new LogoutHandler());
 
             // Default executor
             server.setExecutor(null);
