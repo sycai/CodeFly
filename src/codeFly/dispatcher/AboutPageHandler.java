@@ -44,14 +44,6 @@ public class AboutPageHandler implements HttpHandler {
                     exchange.getResponseBody().write(jsonStr.getBytes());
                     exchange.close();
                 }
-
-
-//
-
-//                Files.copy(aboutPage.toPath(), os);
-//                os.close();
-//                CodeFly.logger.info(String.format("Sent %s to client: %S",
-//                        aboutPage.getName(), exchange.getRemoteAddress()));
             } else {
                 // Only support "GET" method
                 HandlerTools.send404NotFound(exchange);
