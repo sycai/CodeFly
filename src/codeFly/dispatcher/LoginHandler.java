@@ -22,7 +22,7 @@ import java.util.Map;
  */
 public class LoginHandler implements HttpHandler {
     @Override
-    public void handle(HttpExchange exchange) throws IOException {
+    public void handle(HttpExchange exchange) {
         // Fetch request method
 
         String methodType = exchange.getRequestMethod();
@@ -81,7 +81,7 @@ public class LoginHandler implements HttpHandler {
                     } else {
                         // user exists, password incorrect
                         JSONObject testResultJson = new JSONObject();
-                        testResultJson.put("result", "Incorrect Password");
+                        testResultJson.put("result", "Incorrect password");
                         String jsonStr = testResultJson.toString();
                         // Send json back
                         exchange.sendResponseHeaders(200, jsonStr.length());
@@ -94,7 +94,7 @@ public class LoginHandler implements HttpHandler {
                 } else {
                     // user not exist
                     JSONObject testResultJson = new JSONObject();
-                    testResultJson.put("result", "User Not Exist");
+                    testResultJson.put("result", "User does not exist");
                     String jsonStr = testResultJson.toString();
                     // Send json back
                     exchange.sendResponseHeaders(200, jsonStr.length());

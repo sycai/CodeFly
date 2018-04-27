@@ -69,18 +69,32 @@
 
 <script type="text/javascript">
 	function setToLogin(){
+		var name=$("#exampleInputEmail1").val();
+		var pass=$("#exampleInputPassword1").val();
+		if(name === "" && pass === "")
+		{
+			document.getElementById("invalid").innerHTML = ('<p style="color:red">' + 'Username and password cannot be empty' + '</p>');
+		}
+		else if(name === "")
+		{
+			document.getElementById("invalid").innerHTML = ('<p style="color:red">' + 'Username cannot be empty' + '</p>');
+		}
+		else if(pass === "")
+		{
+			document.getElementById("invalid").innerHTML = ('<p style="color:red">' + 'Password cannot be empty' + '</p>');
+		}
+		else{
 		$.ajax({
         type:'POST',
         url: '/login',
-        data: 'username=' + $("#exampleInputEmail1").val() + '&password=' + $("#exampleInputPassword1").val(),
+        data: 'username=' + name + '&password=' + pass,
         success: function (data) {
         	var obj = JSON.parse(data);
         	if(obj.result === "Success"){
         		window.location.href = ('/questions');
-        		//window.location.assign(window.location.href + '/questions');
+
         	}
         	else{
-            //console.log(obj.result);
         		document.getElementById("invalid").innerHTML = ('<p style="color:red">' + obj.result + '</p>');
         	}
 		    },
@@ -88,6 +102,7 @@
           console.log('Error: ');
         }
     	});
+	}
 	}
 </script>
 

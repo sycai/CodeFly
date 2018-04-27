@@ -61,9 +61,24 @@
 
 <script type="text/javascript">
   function setToRegister(){
+    var name=$("#exampleInputEmail1").val();
+    var pass=$("#exampleInputPassword1").val();
+    if(name === "" && pass === "")
+    {
+      document.getElementById("invalid").innerHTML = ('<p style="color:red">' + 'Username and password cannot be empty' + '</p>');
+    }
+    else if(name === "")
+    {
+      document.getElementById("invalid").innerHTML = ('<p style="color:red">' + 'Username cannot be empty' + '</p>');
+    }
+    else if(pass === "")
+    {
+      document.getElementById("invalid").innerHTML = ('<p style="color:red">' + 'Password cannot be empty' + '</p>');
+    }
+    else{
     $.ajax({
         type:'POST',
-        url: '/register?username=' + $("#exampleInputEmail1").val() + '&password=' + $("#exampleInputPassword1").val(),
+        url: '/register?username=' + name + '&password=' + pass,
         //data: 
         success: function (data) {
           var obj = JSON.parse(data);
@@ -80,6 +95,7 @@
             console.log('Error: ');
         }
       });
+  }
   }
 </script>
 
