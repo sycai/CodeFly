@@ -13,18 +13,8 @@ import java.nio.file.Files;
 
 public class AboutPageHandler implements HttpHandler {
 
-//    @Override
-//    public void handle(HttpExchange exchange) {
-//        try {
-//
-//            String method = exchange.getRequestMethod();
-//            if (method.equalsIgnoreCase("GET")) {
-//                File aboutPage = new File(CodeFly.ROOT_DIR, "/frontEnd/about.html");
-//                exchange.sendResponseHeaders(200, aboutPage.length());
-//                OutputStream os = exchange.getResponseBody();
-
-
-    public void handle(HttpExchange exchange) throws IOException {
+    @Override
+    public void handle(HttpExchange exchange) {
         String method = exchange.getRequestMethod();
         try {
 
@@ -40,8 +30,11 @@ public class AboutPageHandler implements HttpHandler {
                     CodeFly.logger.info(String.format("Sending %s to client: %S",
                             aboutPage.getName(), exchange.getRemoteAddress()));
                 } else {
-
                     String userName = HandlerTools.getUserName(exchange);
+                    // Check whether this is a logged in account
+                    if (!HandlerTools.isActiveUser(userName)) {
+                        userName = null;
+                    }
                     JSONObject jsonObj = new JSONObject();
                     jsonObj.put("userName", userName);
                     //convert JSONObject to String

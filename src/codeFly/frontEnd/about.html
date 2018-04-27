@@ -11,7 +11,7 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
     
-    <title>Carousel Template for Bootstrap</title>
+    <title>CodeFly</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
@@ -64,21 +64,10 @@
           </ul>
             </div>
 
-          <!--<ul class="navbar-nav navbar-right navbar-light">-->
-            <!--<li class="nav-item" active>-->
-              <!--<a class="nav-link" onclick="logout()">Log Out <span class="sr-only">(current)</span></a>-->
-            <!--</li>-->
-          <!--</ul>-->
        <div style="margin-left:20px;">
           <ul class="navbar-nav navbar-right navbar-light">
-            <!--<li class="nav-item" active>-->
-            <!--<button class="nav-link" onclick="logout()">Log Out</button>-->
-            <!--</li>-->
-            <li class="nav-item" active>
-              <a class="fa fa-share-square fa-sm "  href="#" onclick="logout()"> Log Out</a>
 
-
-
+            <li class="nav-item" active id="logoutButton">
             </li>
           </ul>
        </div>
@@ -256,26 +245,27 @@
 
     <script>
         $(document).ready(function(){
-            checkValidSession(loadUsername);
-        });
 
-        function loadUsername() {
             $.ajax({
                 type: 'GET',
                 url: '/about?askforusername',
                 success: function (data) {
                     //process the data
                     var obj = JSON.parse(data);
-                    console.log(obj);
-
-
-                    $('#username').text(obj.userName);
+                    if (obj.hasOwnProperty("userName")) {
+                        $('#logoutButton').append(
+                            "<a class=\"fa fa-share-square fa-sm \"  href=\"#\" onclick=\"logout()\"> Log Out</a>"
+                        );
+                        $('#username').text(obj.userName);
+                    } else {
+                        // Do nothing
+                    }
                 },
                 error: function () {
                     console.log('Error: ');
                 }
             });
-        }
+        });
     </script>
 
   </body>
