@@ -45,7 +45,7 @@ public class RegisterHandler implements HttpHandler {
                 if (loginInDb.containsKey(username)) {
                     // user exists, fail to register
                     JSONObject ResultJson = new JSONObject();
-                    ResultJson.put("result", "Fail: user already exists");
+                    ResultJson.put("result", "User already exists");
                     String jsonStr = ResultJson.toString();
                     // Send json back
                     exchange.sendResponseHeaders(200, jsonStr.length());

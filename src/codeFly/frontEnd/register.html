@@ -65,15 +65,15 @@
     var pass=$("#exampleInputPassword1").val();
     if(name === "" && pass === "")
     {
-      document.getElementById("invalid").innerHTML = ('<p style="color:red">' + 'username and password cannot be empty' + '</p>');
+      document.getElementById("invalid").innerHTML = ('<p style="color:red">' + 'Username and password cannot be empty' + '</p>');
     }
     else if(name === "")
     {
-      document.getElementById("invalid").innerHTML = ('<p style="color:red">' + 'username cannot be empty' + '</p>');
+      document.getElementById("invalid").innerHTML = ('<p style="color:red">' + 'Username cannot be empty' + '</p>');
     }
     else if(pass === "")
     {
-      document.getElementById("invalid").innerHTML = ('<p style="color:red">' + 'password cannot be empty' + '</p>');
+      document.getElementById("invalid").innerHTML = ('<p style="color:red">' + 'Password cannot be empty' + '</p>');
     }
     else{
     $.ajax({
