@@ -7,13 +7,21 @@
     <meta name="author" content="">
 
 
-    <title>Carousel Template for Bootstrap</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
+    
+    <title>CodeFly</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="/css/carousel.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="/js/sessionVerification.js"></script>
+
   </head>
   <body>
 
@@ -39,10 +47,37 @@
           <!-- </li> -->
 
           </ul>
-          <form class="form-inline mt-2 mt-md-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-          </form>
+
+          <!--<form class="form-inline mt-2 mt-md-0">-->
+            <!--<input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">-->
+            <!--<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>-->
+          <!--</form>-->
+
+
+          <div margin="100px">
+          <ul class="navbar-nav navbar-right navbar-light ">
+            <li class="nav-item" active>
+              <!--<a class="nav-link" href="#" id="username"><i class="fa fa-user"></i></a>-->
+              <a class="fa fa-user-circle "  style="color:White" id="username"></a>
+
+            </li>
+          </ul>
+            </div>
+
+          <div style="margin-left:20px;">
+            <ul class="navbar-nav navbar-right navbar-light">
+              <li class="nav-item" active>
+                <a class="fa fa-share-square fa-sm " style="color:White" onclick="logout()">Log Out</a>
+              </li>
+            </ul>
+       <!--<div style="margin-left:20px;">-->
+          <!--<ul class="navbar-nav navbar-right navbar-light">-->
+
+            <!--<li class="nav-item" active id="logoutButton">-->
+            <!--</li>-->
+          <!--</ul>-->
+       <!--</div>-->
+
         </div>
       </nav>
     </header>
@@ -111,6 +146,7 @@
       <div class="container marketing">
 
         <!-- Three columns of text below the carousel -->
+
         <div class="row">
           <div class="col-lg-4">
             <img class="rounded-circle" src="/images/frontend.jpg" alt="Generic placeholder image" width="140" height="140">
@@ -196,22 +232,47 @@
       <footer class="container">
         <p class="float-right"><a href="#">Back to top</a></p>
         <p>&copy; Copyright 2018 CodeFly &middot; <a href="mailto:CodeFly@syracuse.edu">codefly@syracuse.edu</a> &middot;</p>
+
       </footer>
     </main>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
     <script>window.jQuery || document.write('<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"><\/script>')</script>
     <!--<script src="../../../../assets/js/vendor/popper.min.js"></script>-->
     <!--<script src="../../../../dist/js/bootstrap.min.js"></script>-->
      <!--Just to make our placeholder images work. Don't actually copy the next line! -->
-    <script src="js/holder.min.js"></script>
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script>
+        $(document).ready(function(){
+
+            $.ajax({
+                type: 'GET',
+                url: '/about?askforusername',
+                success: function (data) {
+                    //process the data
+                    var obj = JSON.parse(data);
+                    if (obj.hasOwnProperty("userName")) {
+                        $('#logoutButton').append(
+                            "<a class=\"fa fa-share-square fa-sm \"  href=\"#\" onclick=\"logout()\"> Log Out</a>"
+                        );
+                        $('#username').text(obj.userName);
+                    } else {
+                        // Do nothing
+                    }
+                },
+                error: function () {
+                    console.log('Error: ');
+                }
+            });
+        });
+    </script>
 
   </body>
 </html>
