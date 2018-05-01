@@ -33,26 +33,8 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
           <ul class="navbar-nav mr-auto">
-
-            <!--<li class="nav-item active">-->
               <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-            <!--</li>-->
-            <!--<li class="nav-item">-->
-              <!--<a class="nav-link" href="#">About</a>-->
-            <!--</li>-->
-
-          <!-- <li class="nav-item"> -->
-          <!--<a class="nav-link disabled" href="/questions">Question</a>-->
-          <!-- <a class="nav-link " href="/questions">Question</a> -->
-          <!-- </li> -->
-
           </ul>
-
-          <!--<form class="form-inline mt-2 mt-md-0">-->
-            <!--<input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">-->
-            <!--<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>-->
-          <!--</form>-->
-
 
           <div margin="100px">
           <ul class="navbar-nav navbar-right navbar-light ">
@@ -66,17 +48,9 @@
 
           <div style="margin-left:20px;">
             <ul class="navbar-nav navbar-right navbar-light">
-              <li class="nav-item" active>
-                <a class="fa fa-share-square fa-sm " style="color:White" onclick="logout()">Log Out</a>
+              <li class="nav-item" active id="logoutButton">
               </li>
             </ul>
-       <!--<div style="margin-left:20px;">-->
-          <!--<ul class="navbar-nav navbar-right navbar-light">-->
-
-            <!--<li class="nav-item" active id="logoutButton">-->
-            <!--</li>-->
-          <!--</ul>-->
-       <!--</div>-->
 
         </div>
       </nav>
@@ -258,6 +232,7 @@
                 success: function (data) {
                     //process the data
                     var obj = JSON.parse(data);
+
                     if (obj.hasOwnProperty("userName")) {
                         $('#logoutButton').append(
                             "<a class=\"fa fa-share-square fa-sm \"  href=\"#\" onclick=\"logout()\"> Log Out</a>"
