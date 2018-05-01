@@ -5,6 +5,7 @@ import com.sun.net.httpserver.HttpHandler;
 
 import codeFly.CodeFly;
 
+import com.sun.org.apache.bcel.internal.classfile.Code;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -24,19 +25,26 @@ public class LoginHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange exchange) {
         // Fetch request method
-
         String methodType = exchange.getRequestMethod();
+        String userName = HandlerTools.getUserName(exchange);
         try {
             // GET method
             if (methodType.equals("GET")) {
-                File loginPage = new File(CodeFly.ROOT_DIR + "frontEnd/login.html");
+                File nextPage;
+                if (HandlerTools.isActiveUser(userName)) {
+                    // The user session is active. There's no need to login again
+                    nextPage = new File(CodeFly.ROOT_DIR + "frontEnd/loginJump.html");
+                } else {
+                    // Provide login window
+                    nextPage = new File(CodeFly.ROOT_DIR + "frontEnd/login.html");
+                }
                 // response with a html file of the login view
-                exchange.sendResponseHeaders(200, loginPage.length());
+                exchange.sendResponseHeaders(200, nextPage.length());
                 OutputStream os = exchange.getResponseBody();
-                Files.copy(loginPage.toPath(), os);
+                Files.copy(nextPage.toPath(), os);
                 os.close();
                 CodeFly.logger.info(
-                        String.format("Sending %s to client: %S", loginPage.getName(), exchange.getRemoteAddress()));
+                        String.format("Sending %s to client: %S", nextPage.getName(), exchange.getRemoteAddress()));
             }
 
             // POST method
