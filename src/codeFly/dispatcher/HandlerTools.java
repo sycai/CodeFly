@@ -70,7 +70,7 @@ public class HandlerTools {
         List<String> cookies = exchange.getRequestHeaders().get("Cookie");
         String userName = null;
         for (String c : cookies) {
-            if (c.contains(c)) {
+            if (c.contains(TaskDispatcher.COOKIE_KEY)) {
                 // Sanitize cookie
                 int startIdx = c.indexOf(TaskDispatcher.COOKIE_KEY) + TaskDispatcher.COOKIE_KEY.length();
                 int endIdx = c.indexOf(";", startIdx);
@@ -84,6 +84,6 @@ public class HandlerTools {
    }
 
    public static boolean isActiveUser(String userName) {
-        return TaskDispatcher.activeUsers.contains(userName);
+        return userName != null && TaskDispatcher.activeUsers.contains(userName);
    }
 }
