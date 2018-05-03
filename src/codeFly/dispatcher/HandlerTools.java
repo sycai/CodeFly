@@ -66,8 +66,11 @@ public class HandlerTools {
      * @return
      */
     public static String getUserName(HttpExchange exchange) {
-        // But firstly, we need to verify the cookie
         List<String> cookies = exchange.getRequestHeaders().get("Cookie");
+        if (cookies == null) {
+            // If there is no cookie, there is no username available
+            return null;
+        }
         String userName = null;
         for (String c : cookies) {
             if (c.contains(TaskDispatcher.COOKIE_KEY)) {
