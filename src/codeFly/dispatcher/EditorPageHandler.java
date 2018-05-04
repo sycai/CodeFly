@@ -35,13 +35,34 @@ public class EditorPageHandler implements HttpHandler{
                     qJson.put("qtitle", qTitle);
                     qJson.put("username", userName);
 
-
                     // Send back
                     exchange.sendResponseHeaders(200, qJson.toString().length());
                     OutputStream os = exchange.getResponseBody();
                     os.write(qJson.toString().getBytes());
                     os.close();
                     CodeFly.logger.info(String.format("Sending question description to client: %S",
+                            exchange.getRemoteAddress()));
+                } else if(queryPairs.containsKey("helpajax")){
+                    //This is a ajax request for question description
+                    int qNum = Integer.parseInt(queryPairs.get("qnum"));
+                    // Fetch title from file system
+
+                    String qTitle = CodeFly.repo.getQuestionTitle(qNum);
+                    //creat JSONObject to store helpcode
+                    JSONObject helpJson = new JSONObject();
+                    String help =
+                            "public class Solution {\n"+
+                                    "    public void "+qTitle+"() {\n" +
+                                    "    }\n"+
+                                    "}";
+                    helpJson.put("helpcode",help);
+                    //convert JSONObject to String
+                    String helpStr = helpJson.toString();
+                    //response with a success response
+                    exchange.sendResponseHeaders(200, helpStr.length());
+                    exchange.getResponseBody().write(helpStr.getBytes());
+                    exchange.close();
+                    CodeFly.logger.info(String.format("Sending helpcode to client: %S",
                             exchange.getRemoteAddress()));
                 } else {
                     File editorPage = new File(CodeFly.ROOT_DIR + "frontEnd/editor.html");
