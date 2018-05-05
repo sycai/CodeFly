@@ -119,14 +119,34 @@ public class Repository {
         return f.getCanonicalFile();
     }
 
+    //show hint code
+    public File getHintCode(int qNum, String language) throws IOException {
+        if (qNum < 1 || qNum > latestQuestionNum) throw new IOException("Question" + qNum + "doesn't exist.");
+        String qFolder = getQuestionFolder(qNum);
+        String path = rootDirectory + qFolder + File.separator  + "HintCode." + language.toLowerCase();
+        File f = new File(path);
+
+        return f.getCanonicalFile();
+    }
+
     public Map<String, String> getLoginInfo() {
         return loginInfo;
     }
 
-
     public void writeUserCode(int qNum, String userName, String content) throws IOException {
         String path = rootDirectory + getQuestionFolder(qNum) + File.separator
                 + userName + File.separator + "Solution.java";
+        File file = new File(path);
+
+        file.getParentFile().mkdirs();
+        file.createNewFile();
+        PrintWriter out = new PrintWriter(path);
+        out.println(content);
+        out.close();
+    }
+
+    public void writeHintCode(int qNum, String content) throws IOException {
+        String path = rootDirectory + getQuestionFolder(qNum) + File.separator + "HintCode.java";
         File file = new File(path);
 
         file.getParentFile().mkdirs();
@@ -205,6 +225,7 @@ public class Repository {
             addQuestion(strs[0], strs[1]);
         }
 
+        //answer
         String q1AmyAns =
                 "public class Solution {\n" +
                 "    public int addOne(int i) {\n" +
@@ -221,6 +242,15 @@ public class Repository {
                 "    }\n" +
                 "}";
 
+        String q2AmyAns =
+                "public class Solution {\n" +
+                        "    public int addTwo(int i) {\n" +
+                        "        int a = 0;\n" +
+                        "        System.out.println(\"Amy's q2 stdout\");\n" +
+                        "        return i + 2;\n" +
+                        "    }\n" +
+                        "}";
+
         String q2BobAns =
                 "public class Solution {\n" +
                 "    public int addTwo(int i) {\n" +
@@ -230,19 +260,62 @@ public class Repository {
                 "    }\n" +
                 "}";
 
-        String q2AmyAns =
+        //hint
+        String q1Hint =
                 "public class Solution {\n" +
-                "    public int addTwo(int i) {\n" +
-                "        int a = 0;\n" +
-                "        System.out.println(\"Amy's q2 stdout\");\n" +
-                "        return i + 2;\n" +
-                "    }\n" +
-                "}";
+                        "    public int addOne(int i) {\n" +
+                        "        \n" +
+                        "    }\n" +
+                        "}";
 
+        String q2Hint =
+                "public class Solution {\n" +
+                        "    public int addTwo(int i) {\n" +
+                        "        \n" +
+                        "    }\n" +
+                        "}";
 
+        String q3Hint =
+                "public class Solution {\n" +
+                        "    public int[] twoSum(int[] nums, int target) {\n" +
+                        "        \n" +
+                        "    }\n" +
+                        "}";
+
+        String q4Hint =
+                "public class Solution {\n" +
+                        "    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {\n" +
+                        "        \n" +
+                        "    }\n" +
+                        "}";
+
+        String q5Hint =
+                "public class Solution {\n" +
+                        "    public int lengthOfLongestSubstring(String s) {\n" +
+                        "        \n" +
+                        "    }\n" +
+                        "}";
+
+        String q6Hint =
+                "public class Solution {\n" +
+                        "    public double findMedianSortedArrays(int[] A, int[] B) {\n" +
+                        "        \n" +
+                        "    }\n" +
+                        "}";
+
+        //write user code
         writeUserCode(1, "Bob", q1BobAns);
         writeUserCode(2, "Bob", q2BobAns);
         writeUserCode(1, "Amy", q1AmyAns);
         writeUserCode(2, "Amy", q2AmyAns);
+
+        //write hint code
+        writeHintCode(1, q1Hint);
+        writeHintCode(2, q2Hint);
+        writeHintCode(3, q3Hint);
+        writeHintCode(4, q4Hint);
+        writeHintCode(5, q5Hint);
+        writeHintCode(6, q6Hint);
+
     }
 }

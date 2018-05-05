@@ -18,6 +18,7 @@
     <script src="/js/clike.js"></script>
     <script src="/js/sessionVerification.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
 
 </head>
 
@@ -43,15 +44,16 @@
             </ul>
             <ul class="navbar-nav navbar-right navbar-light">
                 <li class="nav-item" active>
-                    <a class="nav-link" href="#" id="username"><i class="fa fa-user"></i></a>
+                    <a class="fa fa-user-circle "  id="username"></a>
                 </li>
             </ul>
-
+            <div style="margin-left:20px;">
             <ul class="navbar-nav navbar-right navbar-light">
                 <li class="nav-item" active>
-                    <button class="nav-link" onclick="logout()">Log Out</button>
+                    <a class="fa fa-share-square fa-sm"  onclick="logout()">Log Out</a>
                 </li>
             </ul>
+            </div>
         </div>
         </div>
     </nav>
@@ -93,10 +95,12 @@
     <script>
         var loc = document.location;
         var URL = loc.pathname + loc.search + "&dscrpajax=1";
+        var URLHint = loc.pathname + loc.search + "&helpajax=1";
         var number = loc.search.split("=")[1];
 
         $(document).ready(function() {
             checkValidSession(loadQuestionDescription);
+            checkValidSession(hintCode);
         });
 
         function loadQuestionDescription() {
@@ -107,7 +111,7 @@
                 var obj = JSON.parse(data);
                 document.getElementById("description").innerHTML = obj.qdescription;
                 document.getElementById("question-title").innerHTML = obj.qnum + ". " + obj.qtitle;
-                document.getElementById("username").text = obj.username;          
+                document.getElementById("username").text = obj.username;
             },
             error: function() {
                 console.log('Error: ');
@@ -126,8 +130,22 @@
         matchBrackets: true,	
         //readOnly: true,          // do not know if we need it yet
     });
-    editor.setSize('800px', '400px'); 
-    
+    editor.setSize('800px', '400px');
+
+    //This function is used to show hint code in editor
+    function hintCode(){
+        $.ajax({
+            type:'GET',
+            url: URLHint,
+            success: function(data) {
+                editor.setValue(data);
+            },
+            error: function() {
+                console.log('Error: ');
+            }
+        });
+    }
+
     function retrieveLastSubmition() {
         checkValidSession(retrieveCode);
     }
@@ -192,6 +210,5 @@
     }
 
     </script>
-    
     </body>
 </html>

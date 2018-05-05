@@ -35,7 +35,6 @@ public class EditorPageHandler implements HttpHandler{
                     qJson.put("qtitle", qTitle);
                     qJson.put("username", userName);
 
-
                     // Send back
                     exchange.sendResponseHeaders(200, qJson.toString().length());
                     OutputStream os = exchange.getResponseBody();
@@ -43,6 +42,18 @@ public class EditorPageHandler implements HttpHandler{
                     os.close();
                     CodeFly.logger.info(String.format("Sending question description to client: %S",
                             exchange.getRemoteAddress()));
+                } else if(queryPairs.containsKey("helpajax")){
+                    //show hint code
+                    int questionNumber = Integer.parseInt(queryPairs.get("qnum"));
+                    // For now, just consider the language java
+                    File hintCode = CodeFly.repo.getHintCode(questionNumber, "java");
+
+                    // Return user code to the front-end
+                    exchange.sendResponseHeaders(200, hintCode.length());
+                    OutputStream os = exchange.getResponseBody();
+                    Files.copy(hintCode.toPath(), os);
+                    os.close();
+
                 } else {
                     File editorPage = new File(CodeFly.ROOT_DIR + "frontEnd/editor.html");
                     // response with a success response
