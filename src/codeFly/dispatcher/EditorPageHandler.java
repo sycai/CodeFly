@@ -43,27 +43,17 @@ public class EditorPageHandler implements HttpHandler{
                     CodeFly.logger.info(String.format("Sending question description to client: %S",
                             exchange.getRemoteAddress()));
                 } else if(queryPairs.containsKey("helpajax")){
-                    //This is a ajax request for question description
-                    int qNum = Integer.parseInt(queryPairs.get("qnum"));
-                    // Fetch title from file system
+                    //show hint code
+                    int questionNumber = Integer.parseInt(queryPairs.get("qnum"));
+                    // For now, just consider the language java
+                    File hintCode = CodeFly.repo.getHintCode(questionNumber, userName, "java");
 
-                    String qTitle = CodeFly.repo.getQuestionTitle(qNum);
-                    //creat JSONObject to store helpcode
-                    JSONObject helpJson = new JSONObject();
-                    String help =
-                            "public class Solution {\n"+
-                                    "    public void "+qTitle+"() {\n" +
-                                    "    }\n"+
-                                    "}";
-                    helpJson.put("helpcode",help);
-                    //convert JSONObject to String
-                    String helpStr = helpJson.toString();
-                    //response with a success response
-                    exchange.sendResponseHeaders(200, helpStr.length());
-                    exchange.getResponseBody().write(helpStr.getBytes());
-                    exchange.close();
-                    CodeFly.logger.info(String.format("Sending helpcode to client: %S",
-                            exchange.getRemoteAddress()));
+                    // Return user code to the front-end
+                    exchange.sendResponseHeaders(200, hintCode.length());
+                    OutputStream os = exchange.getResponseBody();
+                    Files.copy(hintCode.toPath(), os);
+                    os.close();
+
                 } else {
                     File editorPage = new File(CodeFly.ROOT_DIR + "frontEnd/editor.html");
                     // response with a success response
