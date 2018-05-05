@@ -120,10 +120,10 @@ public class Repository {
     }
 
     //show hint code
-    public File getHintCode(int qNum, String userName, String language) throws IOException {
+    public File getHintCode(int qNum, String language) throws IOException {
         if (qNum < 1 || qNum > latestQuestionNum) throw new IOException("Question" + qNum + "doesn't exist.");
         String qFolder = getQuestionFolder(qNum);
-        String path = rootDirectory + qFolder + File.separator + userName + File.separator + "HintCode." + language.toLowerCase();
+        String path = rootDirectory + qFolder + File.separator  + "HintCode." + language.toLowerCase();
         File f = new File(path);
 
         return f.getCanonicalFile();
@@ -145,9 +145,8 @@ public class Repository {
         out.close();
     }
 
-    public void writeHintCode(int qNum, String userName, String content) throws IOException {
-        String path = rootDirectory + getQuestionFolder(qNum) + File.separator
-                + userName + File.separator + "HintCode.java";
+    public void writeHintCode(int qNum, String content) throws IOException {
+        String path = rootDirectory + getQuestionFolder(qNum) + File.separator + "HintCode.java";
         File file = new File(path);
 
         file.getParentFile().mkdirs();
@@ -262,88 +261,48 @@ public class Repository {
                 "}";
 
         //hint
-        String q1AmyHint =
-                "public class Solution {\n" +
-                        "    public int addOne(int i) {\n" +
-                        "        \n" +
-                        "    }\n" +
-                        "}";
-        String q1BobHint =
+        String q1Hint =
                 "public class Solution {\n" +
                         "    public int addOne(int i) {\n" +
                         "        \n" +
                         "    }\n" +
                         "}";
 
-
-        String q2AmyHint =
-                "public class Solution {\n" +
-                        "    public int addTwo(int i) {\n" +
-                        "        \n" +
-                        "    }\n" +
-                        "}";
-        String q2BobHint =
+        String q2Hint =
                 "public class Solution {\n" +
                         "    public int addTwo(int i) {\n" +
                         "        \n" +
                         "    }\n" +
                         "}";
 
-
-        String q3AmyHint =
-                "public class Solution {\n" +
-                        "    public int[] twoSum(int[] nums, int target) {\n" +
-                        "        \n" +
-                        "    }\n" +
-                        "}";
-        String q3BobHint =
+        String q3Hint =
                 "public class Solution {\n" +
                         "    public int[] twoSum(int[] nums, int target) {\n" +
                         "        \n" +
                         "    }\n" +
                         "}";
 
-
-        String q4AmyHint =
-                "public class Solution {\n" +
-                        "    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {\n" +
-                        "        \n" +
-                        "    }\n" +
-                        "}";
-        String q4BobHint =
+        String q4Hint =
                 "public class Solution {\n" +
                         "    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {\n" +
                         "        \n" +
                         "    }\n" +
                         "}";
 
-
-        String q5AmyHint =
-                "public class Solution {\n" +
-                        "    public int lengthOfLongestSubstring(String s) {\n" +
-                        "        \n" +
-                        "    }\n" +
-                        "}";
-        String q5BobHint =
+        String q5Hint =
                 "public class Solution {\n" +
                         "    public int lengthOfLongestSubstring(String s) {\n" +
                         "        \n" +
                         "    }\n" +
                         "}";
 
-        String q6AmyHint =
+        String q6Hint =
                 "public class Solution {\n" +
                         "    public double findMedianSortedArrays(int[] A, int[] B) {\n" +
                         "        \n" +
                         "    }\n" +
                         "}";
-        String q6BobHint =
-                "public class Solution {\n" +
-                        "    public double findMedianSortedArrays(int[] A, int[] B) {\n" +
-                        "        \n" +
-                        "    }\n" +
-                        "}";
-        
+
         //write user code
         writeUserCode(1, "Bob", q1BobAns);
         writeUserCode(2, "Bob", q2BobAns);
@@ -351,17 +310,12 @@ public class Repository {
         writeUserCode(2, "Amy", q2AmyAns);
 
         //write hint code
-        writeHintCode(1, "Bob", q1BobHint);
-        writeHintCode(1, "Amy", q1AmyHint);
-        writeHintCode(2, "Bob", q2BobHint);
-        writeHintCode(2, "Amy", q2AmyHint);
-        writeHintCode(3, "Bob", q3BobHint);
-        writeHintCode(3, "Amy", q3AmyHint);
-        writeHintCode(4, "Bob", q4BobHint);
-        writeHintCode(4, "Amy", q4AmyHint);
-        writeHintCode(5, "Bob", q5BobHint);
-        writeHintCode(5, "Amy", q5AmyHint);
-        writeHintCode(6, "Bob", q6BobHint);
-        writeHintCode(6, "Amy", q6AmyHint);
+        writeHintCode(1, q1Hint);
+        writeHintCode(2, q2Hint);
+        writeHintCode(3, q3Hint);
+        writeHintCode(4, q4Hint);
+        writeHintCode(5, q5Hint);
+        writeHintCode(6, q6Hint);
+
     }
 }

@@ -46,7 +46,7 @@ public class EditorPageHandler implements HttpHandler{
                     //show hint code
                     int questionNumber = Integer.parseInt(queryPairs.get("qnum"));
                     // For now, just consider the language java
-                    File hintCode = CodeFly.repo.getHintCode(questionNumber, userName, "java");
+                    File hintCode = CodeFly.repo.getHintCode(questionNumber, "java");
 
                     // Return user code to the front-end
                     exchange.sendResponseHeaders(200, hintCode.length());
