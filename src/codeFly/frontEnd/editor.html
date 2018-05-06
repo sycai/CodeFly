@@ -17,6 +17,7 @@
     <script src="/js/codemirror.js"></script>
     <script src="/js/clike.js"></script>
     <script src="/js/sessionVerification.js"></script>
+    <script src="/js/closebrackets.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
 
@@ -124,7 +125,8 @@
         styleActiveLine: true,
         lineNumbers: true,	       // show line number
         //theme: "dracula",	       // TODO: can change theme
-        lineWrapping: true,	
+        lineWrapping: true,
+        autoCloseBrackets: true,
         foldGutter: true,
         gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
         matchBrackets: true,	
