@@ -13,10 +13,8 @@ public class QuestionList {
         return questionList;
     }
 
-    public void addQuestion(String description, String test) {
-        String[] strs = new String[2];
-        strs[0] = description;
-        strs[1] = test;
+    public void addQuestion(String description, String hintCode, String test) {
+        String[] strs = {description, hintCode, test};
         questionList.add(strs);
     }
 
@@ -24,6 +22,12 @@ public class QuestionList {
         String qDesc = "Add One\n" +
                 "easy\n" +
                 "Write a function addOne that takes an integer v and return v + 1.";
+        String hintCode =
+                "public class Solution {\n" +
+                        "    public int addOne(int i) {\n" +
+                        "        \n" +
+                        "    }\n" +
+                        "}";
         String test =
                 "public class Test {\n" +
                         "    public int TEST_CASE_NUM = 5;\n" +
@@ -44,11 +48,18 @@ public class QuestionList {
                         "    }\n" +
                         "}\n" +
                         "\n";
-        addQuestion(qDesc, test);
+
+        addQuestion(qDesc, hintCode, test);
 
         qDesc= "Add Two\n" +
                 "easy\n" +
                 "Write a function addTwo that takes an integer v and return v + 2.";
+        hintCode =
+                "public class Solution {\n" +
+                        "    public int addTwo(int i) {\n" +
+                        "        \n" +
+                        "    }\n" +
+                        "}";
         test =
                 "public class Test {\n" +
                         "    public int TEST_CASE_NUM = 5;\n" +
@@ -69,21 +80,44 @@ public class QuestionList {
                         "    }\n" +
                         "}\n" +
                         "\n";
-        addQuestion(qDesc, test);
+
+        addQuestion(qDesc, hintCode, test);
 
         qDesc= "Two Sum\n" +
                 "easy\n" +
-                "Given an array of integers, return indices of the two numbers such that they add up to a specific target.\n" +
+                "Given an array of integers, return whether there are two numbers such that they add up to a specific target.\n" +
                 "You may assume that each input would have exactly one solution, and you may not use the same element twice.";
-        test = "";
-        addQuestion(qDesc, test);
+        hintCode =
+                "public class Solution {\n" +
+                        "    public boolean twoSum(int[] nums, int target) {\n" +
+                        "        \n" +
+                        "    }\n" +
+                        "}";
+        test = "public class Test {\n" +
+                "    public int TEST_CASE_NUM = 3;\n" +
+                "    public String METHOD_NAME = \"twoSum\";\n" +
+                "    public Class<?>[] parameterTypes;\n" +
+                "    public Object[][] args;\n" +
+                "    public Object[] retVals;\n" +
+                "\n" +
+                "    public Test() {\n" +
+                "        parameterTypes = new Class<?>[] {int[].class, int.class};\n" +
+                "        args = new Object[TEST_CASE_NUM][parameterTypes.length];\n" +
+                "        retVals = new Object[TEST_CASE_NUM];\n" +
+                "\n" +
+                "        args[0] = new Object[] {new int[] {5,2,1,6}, 8};\n" +
+                "        retVals[0] = true;\n" +
+                "\n" +
+                "        args[1] = new Object[] {new int[] {2,1,4}, 10};\n" +
+                "        retVals[1] = false;\n" +
+                "\n" +
+                "        args[2] = new Object[] {new int[] {1,2,3}, 1};\n" +
+                "        retVals[2] = false;\n" +
+                "    }\n" +
+                "}\n";
 
-        qDesc= "Add Two Numbers\n" +
-                "medium\n" +
-                "You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.\n" +
-                "You may assume the two numbers do not contain any leading zero, except the number 0 itself.";
-        test = "";
-        addQuestion(qDesc, test);
+
+        addQuestion(qDesc, hintCode, test);
 
         qDesc= "Longest Substring Without Repeating Characters\n" +
                 "medium\n" +
@@ -92,55 +126,68 @@ public class QuestionList {
                 "Given \"abcabcbb\", the answer is \"abc\", which the length is 3.\n" +
                 "Given \"bbbbb\", the answer is \"b\", with the length of 1.\n" +
                 "Given \"pwwkew\", the answer is \"wke\", with the length of 3. Note that the answer must be a substring, \"pwke\" is a subsequence and not a substring.";
-        test = "";
-        addQuestion(qDesc, test);
+        hintCode =
+                "public class Solution {\n" +
+                        "    public int lengthOfLongestSubstring(String s) {\n" +
+                        "        \n" +
+                        "    }\n" +
+                        "}";
+        test = "public class Test {\n" +
+                "    public int TEST_CASE_NUM = 3;\n" +
+                "    public String METHOD_NAME = \"lengthOfLongestSubstring\";\n" +
+                "    public Class<?>[] parameterTypes;\n" +
+                "    public Object[][] args;\n" +
+                "    public Object[] retVals;\n" +
+                "\n" +
+                "    public Test() {\n" +
+                "        parameterTypes = new Class<?>[] {String.class};\n" +
+                "        args = new Object[TEST_CASE_NUM][parameterTypes.length];\n" +
+                "        retVals = new Object[TEST_CASE_NUM];\n" +
+                "\n" +
+                "        args[0] = new Object[] {\"abcabcbb\"};\n" +
+                "        retVals[0] = 3;\n" +
+                "\n" +
+                "        args[1] = new Object[] {\"bbbbb\"};\n" +
+                "        retVals[1] = 1;\n" +
+                "\n" +
+                "        args[2] = new Object[] {\"pwwkew\"};\n" +
+                "        retVals[2] = 3;\n" +
+                "    }\n" +
+                "}";
+        addQuestion(qDesc, hintCode, test);
 
         qDesc= "Median of Two Sorted Arrays\n" +
                 "hard\n" +
                 "There are two sorted arrays nums1 and nums2 of size m and n respectively.\n" +
                 "Find the median of the two sorted arrays. The overall run time complexity should be O(log (m+n)).";
-        test = "";
-        addQuestion(qDesc, test);
-
-        qDesc= "Longest Palindromic Substring\n" +
-                "medium\n" +
-                "Given a string s, find the longest palindromic substring in s. You may assume that the maximum length of s is 1000.";
-        test = "";
-        addQuestion(qDesc, test);
-
-        qDesc= "Reverse Integer\n" +
-                "easy\n" +
-                "Given a 32-bit signed integer, reverse digits of an integer.";
-        test = "";
-        addQuestion(qDesc, test);
-
-        qDesc= "String to Integer (atoi)\n" +
-                "medium\n" +
-                "Implement atoi which converts a string to an integer.\n" +
-                "The function first discards as many whitespace characters as necessary until the first non-whitespace character is found. Then, starting from this character, takes an optional initial plus or minus sign followed by as many numerical digits as possible, and interprets them as a numerical value.\n" +
-                "The string can contain additional characters after those that form the integral number, which are ignored and have no effect on the behavior of this function.\n" +
-                "If the first sequence of non-whitespace characters in str is not a valid integral number, or if no such sequence exists because either str is empty or it contains only whitespace characters, no conversion is performed.\n" +
-                "If no valid conversion could be performed, a zero value is returned.";
-        test = "";
-        addQuestion(qDesc, test);
-
-        qDesc= "Palindrome Number\n" +
-                "easy\n" +
-                "Determine whether an integer is a palindrome. An integer is a palindrome when it reads the same backward as forward.";
-        test = "";
-        addQuestion(qDesc, test);
-
-        qDesc= "Container With Most Water\n" +
-                "medium\n" +
-                "Given n non-negative integers a1, a2, ..., an, where each represents a point at coordinate (i, ai). n vertical lines are drawn such that the two endpoints of line i is at (i, ai) and (i, 0). Find two lines, which together with x-axis forms a container, such that the container contains the most water.\n" +
-                "Note: You may not slant the container and n is at least 2.";
-        test = "";
-        addQuestion(qDesc, test);
-
-        qDesc= "Merge k Sorted Lists\n" +
-                "hard\n" +
-                "Merge k sorted linked lists and return it as one sorted list. Analyze and describe its complexity.";
-        test = "";
-        addQuestion(qDesc, test);
+        hintCode =
+                "public class Solution {\n" +
+                        "    public int findMedianSortedArrays(int[] A, int[] B) {\n" +
+                        "        \n" +
+                        "    }\n" +
+                        "}";
+        test = "public class Test {\n" +
+                "    public int TEST_CASE_NUM = 3;\n" +
+                "    public String METHOD_NAME = \"findMedianSortedArrays\";\n" +
+                "    public Class<?>[] parameterTypes;\n" +
+                "    public Object[][] args;\n" +
+                "    public Object[] retVals;\n" +
+                "\n" +
+                "    public Test() {\n" +
+                "        parameterTypes = new Class<?>[] {int[].class, int[].class};\n" +
+                "        args = new Object[TEST_CASE_NUM][parameterTypes.length];\n" +
+                "        retVals = new Object[TEST_CASE_NUM];\n" +
+                "\n" +
+                "        args[0] = new Object[] {new int[] {1,3,5}, new int[] {2,4}};\n" +
+                "        retVals[0] = 3;\n" +
+                "\n" +
+                "        args[1] = new Object[] {new int[] {1,2}, new int[] {3,4,5}};\n" +
+                "        retVals[1] = 3;\n" +
+                "\n" +
+                "        args[2] = new Object[] {new int[] {}, new int[] {1,2,3,4,5}};\n" +
+                "        retVals[2] = 3;\n" +
+                "    }\n" +
+                "}";
+        addQuestion(qDesc, hintCode, test);
     }
 }

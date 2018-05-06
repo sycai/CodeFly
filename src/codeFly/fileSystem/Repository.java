@@ -145,16 +145,6 @@ public class Repository {
         out.close();
     }
 
-    public void writeHintCode(int qNum, String content) throws IOException {
-        String path = rootDirectory + getQuestionFolder(qNum) + File.separator + "HintCode.java";
-        File file = new File(path);
-
-        file.getParentFile().mkdirs();
-        file.createNewFile();
-        PrintWriter out = new PrintWriter(path);
-        out.println(content);
-        out.close();
-    }
 
     public void addUserAccount(String userName, String pwd) throws IOException {
         if (loginInfo.containsKey(userName)) {
@@ -172,7 +162,7 @@ public class Repository {
         out.close();
     }
 
-    public void addQuestion(String qDescription, String test) throws IOException {
+    public void addQuestion(String qDescription, String hintCode, String test) throws IOException {
         latestQuestionNum++;
         int qNum = latestQuestionNum;
         String path = rootDirectory + getQuestionFolder(qNum) + File.separator;
@@ -186,6 +176,13 @@ public class Repository {
         qDescrip.createNewFile();
         out = new PrintWriter(descripPath);
         out.println(qDescription);
+        out.close();
+
+        String hintPath =  path + File.separator + "HintCode.java";
+        File hintcode = new File(hintPath);
+        hintcode.createNewFile();
+        out = new PrintWriter(hintPath);
+        out.println(hintCode);
         out.close();
 
         String testPath = path + File.separator + "Test.java";
@@ -222,7 +219,7 @@ public class Repository {
         QuestionList ql = new QuestionList();
         ql.initializeQuestionList();
         for (String[] strs: ql.getQuestionList()) {
-            addQuestion(strs[0], strs[1]);
+            addQuestion(strs[0], strs[1], strs[2]);
         }
 
         //answer
@@ -259,63 +256,10 @@ public class Repository {
                 "        return i + 2;\n" +
                 "    }\n" +
                 "}";
-
-        //hint
-        String q1Hint =
-                "public class Solution {\n" +
-                        "    public int addOne(int i) {\n" +
-                        "        \n" +
-                        "    }\n" +
-                        "}";
-
-        String q2Hint =
-                "public class Solution {\n" +
-                        "    public int addTwo(int i) {\n" +
-                        "        \n" +
-                        "    }\n" +
-                        "}";
-
-        String q3Hint =
-                "public class Solution {\n" +
-                        "    public int[] twoSum(int[] nums, int target) {\n" +
-                        "        \n" +
-                        "    }\n" +
-                        "}";
-
-        String q4Hint =
-                "public class Solution {\n" +
-                        "    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {\n" +
-                        "        \n" +
-                        "    }\n" +
-                        "}";
-
-        String q5Hint =
-                "public class Solution {\n" +
-                        "    public int lengthOfLongestSubstring(String s) {\n" +
-                        "        \n" +
-                        "    }\n" +
-                        "}";
-
-        String q6Hint =
-                "public class Solution {\n" +
-                        "    public double findMedianSortedArrays(int[] A, int[] B) {\n" +
-                        "        \n" +
-                        "    }\n" +
-                        "}";
-
-        //write user code
         writeUserCode(1, "Bob", q1BobAns);
         writeUserCode(2, "Bob", q2BobAns);
         writeUserCode(1, "Amy", q1AmyAns);
         writeUserCode(2, "Amy", q2AmyAns);
-
-        //write hint code
-        writeHintCode(1, q1Hint);
-        writeHintCode(2, q2Hint);
-        writeHintCode(3, q3Hint);
-        writeHintCode(4, q4Hint);
-        writeHintCode(5, q5Hint);
-        writeHintCode(6, q6Hint);
 
     }
 }
