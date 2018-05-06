@@ -58,7 +58,6 @@ public class CodeFlyJavaEngine {
             System.setOut(new PrintStream(new FileOutputStream(new File(compilationDir, STDOUT_FILE_NAME))));
             System.setErr(new PrintStream(new FileOutputStream(new File(compilationDir, STDERR_FILE_NAME))));
 
-            //TODO: reset compiler output directory (optional)
             compiler.run(null, null, System.err, toRun.getPath());
 
             // Load class instance
@@ -73,7 +72,6 @@ public class CodeFlyJavaEngine {
             future = executor.submit(new InvokeTask(method, instance, args));
 
             // 1 second time out
-            // TODO: kill thread by force. how?
             retVal = future.get(1, TimeUnit.SECONDS);
 
         } catch (TimeoutException ex){
